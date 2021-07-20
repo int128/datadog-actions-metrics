@@ -1,0 +1,9 @@
+name: hello-world
+description: say Hello World
+inputs:
+  name:
+    description: example input
+    required: true
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

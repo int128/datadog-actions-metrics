@@ -1,0 +1,14 @@
+name: release
+description: git push a release tag
+inputs:
+  tag-name:
+    required: true
+    description: tag name to push
+runs:
+  using: composite
+  steps:
+    - id: run
+      shell: bash
+      run: ${{ github.action_path }}/run.sh
+      env:
+        TAG_NAME: ${{ inputs.tag-name }}
