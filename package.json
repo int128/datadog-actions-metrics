@@ -11,9 +11,9 @@
   },
   "dependencies": {
     "@actions/core": "1.4.0",
-    "@actions/github": "^5.0.0",
-    "@datadog/datadog-api-client": "^1.0.0-beta.3",
-    "@octokit/webhooks-definitions": "^3.67.3"
+    "@actions/github": "5.0.0",
+    "@datadog/datadog-api-client": "1.0.0-beta.3",
+    "@octokit/webhooks-definitions": "3.67.3"
   },
   "devDependencies": {
     "@types/jest": "26.0.24",

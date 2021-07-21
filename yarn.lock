@@ -7,7 +7,7 @@
   resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.4.0.tgz#cf2e6ee317e314b03886adfeb20e448d50d6e524"
   integrity sha512-CGx2ilGq5i7zSLgiiGUtBCxhRRxibJYU6Fim0Q1Wg2aQL2LTnF27zbqZOrxfvFQ55eSBW0L8uVStgtKMpa0Qlg==
 
-"@actions/github@^5.0.0":
+"@actions/github@5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@actions/github/-/github-5.0.0.tgz#1754127976c50bd88b2e905f10d204d76d1472f8"
   integrity sha512-QvE9eAAfEsS+yOOk0cylLBIO/d6WyWIOvsxxzdrPFaud39G6BOkUwScXZn1iBzQzHyu9SBkkLSWlohDWdsasAQ==
@@ -331,7 +331,7 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@datadog/datadog-api-client@^1.0.0-beta.3":
+"@datadog/datadog-api-client@1.0.0-beta.3":
   version "1.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.0.0-beta.3.tgz#b1ab102b0bc719d925e3855bb5133e91cd07bd33"
   integrity sha512-54s5dB9mizbEP5B13hOUrJF1F+0Y7QvW927rvILd13Xs+c8xyMdR3Wgw8+Oq9pOk09awh2zpM5EyLMSrvGHSgA==
@@ -688,7 +688,7 @@
   dependencies:
     "@octokit/openapi-types" "^9.0.0"
 
-"@octokit/webhooks-definitions@^3.67.3":
+"@octokit/webhooks-definitions@3.67.3":
   version "3.67.3"
   resolved "https://registry.yarnpkg.com/@octokit/webhooks-definitions/-/webhooks-definitions-3.67.3.tgz#d2a905a90b04af8111982d0c13658a49fc4eecb9"
   integrity sha512-do4Z1r2OVhuI0ihJhQ8Hg+yPWnBYEBNuFNCrvtPKoYT1w81jD7pBXgGe86lYuuNirkDHb0Nxt+zt4O5GiFJfgA==
