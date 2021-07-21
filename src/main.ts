@@ -4,7 +4,8 @@ import { run } from './run'
 const main = async (): Promise<void> => {
   try {
     await run({
-      name: core.getInput('name', { required: true }),
+      githubToken: core.getInput('github-token', { required: true }),
+      datadogApiKey: core.getInput('datadog-api-key') || undefined,
     })
   } catch (error) {
     core.setFailed(error.message)

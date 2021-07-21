@@ -1,9 +1,13 @@
-name: hello-world
-description: say Hello World
+name: datadog-actions-metrics
+description: submit metrics of GitHub Actions to Datadog
 inputs:
-  name:
-    description: example input
+  github-token:
+    description: GitHub token
+    default: ${{ github.token }}
     required: true
+  datadog-api-key:
+    description: Datadog API key (dry-run if not set)
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'

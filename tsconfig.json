@@ -5,5 +5,8 @@
     "strict": true,
     "outDir": "./lib",
     "rootDirs": ["./src"],
+
+    // for datadog-api-client
+    "esModuleInterop": true
   }
 }
