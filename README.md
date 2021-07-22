@@ -48,3 +48,25 @@ It has the following tags:
 - `conclusion`
 - `branch`
 - `default_branch` = `true` or `false`
+
+### Job
+
+This action sends the following metrics to Datadog:
+
+- `github.actions.job.total`
+- `github.actions.job.conclusion.{CONCLUSION}_total`
+  - e.g. `github.actions.job.conclusion.success_total`
+  - e.g. `github.actions.job.conclusion.failure_total`
+- `github.actions.job.duration_second`
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `workflow_name`
+- `event`
+- `branch`
+- `default_branch` = `true` or `false`
+- `job_name`
+- `conclusion`
+- `status`
