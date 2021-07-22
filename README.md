@@ -68,6 +68,9 @@ This action sends the following metrics to Datadog:
   - e.g. `github.actions.job.conclusion.success_total`
   - e.g. `github.actions.job.conclusion.failure_total`
 - `github.actions.job.duration_second`
+  - Time from a job is started to completed
+- `github.actions.job.queued_duration_second`
+  - Time from a workflow is created to a job is started
 
 It has the following tags:
 

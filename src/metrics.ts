@@ -76,6 +76,16 @@ export const computeJobMetrics = (e: WorkflowRunEvent, listJobsForWorkflowRun: L
       type: 'gauge',
       points: [[completedAt, duration]],
     })
+
+    const createdAt = new Date(e.workflow_run.created_at).getTime() / 1000
+    const queued = startedAt - createdAt
+    series.push({
+      host: 'github.com',
+      tags,
+      metric: 'github.actions.job.queued_duration_second',
+      type: 'gauge',
+      points: [[completedAt, queued]],
+    })
   }
   return series
 }

@@ -93,6 +93,23 @@ test('computeJobMetrics', async () => {
       ],
       type: 'gauge',
     },
+    {
+      host: 'github.com',
+      metric: 'github.actions.job.queued_duration_second',
+      points: [[1579542279, -179428]],
+      tags: [
+        'repository_owner:octocat',
+        'repository_name:Hello-World',
+        'workflow_name:Build',
+        'event:push',
+        'branch:master',
+        'default_branch:false',
+        'job_name:build',
+        'conclusion:success',
+        'status:completed',
+      ],
+      type: 'gauge',
+    },
   ])
 })
 
