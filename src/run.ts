@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
-import { MetricsPayload } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/MetricsPayload'
 import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
+import { computeWorkflowRunMetrics } from './metrics'
 
 type Inputs = {
   githubToken: string
@@ -20,12 +20,16 @@ export const run = async (inputs: Inputs): Promise<void> => {
 }
 
 const handleWorkflowRun = async (e: WorkflowRunEvent, metrics: v1.MetricsApi, dryRun: boolean): Promise<void> => {
-  core.startGroup('Parse event')
-  const metricsPayload = computeWorkflowRunMetrics(e)
   if (dryRun) {
+    core.startGroup('Event payload')
     core.info(JSON.stringify(e, undefined, 2))
+    core.endGroup()
   }
-  core.endGroup()
+
+  const workflowRunMetrics = computeWorkflowRunMetrics(e)
+  const metricsPayload = {
+    series: workflowRunMetrics,
+  }
 
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
   core.info(JSON.stringify(metricsPayload, undefined, 2))
@@ -34,35 +38,4 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, metrics: v1.MetricsApi, dr
     core.info(`sent as ${accepted.status}`)
   }
   core.endGroup()
-}
-
-export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): MetricsPayload => {
-  const updatedAt = new Date(e.workflow_run.updated_at).getTime() / 1000
-  const tags = [
-    `repository_owner:${e.workflow_run.repository.owner.login}`,
-    `repository_name:${e.workflow_run.repository.name}`,
-    `workflow_name:${e.workflow_run.name}`,
-    `event:${e.workflow_run.event}`,
-    `conclusion:${e.workflow_run.conclusion}`,
-    `branch:${e.workflow_run.head_branch}`,
-    `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
-  ]
-  return {
-    series: [
-      {
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.workflow_run.total',
-        type: 'count',
-        points: [[updatedAt, 1]],
-      },
-      {
-        host: 'github.com',
-        tags,
-        metric: `github.actions.workflow_run.conclusion.${e.workflow_run.conclusion}_total`,
-        type: 'count',
-        points: [[updatedAt, 1]],
-      },
-    ],
-  }
 }

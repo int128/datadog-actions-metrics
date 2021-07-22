@@ -35,3 +35,6 @@ jobs:
       - run: yarn test
       - run: yarn build
       - run: yarn package
+
+      - name: smoke test
+        uses: ./
