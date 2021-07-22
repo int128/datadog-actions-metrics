@@ -45,6 +45,7 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): MetricsPayload =
     `event:${e.workflow_run.event}`,
     `conclusion:${e.workflow_run.conclusion}`,
     `branch:${e.workflow_run.head_branch}`,
+    `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
   ]
   return {
     series: [

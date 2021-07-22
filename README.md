@@ -26,10 +26,25 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-It will send the following metrics to Datadog:
+
+## Metrics
+
+### Workflow run
+
+This action sends the following metrics to Datadog:
 
 - `github.actions.workflow_run.total`
 - `github.actions.workflow_run.conclusion.{CONCLUSION}_total`
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
   - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `workflow_name`
+- `event`
+- `conclusion`
+- `branch`
+- `default_branch` = `true` or `false`
