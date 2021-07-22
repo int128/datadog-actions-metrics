@@ -1,7 +1,7 @@
 # datadog-actions-metrics [![ts](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml)
 
-This is an action to submit metrics of GitHub Actions to Datadog.
-Inspired from @yuya-takeyama's [github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
+This is an action to send metrics of GitHub Actions to Datadog when a workflow is completed.
+It is inspired from @yuya-takeyama's [github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
 
 
 ## Getting Started
@@ -25,6 +25,9 @@ jobs:
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
+
+You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
+If `datadog-api-key` is not set, this action does not send metrics actually.
 
 
 ## Metrics
@@ -100,3 +103,9 @@ It has the following tags:
 - `step_name`
 - `conclusion`
 - `status`
+
+
+## Contribution
+
+This is an open source software.
+Feel free to open issues and pull requests.
