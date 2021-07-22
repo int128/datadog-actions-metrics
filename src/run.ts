@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
-import { computeJobMetrics, computeWorkflowRunMetrics } from './metrics'
+import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from './metrics'
 import { Octokit } from './types'
 
 type Inputs = {
@@ -43,8 +43,9 @@ const handleWorkflowRun = async (
 
   const workflowRunMetrics = computeWorkflowRunMetrics(e)
   const jobMetrics = computeJobMetrics(e, listJobsForWorkflowRun.data)
+  const stepMetrics = computeStepMetrics(e, listJobsForWorkflowRun.data)
   const metricsPayload = {
-    series: [...workflowRunMetrics, ...jobMetrics],
+    series: [...workflowRunMetrics, ...jobMetrics, ...stepMetrics],
   }
 
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)

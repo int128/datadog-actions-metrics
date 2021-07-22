@@ -29,6 +29,13 @@ jobs:
 
 ## Metrics
 
+When a workflow is completed, this action sends the following kinds of metrics to Datadog:
+
+- Workflow run related metrics
+- Job related metrics
+- Step related metrics
+
+
 ### Workflow run
 
 This action sends the following metrics to Datadog:
@@ -68,5 +75,28 @@ It has the following tags:
 - `branch`
 - `default_branch` = `true` or `false`
 - `job_name`
+- `conclusion`
+- `status`
+
+### Step
+
+This action sends the following metrics to Datadog:
+
+- `github.actions.step.total`
+- `github.actions.step.conclusion.{CONCLUSION}_total`
+  - e.g. `github.actions.step.conclusion.success_total`
+  - e.g. `github.actions.step.conclusion.failure_total`
+- `github.actions.step.duration_second`
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `workflow_name`
+- `event`
+- `branch`
+- `default_branch` = `true` or `false`
+- `job_name`
+- `step_name`
 - `conclusion`
 - `status`
