@@ -20,14 +20,20 @@ export const run = async (inputs: Inputs): Promise<void> => {
 }
 
 const handleWorkflowRun = async (e: WorkflowRunEvent, metrics: v1.MetricsApi, dryRun: boolean): Promise<void> => {
+  core.startGroup('Parse event')
   const metricsPayload = computeWorkflowRunMetrics(e)
   if (dryRun) {
-    core.info(`event:\n${JSON.stringify(e, undefined, 2)}`)
-    core.info(`sending metrics (dry-run)\n${JSON.stringify(metricsPayload, undefined, 2)}`)
-    return
+    core.info(JSON.stringify(e, undefined, 2))
   }
-  const accepted = await metrics.submitMetrics({ body: metricsPayload })
-  core.info(`sent metrics: ${accepted.status}`)
+  core.endGroup()
+
+  core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
+  core.info(JSON.stringify(metricsPayload, undefined, 2))
+  if (!dryRun) {
+    const accepted = await metrics.submitMetrics({ body: metricsPayload })
+    core.info(`sent as ${accepted.status}`)
+  }
+  core.endGroup()
 }
 
 export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): MetricsPayload => {
