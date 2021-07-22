@@ -1,43 +1,41 @@
-import { MetricsPayload } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/MetricsPayload'
+import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
-import { computeWorkflowRunMetrics } from '../src/run'
+import { computeWorkflowRunMetrics } from '../src/metrics'
 
 test('computeWorkflowRunMetrics', async () => {
   const metricsPayload = computeWorkflowRunMetrics(exampleWorkflowRunEventPayload)
-  expect(metricsPayload).toStrictEqual<MetricsPayload>({
-    series: [
-      {
-        host: 'github.com',
-        metric: 'github.actions.workflow_run.total',
-        points: [[1579721588, 1]],
-        tags: [
-          'repository_owner:octocat',
-          'repository_name:Hello-World',
-          'workflow_name:Build',
-          'event:push',
-          'conclusion:success',
-          'branch:master',
-          'default_branch:false',
-        ],
-        type: 'count',
-      },
-      {
-        host: 'github.com',
-        metric: 'github.actions.workflow_run.conclusion.success_total',
-        points: [[1579721588, 1]],
-        tags: [
-          'repository_owner:octocat',
-          'repository_name:Hello-World',
-          'workflow_name:Build',
-          'event:push',
-          'conclusion:success',
-          'branch:master',
-          'default_branch:false',
-        ],
-        type: 'count',
-      },
-    ],
-  })
+  expect(metricsPayload).toStrictEqual<Series[]>([
+    {
+      host: 'github.com',
+      metric: 'github.actions.workflow_run.total',
+      points: [[1579721588, 1]],
+      tags: [
+        'repository_owner:octocat',
+        'repository_name:Hello-World',
+        'workflow_name:Build',
+        'event:push',
+        'conclusion:success',
+        'branch:master',
+        'default_branch:false',
+      ],
+      type: 'count',
+    },
+    {
+      host: 'github.com',
+      metric: 'github.actions.workflow_run.conclusion.success_total',
+      points: [[1579721588, 1]],
+      tags: [
+        'repository_owner:octocat',
+        'repository_name:Hello-World',
+        'workflow_name:Build',
+        'event:push',
+        'conclusion:success',
+        'branch:master',
+        'default_branch:false',
+      ],
+      type: 'count',
+    },
+  ])
 })
 
 const exampleWorkflowRunEventPayload: WorkflowRunEvent = {
