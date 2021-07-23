@@ -13,19 +13,18 @@ export type Error = {
   error: string
 }
 
-export const parseWorkflowFile = (s: string): WorkflowDefinition | Error => {
-  const y = yaml.load(s)
-  if (y == null) {
-    return { error: `response.content is ${y}` }
+export const parseWorkflowFile = (s: string): WorkflowDefinition => {
+  const parsed = yaml.load(s)
+  if (parsed == null) {
+    throw new Error(`workflow is ${parsed}`)
   }
-  if (typeof y !== 'object') {
-    return { error: `response.content is not object: ${typeof y}` }
+  if (typeof parsed !== 'object') {
+    throw new Error(`workflow is not valid object: ${typeof parsed}`)
   }
-  if (!('jobs' in y)) {
-    return { error: `response.content does not have field "jobs"` }
+  if (!('jobs' in parsed)) {
+    throw new Error(`workflow does not have field "jobs"`)
   }
-  const w = y as WorkflowDefinition
-  return w
+  return parsed as WorkflowDefinition
 }
 
 export const inferRunner = (jobName: string, workflowDefinition?: WorkflowDefinition): string | undefined => {
