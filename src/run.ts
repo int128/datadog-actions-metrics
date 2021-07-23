@@ -43,8 +43,14 @@ const handleWorkflowRun = async (
     per_page: 100,
   })
 
-  core.info(`Find workflow definition from ${e.workflow.path}`)
-  const workflowDefinition = await getWorkflowDefinition(e, octokit)
+  core.info(`Parse workflow definition from ${e.workflow.path}`)
+  let workflowDefinition
+  try {
+    workflowDefinition = await getWorkflowDefinition(e, octokit)
+  } catch (error) {
+    const path = `${e.workflow_run.head_repository.full_name}/${e.workflow.path}@${e.workflow_run.head_sha}`
+    core.warning(`could not get the workflow definition from ${path}: ${error}`)
+  }
 
   const workflowRunMetrics = computeWorkflowRunMetrics(e)
   const jobMetrics = computeJobMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
@@ -66,33 +72,18 @@ const getWorkflowDefinition = async (
   e: WorkflowRunEvent,
   octokit: Octokit
 ): Promise<WorkflowDefinition | undefined> => {
-  const path = `${e.workflow_run.head_repository.full_name}/${e.workflow.path}@${e.workflow_run.head_sha}`
-  let getWorkflowContent
-  try {
-    getWorkflowContent = await octokit.rest.repos.getContent({
-      owner: e.workflow_run.head_repository.owner.login,
-      repo: e.workflow_run.head_repository.name,
-      ref: e.workflow_run.head_sha,
-      path: e.workflow.path,
-    })
-  } catch (error) {
-    core.warning(`could not get the workflow file from ${path}: ${error}`)
-    return
+  const resp = await octokit.rest.repos.getContent({
+    owner: e.workflow_run.head_repository.owner.login,
+    repo: e.workflow_run.head_repository.name,
+    ref: e.workflow_run.head_sha,
+    path: e.workflow.path,
+  })
+  if (!('type' in resp.data)) {
+    throw new Error(`response does not have field "type"`)
   }
-  if (!('type' in getWorkflowContent.data)) {
-    core.warning(`found ${path} but response does not have field "type"`)
-    return
+  if (!('content' in resp.data)) {
+    throw new Error(`response does not have field "content"`)
   }
-  if (!('content' in getWorkflowContent.data)) {
-    core.warning(`found ${path} but response does not have field "content"`)
-    return
-  }
-
-  const workflowFile = getWorkflowContent.data.content
-  const p = parseWorkflowFile(workflowFile)
-  if ('error' in p) {
-    core.warning(`could not parse the workflow file from ${path}: ${p.error}`)
-    return
-  }
-  return p
+  const content = Buffer.from(resp.data.content, resp.data.encoding === 'base64' ? 'base64' : 'ascii').toString()
+  return parseWorkflowFile(content)
 }
