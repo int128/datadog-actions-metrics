@@ -5,3 +5,5 @@ export type Octokit = InstanceType<typeof GitHub>
 
 export type ListJobsForWorkflowRun =
   Endpoints['GET /repos/{owner}/{repo}/actions/runs/{run_id}/jobs']['response']['data']
+
+export type GetContent = Endpoints['GET /repos/{owner}/{repo}/contents/{path}']['response']['data']

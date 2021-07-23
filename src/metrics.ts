@@ -1,5 +1,6 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
+import { inferRunner, WorkflowDefinition } from './parse_workflow'
 import { ListJobsForWorkflowRun } from './types'
 
 export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): Series[] => {
@@ -31,7 +32,11 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): Series[] => {
   ]
 }
 
-export const computeJobMetrics = (e: WorkflowRunEvent, listJobsForWorkflowRun: ListJobsForWorkflowRun): Series[] => {
+export const computeJobMetrics = (
+  e: WorkflowRunEvent,
+  listJobsForWorkflowRun: ListJobsForWorkflowRun,
+  workflowDefinition?: WorkflowDefinition
+): Series[] => {
   const series: Series[] = []
   for (const j of listJobsForWorkflowRun.jobs) {
     if (j.completed_at === null) {
@@ -50,6 +55,11 @@ export const computeJobMetrics = (e: WorkflowRunEvent, listJobsForWorkflowRun: L
       `conclusion:${j.conclusion}`,
       `status:${j.status}`,
     ]
+    const runsOn = inferRunner(j.name, workflowDefinition)
+    if (runsOn !== undefined) {
+      tags.push(`runs_on:${runsOn}`)
+    }
+
     series.push(
       {
         host: 'github.com',
@@ -90,12 +100,18 @@ export const computeJobMetrics = (e: WorkflowRunEvent, listJobsForWorkflowRun: L
   return series
 }
 
-export const computeStepMetrics = (e: WorkflowRunEvent, listJobsForWorkflowRun: ListJobsForWorkflowRun): Series[] => {
+export const computeStepMetrics = (
+  e: WorkflowRunEvent,
+  listJobsForWorkflowRun: ListJobsForWorkflowRun,
+  workflowDefinition?: WorkflowDefinition
+): Series[] => {
   const series: Series[] = []
   for (const job of listJobsForWorkflowRun.jobs) {
     if (job.completed_at === null || job.steps === undefined) {
       continue
     }
+    const runsOn = inferRunner(job.name, workflowDefinition)
+
     for (const s of job.steps) {
       if (s.started_at == null || s.completed_at == null) {
         continue
@@ -114,6 +130,10 @@ export const computeStepMetrics = (e: WorkflowRunEvent, listJobsForWorkflowRun: 
         `conclusion:${s.conclusion}`,
         `status:${s.status}`,
       ]
+      if (runsOn !== undefined) {
+        tags.push(`runs_on:${runsOn}`)
+      }
+
       series.push(
         {
           host: 'github.com',

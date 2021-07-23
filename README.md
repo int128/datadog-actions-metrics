@@ -83,6 +83,9 @@ It has the following tags:
 - `job_name`
 - `conclusion`
 - `status`
+- `runs_on`
+  - Name of runner inferred from the workflow file if possible
+  - e.g. `ubuntu-latest`
 
 ### Step
 
@@ -106,6 +109,9 @@ It has the following tags:
 - `step_name`
 - `conclusion`
 - `status`
+- `runs_on`
+  - Name of runner inferred from the workflow file if possible
+  - e.g. `ubuntu-latest`
 
 
 ## Contribution
