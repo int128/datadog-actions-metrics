@@ -29,11 +29,6 @@ const handleWorkflowRun = async (
   dryRun: boolean
 ): Promise<void> => {
   core.info(`Received a workflow run event: ${e.workflow_run.html_url}`)
-  if (dryRun) {
-    core.startGroup('Event payload')
-    core.info(JSON.stringify(e, undefined, 2))
-    core.endGroup()
-  }
 
   core.info(`List jobs for workflow run ${e.workflow_run.id}`)
   const listJobsForWorkflowRun = await octokit.rest.actions.listJobsForWorkflowRun({
