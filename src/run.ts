@@ -3,6 +3,7 @@ import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
 import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from './metrics'
+import { parseWorkflowFile, WorkflowDefinition } from './parse_workflow'
 import { Octokit } from './types'
 
 type Inputs = {
@@ -34,6 +35,7 @@ const handleWorkflowRun = async (
     core.endGroup()
   }
 
+  core.info(`List jobs for workflow run ${e.workflow_run.id}`)
   const listJobsForWorkflowRun = await octokit.rest.actions.listJobsForWorkflowRun({
     owner: e.workflow_run.repository.owner.login,
     repo: e.workflow_run.repository.name,
@@ -41,9 +43,12 @@ const handleWorkflowRun = async (
     per_page: 100,
   })
 
+  core.info(`Find workflow definition from ${e.workflow.path}`)
+  const workflowDefinition = await getWorkflowDefinition(e, octokit)
+
   const workflowRunMetrics = computeWorkflowRunMetrics(e)
-  const jobMetrics = computeJobMetrics(e, listJobsForWorkflowRun.data)
-  const stepMetrics = computeStepMetrics(e, listJobsForWorkflowRun.data)
+  const jobMetrics = computeJobMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
+  const stepMetrics = computeStepMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
   const metricsPayload = {
     series: [...workflowRunMetrics, ...jobMetrics, ...stepMetrics],
   }
@@ -55,4 +60,39 @@ const handleWorkflowRun = async (
     core.info(`sent as ${accepted.status}`)
   }
   core.endGroup()
+}
+
+const getWorkflowDefinition = async (
+  e: WorkflowRunEvent,
+  octokit: Octokit
+): Promise<WorkflowDefinition | undefined> => {
+  const path = `${e.workflow_run.head_repository.full_name}/${e.workflow.path}@${e.workflow_run.head_sha}`
+  let getWorkflowContent
+  try {
+    getWorkflowContent = await octokit.rest.repos.getContent({
+      owner: e.workflow_run.head_repository.owner.login,
+      repo: e.workflow_run.head_repository.name,
+      ref: e.workflow_run.head_sha,
+      path: e.workflow.path,
+    })
+  } catch (error) {
+    core.warning(`could not get the workflow file from ${path}: ${error}`)
+    return
+  }
+  if (!('type' in getWorkflowContent.data)) {
+    core.warning(`found ${path} but response does not have field "type"`)
+    return
+  }
+  if (!('content' in getWorkflowContent.data)) {
+    core.warning(`found ${path} but response does not have field "content"`)
+    return
+  }
+
+  const workflowFile = getWorkflowContent.data.content
+  const p = parseWorkflowFile(workflowFile)
+  if ('error' in p) {
+    core.warning(`could not parse the workflow file from ${path}: ${p.error}`)
+    return
+  }
+  return p
 }
