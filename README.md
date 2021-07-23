@@ -1,4 +1,4 @@
-# datadog-actions-metrics [![ts](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml)
+# datadog-actions-metrics [![ts](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml) [![e2e](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml)
 
 This is an action to send metrics of GitHub Actions to Datadog when a workflow is completed.
 It is inspired from @yuya-takeyama's [github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
@@ -32,11 +32,13 @@ If `datadog-api-key` is not set, this action does not send metrics actually.
 
 ## Metrics
 
-When a workflow is completed, this action sends the following kinds of metrics to Datadog:
+When a workflow is completed, this action sends the following metrics to Datadog:
 
 - Workflow run related metrics
 - Job related metrics
 - Step related metrics
+
+You can see the actual values in the [e2e](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml) test.
 
 
 ### Workflow run
@@ -84,7 +86,7 @@ It has the following tags:
 - `conclusion`
 - `status`
 - `runs_on`
-  - Name of runner inferred from the workflow file if possible
+  - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
 ### Step
@@ -110,7 +112,7 @@ It has the following tags:
 - `conclusion`
 - `status`
 - `runs_on`
-  - Name of runner inferred from the workflow file if possible
+  - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
 
