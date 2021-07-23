@@ -34,8 +34,22 @@ export const inferRunner = (jobName: string, workflowDefinition?: WorkflowDefini
   const canonicalJobName = jobName.replace(/ *\(.+?\)/, '')
   for (const k of Object.keys(workflowDefinition.jobs)) {
     const job = workflowDefinition.jobs[k]
+    // exact match
     if (canonicalJobName === k || canonicalJobName === job.name) {
       return job['runs-on']
     }
+    // consider expression(s) in name property
+    if (job.name?.search(/\$\{\{.+?\}\}/)) {
+      const pattern = `^${job.name
+        .split(/\$\{\{.+?\}\}/)
+        .map(escapeRegex)
+        .join('.+?')}$`
+      if (new RegExp(pattern).test(jobName)) {
+        return job['runs-on']
+      }
+    }
   }
 }
+
+// https://github.com/tc39/proposal-regex-escaping
+const escapeRegex = (s: string): string => s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&')

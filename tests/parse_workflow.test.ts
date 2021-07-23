@@ -61,3 +61,26 @@ describe('inferRunner looks up name property', () => {
     expect(runner).toBeUndefined()
   })
 })
+
+describe('inferRunner looks up name with expression', () => {
+  const workflowDefinition: WorkflowDefinition = {
+    jobs: {
+      foo: {
+        name: 'test / ${{ matrix.x }} / ${{ matrix.y }}',
+        'runs-on': 'self-hosted',
+      },
+      bar: {
+        'runs-on': 'ubuntu-latest',
+      },
+    },
+  }
+
+  test('matrix job name', () => {
+    const runner = inferRunner('test / 32 / true', workflowDefinition)
+    expect(runner).toBe('self-hosted')
+  })
+  test('not found', () => {
+    const runner = inferRunner('baz', workflowDefinition)
+    expect(runner).toBeUndefined()
+  })
+})
