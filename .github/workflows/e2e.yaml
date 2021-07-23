@@ -12,5 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
+      - name: Event payload
+        run: |
+          jq . <<EOF
+          ${{ toJSON(github.event) }}
+          EOF
       - uses: int128/datadog-actions-metrics@v1
