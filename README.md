@@ -57,9 +57,11 @@ It has the following tags:
 - `repository_name`
 - `workflow_name`
 - `event`
-- `conclusion`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
+- `conclusion`
 
 ### Job
 
@@ -80,6 +82,8 @@ It has the following tags:
 - `repository_name`
 - `workflow_name`
 - `event`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
 - `job_name`
@@ -105,6 +109,8 @@ It has the following tags:
 - `repository_name`
 - `workflow_name`
 - `event`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
 - `job_name`
