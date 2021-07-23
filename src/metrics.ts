@@ -8,6 +8,8 @@ const computeCommonTags = (e: WorkflowRunEvent): string[] => [
   `repository_name:${e.workflow_run.repository.name}`,
   `workflow_name:${e.workflow_run.name}`,
   `event:${e.workflow_run.event}`,
+  `sender:${e.sender.login}`,
+  `sender_type:${e.sender.type}`,
   `branch:${e.workflow_run.head_branch}`,
   `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
 ]
