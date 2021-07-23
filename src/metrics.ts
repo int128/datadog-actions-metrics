@@ -3,17 +3,18 @@ import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
 import { inferRunner, WorkflowDefinition } from './parse_workflow'
 import { ListJobsForWorkflowRun } from './types'
 
+const computeCommonTags = (e: WorkflowRunEvent): string[] => [
+  `repository_owner:${e.workflow_run.repository.owner.login}`,
+  `repository_name:${e.workflow_run.repository.name}`,
+  `workflow_name:${e.workflow_run.name}`,
+  `event:${e.workflow_run.event}`,
+  `branch:${e.workflow_run.head_branch}`,
+  `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
+]
+
 export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): Series[] => {
   const updatedAt = new Date(e.workflow_run.updated_at).getTime() / 1000
-  const tags = [
-    `repository_owner:${e.workflow_run.repository.owner.login}`,
-    `repository_name:${e.workflow_run.repository.name}`,
-    `workflow_name:${e.workflow_run.name}`,
-    `event:${e.workflow_run.event}`,
-    `conclusion:${e.workflow_run.conclusion}`,
-    `branch:${e.workflow_run.head_branch}`,
-    `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
-  ]
+  const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
   return [
     {
       host: 'github.com',
@@ -44,17 +45,7 @@ export const computeJobMetrics = (
     }
 
     const completedAt = new Date(j.completed_at).getTime() / 1000
-    const tags = [
-      `repository_owner:${e.workflow_run.repository.owner.login}`,
-      `repository_name:${e.workflow_run.repository.name}`,
-      `workflow_name:${e.workflow_run.name}`,
-      `event:${e.workflow_run.event}`,
-      `branch:${e.workflow_run.head_branch}`,
-      `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
-      `job_name:${j.name}`,
-      `conclusion:${j.conclusion}`,
-      `status:${j.status}`,
-    ]
+    const tags = [...computeCommonTags(e), `job_name:${j.name}`, `conclusion:${j.conclusion}`, `status:${j.status}`]
     const runsOn = inferRunner(j.name, workflowDefinition)
     if (runsOn !== undefined) {
       tags.push(`runs_on:${runsOn}`)
@@ -119,12 +110,7 @@ export const computeStepMetrics = (
 
       const completedAt = new Date(s.completed_at).getTime() / 1000
       const tags = [
-        `repository_owner:${e.workflow_run.repository.owner.login}`,
-        `repository_name:${e.workflow_run.repository.name}`,
-        `workflow_name:${e.workflow_run.name}`,
-        `event:${e.workflow_run.event}`,
-        `branch:${e.workflow_run.head_branch}`,
-        `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
+        ...computeCommonTags(e),
         `job_name:${job.name}`,
         `step_name:${s.name}`,
         `conclusion:${s.conclusion}`,
