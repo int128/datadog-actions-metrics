@@ -14,10 +14,13 @@ const computeCommonTags = (e: WorkflowRunEvent): string[] => [
   `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
 ]
 
-export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): Series[] => {
-  const updatedAt = new Date(e.workflow_run.updated_at).getTime() / 1000
+export const computeWorkflowRunMetrics = (
+  e: WorkflowRunEvent,
+  listJobsForWorkflowRun: ListJobsForWorkflowRun
+): Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
-  return [
+  const updatedAt = new Date(e.workflow_run.updated_at).getTime() / 1000
+  const series = [
     {
       host: 'github.com',
       tags,
@@ -33,6 +36,19 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunEvent): Series[] => {
       points: [[updatedAt, 1]],
     },
   ]
+  if (listJobsForWorkflowRun.jobs.length > 0) {
+    const createdAt = new Date(e.workflow_run.created_at).getTime() / 1000
+    const firstJobStartedAt = new Date(listJobsForWorkflowRun.jobs[0].started_at).getTime() / 1000
+    const queued = firstJobStartedAt - createdAt
+    series.push({
+      host: 'github.com',
+      tags,
+      metric: 'github.actions.workflow_run.queued_duration_second',
+      type: 'gauge',
+      points: [[updatedAt, queued]],
+    })
+  }
+  return series
 }
 
 export const computeJobMetrics = (
@@ -80,15 +96,17 @@ export const computeJobMetrics = (
       points: [[completedAt, duration]],
     })
 
-    const createdAt = new Date(e.workflow_run.created_at).getTime() / 1000
-    const queued = startedAt - createdAt
-    series.push({
-      host: 'github.com',
-      tags,
-      metric: 'github.actions.job.queued_duration_second',
-      type: 'gauge',
-      points: [[completedAt, queued]],
-    })
+    if (j.steps?.length && j.steps[0].started_at) {
+      const firstStepStartedAt = new Date(j.steps[0].started_at).getTime() / 1000
+      const queued = firstStepStartedAt - startedAt
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.job.queued_duration_second',
+        type: 'gauge',
+        points: [[completedAt, queued]],
+      })
+    }
   }
   return series
 }
