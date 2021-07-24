@@ -29,7 +29,11 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-You can see the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
+Wait a few minutes and you can see the metrics in Datadog.
+
+![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
+
+See also the example of actual values in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
 
 
 ## Metrics
