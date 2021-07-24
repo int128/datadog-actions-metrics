@@ -133,6 +133,7 @@ export const computeStepMetrics = (
         ...computeCommonTags(e),
         `job_name:${job.name}`,
         `step_name:${s.name}`,
+        `step_number:${s.number}`,
         `conclusion:${s.conclusion}`,
         `status:${s.status}`,
       ]
