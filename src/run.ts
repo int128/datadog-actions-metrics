@@ -47,7 +47,7 @@ const handleWorkflowRun = async (
     core.warning(`could not get the workflow definition from ${path}: ${error}`)
   }
 
-  const workflowRunMetrics = computeWorkflowRunMetrics(e)
+  const workflowRunMetrics = computeWorkflowRunMetrics(e, listJobsForWorkflowRun.data)
   const jobMetrics = computeJobMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
   const stepMetrics = computeStepMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
   const metricsPayload = {

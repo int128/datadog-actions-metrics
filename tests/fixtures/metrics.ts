@@ -35,6 +35,23 @@ export const exampleWorkflowRunMetrics: Series[] = [
     ],
     type: 'count',
   },
+  {
+    host: 'github.com',
+    metric: 'github.actions.workflow_run.queued_duration_second',
+    points: [[1579721588, -179428]],
+    tags: [
+      'repository_owner:octocat',
+      'repository_name:Hello-World',
+      'workflow_name:Build',
+      'event:push',
+      'sender:Codertocat',
+      'sender_type:User',
+      'branch:master',
+      'default_branch:false',
+      'conclusion:success',
+    ],
+    type: 'gauge',
+  },
 ]
 
 export const exampleJobMetrics: Series[] = [
@@ -98,7 +115,7 @@ export const exampleJobMetrics: Series[] = [
   {
     host: 'github.com',
     metric: 'github.actions.job.queued_duration_second',
-    points: [[1579542279, -179428]],
+    points: [[1579542279, 0]],
     tags: [
       'repository_owner:octocat',
       'repository_name:Hello-World',

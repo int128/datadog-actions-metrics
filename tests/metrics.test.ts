@@ -4,8 +4,8 @@ import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
 
 test('computeWorkflowRunMetrics', async () => {
-  const metricsPayload = computeWorkflowRunMetrics(exampleWorkflowRunEvent)
-  expect(metricsPayload).toStrictEqual(exampleWorkflowRunMetrics)
+  const series = computeWorkflowRunMetrics(exampleWorkflowRunEvent, exampleListJobsForWorkflowRun)
+  expect(series).toStrictEqual(exampleWorkflowRunMetrics)
 })
 
 test('computeJobMetrics', async () => {
