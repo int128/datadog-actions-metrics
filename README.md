@@ -6,6 +6,9 @@ It is inspired from @yuya-takeyama's [github-actions-metrics-to-datadog-action](
 
 ## Getting Started
 
+You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
+If `datadog-api-key` is not set, this action does not send metrics actually.
+
 To run this action when a workflow is completed:
 
 ```yaml
@@ -19,15 +22,14 @@ on:
 jobs:
   submit:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v2
       - uses: int128/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
-If `datadog-api-key` is not set, this action does not send metrics actually.
+You can see the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
 
 
 ## Metrics
@@ -37,8 +39,6 @@ When a workflow is completed, this action sends the following metrics to Datadog
 - Workflow run related metrics
 - Job related metrics
 - Step related metrics
-
-You can see the actual values in the [e2e](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml) test.
 
 
 ### Workflow run
