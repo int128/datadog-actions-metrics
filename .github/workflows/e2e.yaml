@@ -18,3 +18,5 @@ jobs:
           ${{ toJSON(github.event) }}
           EOF
       - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
