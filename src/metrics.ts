@@ -36,9 +36,12 @@ export const computeWorkflowRunMetrics = (
       points: [[updatedAt, 1]],
     },
   ]
+
   if (listJobsForWorkflowRun.jobs.length > 0) {
+    const firstJobStartedAt = Math.min(
+      ...listJobsForWorkflowRun.jobs.map((j) => new Date(j.started_at).getTime() / 1000)
+    )
     const createdAt = new Date(e.workflow_run.created_at).getTime() / 1000
-    const firstJobStartedAt = new Date(listJobsForWorkflowRun.jobs[0].started_at).getTime() / 1000
     const queued = firstJobStartedAt - createdAt
     series.push({
       host: 'github.com',
@@ -96,8 +99,10 @@ export const computeJobMetrics = (
       points: [[completedAt, duration]],
     })
 
-    if (j.steps?.length && j.steps[0].started_at) {
-      const firstStepStartedAt = new Date(j.steps[0].started_at).getTime() / 1000
+    if (j.steps?.length) {
+      const firstStepStartedAt = Math.min(
+        ...j.steps.map((s) => (s.started_at ? new Date(s.started_at).getTime() / 1000 : Infinity))
+      )
       const queued = firstStepStartedAt - startedAt
       series.push({
         host: 'github.com',
