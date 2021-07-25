@@ -63,6 +63,8 @@ This action sends the following metrics to Datadog:
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
   - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
+- `github.actions.workflow_run.duration_second`
+  - Time from a workflow is created to updated
 - `github.actions.workflow_run.queued_duration_second`
   - Time from a workflow is created until the first job is started
 
