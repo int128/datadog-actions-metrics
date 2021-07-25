@@ -121,6 +121,7 @@ It has the following tags:
 - `default_branch` = `true` or `false`
 - `job_name`
 - `step_name`
+- `step_number` = 1, 2, ...
 - `conclusion`
 - `status`
 - `runs_on`
