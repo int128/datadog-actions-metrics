@@ -37,9 +37,18 @@ export const computeWorkflowRunMetrics = (
     },
   ]
 
+  const createdAt = unixTime(e.workflow_run.created_at)
+  const duration = updatedAt - createdAt
+  series.push({
+    host: 'github.com',
+    tags,
+    metric: 'github.actions.workflow_run.duration_second',
+    type: 'gauge',
+    points: [[updatedAt, duration]],
+  })
+
   if (listJobsForWorkflowRun.jobs.length > 0) {
     const firstJobStartedAt = Math.min(...listJobsForWorkflowRun.jobs.map((j) => unixTime(j.started_at)))
-    const createdAt = unixTime(e.workflow_run.created_at)
     const queued = firstJobStartedAt - createdAt
     series.push({
       host: 'github.com',
