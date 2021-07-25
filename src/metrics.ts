@@ -19,7 +19,7 @@ export const computeWorkflowRunMetrics = (
   listJobsForWorkflowRun: ListJobsForWorkflowRun
 ): Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
-  const updatedAt = new Date(e.workflow_run.updated_at).getTime() / 1000
+  const updatedAt = unixTime(e.workflow_run.updated_at)
   const series = [
     {
       host: 'github.com',
@@ -38,10 +38,8 @@ export const computeWorkflowRunMetrics = (
   ]
 
   if (listJobsForWorkflowRun.jobs.length > 0) {
-    const firstJobStartedAt = Math.min(
-      ...listJobsForWorkflowRun.jobs.map((j) => new Date(j.started_at).getTime() / 1000)
-    )
-    const createdAt = new Date(e.workflow_run.created_at).getTime() / 1000
+    const firstJobStartedAt = Math.min(...listJobsForWorkflowRun.jobs.map((j) => unixTime(j.started_at)))
+    const createdAt = unixTime(e.workflow_run.created_at)
     const queued = firstJobStartedAt - createdAt
     series.push({
       host: 'github.com',
@@ -65,7 +63,7 @@ export const computeJobMetrics = (
       continue
     }
 
-    const completedAt = new Date(j.completed_at).getTime() / 1000
+    const completedAt = unixTime(j.completed_at)
     const tags = [...computeCommonTags(e), `job_name:${j.name}`, `conclusion:${j.conclusion}`, `status:${j.status}`]
     const runsOn = inferRunner(j.name, workflowDefinition)
     if (runsOn !== undefined) {
@@ -89,7 +87,7 @@ export const computeJobMetrics = (
       }
     )
 
-    const startedAt = new Date(j.started_at).getTime() / 1000
+    const startedAt = unixTime(j.started_at)
     const duration = completedAt - startedAt
     series.push({
       host: 'github.com',
@@ -100,9 +98,7 @@ export const computeJobMetrics = (
     })
 
     if (j.steps?.length) {
-      const firstStepStartedAt = Math.min(
-        ...j.steps.map((s) => (s.started_at ? new Date(s.started_at).getTime() / 1000 : Infinity))
-      )
+      const firstStepStartedAt = Math.min(...j.steps.map((s) => (s.started_at ? unixTime(s.started_at) : Infinity)))
       const queued = firstStepStartedAt - startedAt
       series.push({
         host: 'github.com',
@@ -133,7 +129,7 @@ export const computeStepMetrics = (
         continue
       }
 
-      const completedAt = new Date(s.completed_at).getTime() / 1000
+      const completedAt = unixTime(s.completed_at)
       const tags = [
         ...computeCommonTags(e),
         `job_name:${job.name}`,
@@ -163,7 +159,7 @@ export const computeStepMetrics = (
         }
       )
 
-      const startedAt = new Date(s.started_at).getTime() / 1000
+      const startedAt = unixTime(s.started_at)
       const duration = completedAt - startedAt
       series.push({
         host: 'github.com',
@@ -176,3 +172,5 @@ export const computeStepMetrics = (
   }
   return series
 }
+
+const unixTime = (s: string): number => new Date(s).getTime() / 1000
