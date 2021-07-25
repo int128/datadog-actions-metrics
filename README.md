@@ -7,9 +7,8 @@ It is inspired from @yuya-takeyama's [github-actions-metrics-to-datadog-action](
 ## Getting Started
 
 You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
-If `datadog-api-key` is not set, this action does not send metrics actually.
 
-To run this action when a workflow is completed:
+To collect the metrics when a workflow is completed:
 
 ```yaml
 on:
@@ -29,11 +28,21 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-Wait a few minutes and you can see the metrics in Datadog.
+You can see the metrics in Datadog, for example,
 
 ![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
 
-See also the example of actual values in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
+See also the actual metrics in [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
+
+
+## Parameters
+
+### Inputs
+
+Name | Type | Description
+-----|------|------------
+`github-token` | optional | GitHub token. Default to `github.token`
+`datadog-api-key` | optional | Datadog API key. If not set, this action does not send metrics actually
 
 
 ## Metrics
