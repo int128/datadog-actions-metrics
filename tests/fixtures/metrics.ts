@@ -71,6 +71,60 @@ export const exampleWorkflowRunMetrics: Series[] = [
   },
 ]
 
+export const exampleWorkflowRunSimpleMetrics: Series[] = [
+  {
+    host: 'github.com',
+    metric: 'github.actions.workflow_run.total',
+    points: [[1579721588, 1]],
+    tags: [
+      'repository_owner:octocat',
+      'repository_name:Hello-World',
+      'workflow_name:Build',
+      'event:push',
+      'sender:Codertocat',
+      'sender_type:User',
+      'branch:master',
+      'default_branch:false',
+      'conclusion:success',
+    ],
+    type: 'count',
+  },
+  {
+    host: 'github.com',
+    metric: 'github.actions.workflow_run.conclusion.success_total',
+    points: [[1579721588, 1]],
+    tags: [
+      'repository_owner:octocat',
+      'repository_name:Hello-World',
+      'workflow_name:Build',
+      'event:push',
+      'sender:Codertocat',
+      'sender_type:User',
+      'branch:master',
+      'default_branch:false',
+      'conclusion:success',
+    ],
+    type: 'count',
+  },
+  {
+    host: 'github.com',
+    metric: 'github.actions.workflow_run.duration_second',
+    points: [[1579721588, 0]],
+    tags: [
+      'repository_owner:octocat',
+      'repository_name:Hello-World',
+      'workflow_name:Build',
+      'event:push',
+      'sender:Codertocat',
+      'sender_type:User',
+      'branch:master',
+      'default_branch:false',
+      'conclusion:success',
+    ],
+    type: 'gauge',
+  },
+]
+
 export const exampleJobMetrics: Series[] = [
   {
     host: 'github.com',
