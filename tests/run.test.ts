@@ -3,8 +3,15 @@ import { v1 } from '@datadog/datadog-api-client'
 import { IntakePayloadAccepted } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/IntakePayloadAccepted'
 import { run } from '../src/run'
 import { exampleListJobsForWorkflowRun } from './fixtures/listJobsForWorkflowRun'
-import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from './fixtures/metrics'
+import {
+  exampleJobMetrics,
+  exampleStepMetrics,
+  exampleWorkflowRunMetrics,
+  exampleWorkflowRunSimpleMetrics,
+} from './fixtures/metrics'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
+
+jest.mock('@actions/core')
 
 jest.mock('@actions/github')
 const octokitMock = {
@@ -33,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
 `
 
-test('run with mocks of GitHub and Datadog clients', async () => {
+test('run', async () => {
   github.context.eventName = 'workflow_run'
   github.context.payload = exampleWorkflowRunEvent
   octokitMock.rest.actions.listJobsForWorkflowRun.mockResolvedValue({
@@ -57,6 +64,24 @@ test('run with mocks of GitHub and Datadog clients', async () => {
   expect(metricsApiMock.submitMetrics).toBeCalledWith({
     body: {
       series: [...exampleWorkflowRunMetrics, ...exampleJobMetrics, ...exampleStepMetrics],
+    },
+  })
+})
+
+test('run with collectJobMetricsForOnlyDefaultBranch', async () => {
+  github.context.eventName = 'workflow_run'
+  github.context.payload = exampleWorkflowRunEvent
+  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+
+  await run({
+    githubToken: 'GITHUB_TOKEN',
+    datadogApiKey: 'DATADOG_API_KEY',
+    collectJobMetricsForOnlyDefaultBranch: true,
+  })
+  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toBeCalledWith({
+    body: {
+      series: [...exampleWorkflowRunSimpleMetrics],
     },
   })
 })
