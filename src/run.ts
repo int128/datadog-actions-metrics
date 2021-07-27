@@ -33,6 +33,8 @@ const handleWorkflowRun = async (
   collectJobMetricsForOnlyDefaultBranch: boolean
 ): Promise<void> => {
   core.info(`Received a workflow run event: ${e.workflow_run.html_url}`)
+  core.info(`dryRun = ${dryRun}`)
+  core.info(`collectJobMetricsForOnlyDefaultBranch = ${collectJobMetricsForOnlyDefaultBranch}`)
   const series = await computeWorkflowRunEventMetrics(e, octokit, collectJobMetricsForOnlyDefaultBranch)
 
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
@@ -50,6 +52,7 @@ const computeWorkflowRunEventMetrics = async (
   collectJobMetricsForOnlyDefaultBranch: boolean
 ): Promise<Series[]> => {
   if (collectJobMetricsForOnlyDefaultBranch && e.workflow_run.head_branch !== e.repository.default_branch) {
+    core.info(`skip job metrics because ${e.workflow_run.head_branch} is not default branch`)
     return computeWorkflowRunMetrics(e)
   }
 
