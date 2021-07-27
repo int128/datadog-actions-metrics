@@ -43,6 +43,7 @@ Name | Type | Description
 -----|------|------------
 `github-token` | optional | GitHub token. Default to `github.token`
 `datadog-api-key` | optional | Datadog API key. If not set, this action does not send metrics actually
+`collect-job-metrics-for-only-default-branch` | optional | Collect job metrics for the default branch only. Default to `true` to prevent exceeding the rate limit of GitHub API
 
 
 ## Metrics

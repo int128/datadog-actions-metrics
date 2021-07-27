@@ -51,6 +51,7 @@ test('run with mocks of GitHub and Datadog clients', async () => {
   await run({
     githubToken: 'GITHUB_TOKEN',
     datadogApiKey: 'DATADOG_API_KEY',
+    collectJobMetricsForOnlyDefaultBranch: false,
   })
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledWith({
