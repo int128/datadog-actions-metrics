@@ -16,7 +16,7 @@ const computeCommonTags = (e: WorkflowRunEvent): string[] => [
 
 export const computeWorkflowRunMetrics = (
   e: WorkflowRunEvent,
-  listJobsForWorkflowRun: ListJobsForWorkflowRun
+  listJobsForWorkflowRun?: ListJobsForWorkflowRun
 ): Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
@@ -47,7 +47,7 @@ export const computeWorkflowRunMetrics = (
     points: [[updatedAt, duration]],
   })
 
-  if (listJobsForWorkflowRun.jobs.length > 0) {
+  if (listJobsForWorkflowRun !== undefined && listJobsForWorkflowRun.jobs.length > 0) {
     const firstJobStartedAt = Math.min(...listJobsForWorkflowRun.jobs.map((j) => unixTime(j.started_at)))
     const queued = firstJobStartedAt - createdAt
     series.push({

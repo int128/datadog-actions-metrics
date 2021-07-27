@@ -8,6 +8,10 @@ inputs:
   datadog-api-key:
     description: Datadog API key (dry-run if not set)
     required: false
+  collect-job-metrics-for-only-default-branch:
+    description: Collect job metrics only for the default branch
+    required: true
+    default: 'true'
 runs:
   using: 'node12'
   main: 'dist/index.js'
