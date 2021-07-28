@@ -111,6 +111,8 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
+By default, this action sends the job metrics only for the default branch.
+
 ### Step
 
 This action sends the following metrics to Datadog:
@@ -139,6 +141,8 @@ It has the following tags:
 - `runs_on`
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
+
+By default, this action sends the step metrics only for the default branch.
 
 
 ## Contribution
