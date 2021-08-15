@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
-import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
+import { WorkflowRunCompletedEvent } from '@octokit/webhooks-definitions/schema'
 import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from './metrics'
 import { parseWorkflowFile, WorkflowDefinition } from './parse_workflow'
 import { Octokit } from './types'
@@ -15,7 +15,7 @@ type Inputs = {
 
 export const run = async (inputs: Inputs): Promise<void> => {
   if (github.context.eventName === 'workflow_run') {
-    const e = github.context.payload as WorkflowRunEvent
+    const e = github.context.payload as WorkflowRunCompletedEvent
     const octokit = github.getOctokit(inputs.githubToken)
     const configuration = v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } })
     const metrics = new v1.MetricsApi(configuration)
@@ -26,7 +26,7 @@ export const run = async (inputs: Inputs): Promise<void> => {
 }
 
 const handleWorkflowRun = async (
-  e: WorkflowRunEvent,
+  e: WorkflowRunCompletedEvent,
   octokit: Octokit,
   metrics: v1.MetricsApi,
   dryRun: boolean,
@@ -43,13 +43,13 @@ const handleWorkflowRun = async (
   core.info(JSON.stringify(series, undefined, 2))
   if (!dryRun) {
     const accepted = await metrics.submitMetrics({ body: { series } })
-    core.info(`sent as ${accepted.status}`)
+    core.info(`sent as ${JSON.stringify(accepted)}`)
   }
   core.endGroup()
 }
 
 const computeWorkflowRunEventMetrics = async (
-  e: WorkflowRunEvent,
+  e: WorkflowRunCompletedEvent,
   octokit: Octokit,
   collectJobMetricsForOnlyDefaultBranch: boolean
 ): Promise<Series[]> => {
@@ -72,7 +72,7 @@ const computeWorkflowRunEventMetrics = async (
     workflowDefinition = await getWorkflowDefinition(e, octokit)
   } catch (error) {
     const path = `${e.workflow_run.head_repository.full_name}/${e.workflow.path}@${e.workflow_run.head_sha}`
-    core.warning(`could not get the workflow definition from ${path}: ${error}`)
+    core.warning(`could not get the workflow definition from ${path}: ${JSON.stringify(error)}`)
   }
 
   const workflowRunMetrics = computeWorkflowRunMetrics(e, listJobsForWorkflowRun.data)
@@ -82,7 +82,7 @@ const computeWorkflowRunEventMetrics = async (
 }
 
 const getWorkflowDefinition = async (
-  e: WorkflowRunEvent,
+  e: WorkflowRunCompletedEvent,
   octokit: Octokit
 ): Promise<WorkflowDefinition | undefined> => {
   const resp = await octokit.rest.repos.getContent({

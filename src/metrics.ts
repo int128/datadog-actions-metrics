@@ -1,9 +1,9 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
-import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
+import { WorkflowRunCompletedEvent } from '@octokit/webhooks-definitions/schema'
 import { inferRunner, WorkflowDefinition } from './parse_workflow'
 import { ListJobsForWorkflowRun } from './types'
 
-const computeCommonTags = (e: WorkflowRunEvent): string[] => [
+const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,
   `repository_name:${e.workflow_run.repository.name}`,
   `workflow_name:${e.workflow_run.name}`,
@@ -11,11 +11,11 @@ const computeCommonTags = (e: WorkflowRunEvent): string[] => [
   `sender:${e.sender.login}`,
   `sender_type:${e.sender.type}`,
   `branch:${e.workflow_run.head_branch}`,
-  `default_branch:${e.workflow_run.head_branch === e.repository.default_branch}`,
+  `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
 ]
 
 export const computeWorkflowRunMetrics = (
-  e: WorkflowRunEvent,
+  e: WorkflowRunCompletedEvent,
   listJobsForWorkflowRun?: ListJobsForWorkflowRun
 ): Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
@@ -62,7 +62,7 @@ export const computeWorkflowRunMetrics = (
 }
 
 export const computeJobMetrics = (
-  e: WorkflowRunEvent,
+  e: WorkflowRunCompletedEvent,
   listJobsForWorkflowRun: ListJobsForWorkflowRun,
   workflowDefinition?: WorkflowDefinition
 ): Series[] => {
@@ -73,7 +73,12 @@ export const computeJobMetrics = (
     }
 
     const completedAt = unixTime(j.completed_at)
-    const tags = [...computeCommonTags(e), `job_name:${j.name}`, `conclusion:${j.conclusion}`, `status:${j.status}`]
+    const tags = [
+      ...computeCommonTags(e),
+      `job_name:${j.name}`,
+      `conclusion:${j.conclusion ?? 'null'}`,
+      `status:${j.status}`,
+    ]
     const runsOn = inferRunner(j.name, workflowDefinition)
     if (runsOn !== undefined) {
       tags.push(`runs_on:${runsOn}`)
@@ -90,7 +95,7 @@ export const computeJobMetrics = (
       {
         host: 'github.com',
         tags,
-        metric: `github.actions.job.conclusion.${j.conclusion}_total`,
+        metric: `github.actions.job.conclusion.${j.conclusion ?? 'null'}_total`,
         type: 'count',
         points: [[completedAt, 1]],
       }
@@ -122,7 +127,7 @@ export const computeJobMetrics = (
 }
 
 export const computeStepMetrics = (
-  e: WorkflowRunEvent,
+  e: WorkflowRunCompletedEvent,
   listJobsForWorkflowRun: ListJobsForWorkflowRun,
   workflowDefinition?: WorkflowDefinition
 ): Series[] => {
@@ -144,7 +149,7 @@ export const computeStepMetrics = (
         `job_name:${job.name}`,
         `step_name:${s.name}`,
         `step_number:${s.number}`,
-        `conclusion:${s.conclusion}`,
+        `conclusion:${s.conclusion ?? 'null'}`,
         `status:${s.status}`,
       ]
       if (runsOn !== undefined) {
@@ -162,7 +167,7 @@ export const computeStepMetrics = (
         {
           host: 'github.com',
           tags,
-          metric: `github.actions.step.conclusion.${s.conclusion}_total`,
+          metric: `github.actions.step.conclusion.${s.conclusion ?? 'null'}_total`,
           type: 'count',
           points: [[completedAt, 1]],
         }

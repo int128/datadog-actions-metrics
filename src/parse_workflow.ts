@@ -16,7 +16,7 @@ export type Error = {
 export const parseWorkflowFile = (s: string): WorkflowDefinition => {
   const parsed = yaml.load(s)
   if (parsed == null) {
-    throw new Error(`workflow is ${parsed}`)
+    throw new Error(`workflow is not defined`)
   }
   if (typeof parsed !== 'object') {
     throw new Error(`workflow is not valid object: ${typeof parsed}`)

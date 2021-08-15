@@ -1,6 +1,6 @@
-import { WorkflowRunEvent } from '@octokit/webhooks-definitions/schema'
+import { WorkflowRunCompletedEvent } from '@octokit/webhooks-definitions/schema'
 
-export const exampleWorkflowRunEvent: WorkflowRunEvent = {
+export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
   workflow: {
     // https://docs.github.com/en/rest/reference/actions#get-a-workflow
     id: 161335,

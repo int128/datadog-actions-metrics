@@ -3,17 +3,17 @@ import { exampleListJobsForWorkflowRun } from './fixtures/listJobsForWorkflowRun
 import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from './fixtures/metrics'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
 
-test('computeWorkflowRunMetrics', async () => {
+test('computeWorkflowRunMetrics', () => {
   const series = computeWorkflowRunMetrics(exampleWorkflowRunEvent, exampleListJobsForWorkflowRun)
   expect(series).toStrictEqual(exampleWorkflowRunMetrics)
 })
 
-test('computeJobMetrics', async () => {
+test('computeJobMetrics', () => {
   const series = computeJobMetrics(exampleWorkflowRunEvent, exampleListJobsForWorkflowRun)
   expect(series).toStrictEqual(exampleJobMetrics)
 })
 
-test('computeStepMetrics', async () => {
+test('computeStepMetrics', () => {
   const series = computeStepMetrics(exampleWorkflowRunEvent, exampleListJobsForWorkflowRun)
   expect(series).toStrictEqual(exampleStepMetrics)
 })
