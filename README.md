@@ -74,6 +74,7 @@ It has the following tags:
 - `repository_owner`
 - `repository_name`
 - `workflow_name`
+- `workflow_id`
 - `event`
 - `sender`
 - `sender_type` = either `Bot`, `User` or `Organization`
@@ -99,12 +100,14 @@ It has the following tags:
 - `repository_owner`
 - `repository_name`
 - `workflow_name`
+- `workflow_id`
 - `event`
 - `sender`
 - `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
 - `job_name`
+- `job_id`
 - `conclusion`
 - `status`
 - `runs_on`
@@ -128,12 +131,14 @@ It has the following tags:
 - `repository_owner`
 - `repository_name`
 - `workflow_name`
+- `workflow_id`
 - `event`
 - `sender`
 - `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
 - `job_name`
+- `job_id`
 - `step_name`
 - `step_number` = 1, 2, ...
 - `conclusion`

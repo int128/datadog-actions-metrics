@@ -6,6 +6,7 @@ import { ListJobsForWorkflowRun } from './types'
 const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,
   `repository_name:${e.workflow_run.repository.name}`,
+  `workflow_id:${e.workflow_run.id}`,
   `workflow_name:${e.workflow_run.name}`,
   `event:${e.workflow_run.event}`,
   `sender:${e.sender.login}`,
@@ -75,6 +76,7 @@ export const computeJobMetrics = (
     const completedAt = unixTime(j.completed_at)
     const tags = [
       ...computeCommonTags(e),
+      `job_id:${j.id}`,
       `job_name:${j.name}`,
       `conclusion:${j.conclusion ?? 'null'}`,
       `status:${j.status}`,
@@ -146,6 +148,7 @@ export const computeStepMetrics = (
       const completedAt = unixTime(s.completed_at)
       const tags = [
         ...computeCommonTags(e),
+        `job_id:${job.id}`,
         `job_name:${job.name}`,
         `step_name:${s.name}`,
         `step_number:${s.number}`,
