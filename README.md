@@ -35,6 +35,30 @@ You can see the metrics in Datadog, for example,
 See also the actual metrics in [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
 
 
+### Jobs and steps metrics
+
+To collect the metrics of jobs and steps:
+
+```yaml
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
+```
+
+This action calls GitHub API to get jobs and steps of a workflow run.
+It may cause the rate limit exceeding error.
+
+To collect the metrics of jobs and steps on the default branch only:
+
+```yaml
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+```
+
+
 ## Parameters
 
 ### Inputs
@@ -43,7 +67,10 @@ Name | Type | Description
 -----|------|------------
 `github-token` | optional | GitHub token. Default to `github.token`
 `datadog-api-key` | optional | Datadog API key. If not set, this action does not send metrics actually
-`collect-job-metrics-for-only-default-branch` | optional | Collect job metrics for the default branch only. Default to `true` to prevent exceeding the rate limit of GitHub API
+`collect-job-metrics` | optional | Collect metrics of jobs and steps. Default to `false`
+
+Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
+Use `collect-job-metrics` instead.
 
 
 ## Metrics
