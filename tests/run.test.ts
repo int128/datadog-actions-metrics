@@ -40,7 +40,7 @@ jobs:
     runs-on: ubuntu-latest
 `
 
-test('run', async () => {
+test('run with collectJobMetrics', async () => {
   github.context.eventName = 'workflow_run'
   github.context.payload = exampleWorkflowRunEvent
   octokitMock.rest.actions.listJobsForWorkflowRun.mockResolvedValue({
@@ -58,7 +58,7 @@ test('run', async () => {
   await run({
     githubToken: 'GITHUB_TOKEN',
     datadogApiKey: 'DATADOG_API_KEY',
-    collectJobMetricsForOnlyDefaultBranch: false,
+    collectJobMetrics: true,
   })
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledWith({
@@ -68,7 +68,7 @@ test('run', async () => {
   })
 })
 
-test('run with collectJobMetricsForOnlyDefaultBranch', async () => {
+test('run', async () => {
   github.context.eventName = 'workflow_run'
   github.context.payload = exampleWorkflowRunEvent
   metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
@@ -76,7 +76,7 @@ test('run with collectJobMetricsForOnlyDefaultBranch', async () => {
   await run({
     githubToken: 'GITHUB_TOKEN',
     datadogApiKey: 'DATADOG_API_KEY',
-    collectJobMetricsForOnlyDefaultBranch: true,
+    collectJobMetrics: false,
   })
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledWith({

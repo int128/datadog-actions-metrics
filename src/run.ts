@@ -10,7 +10,7 @@ import { Octokit } from './types'
 type Inputs = {
   githubToken: string
   datadogApiKey?: string
-  collectJobMetricsForOnlyDefaultBranch: boolean
+  collectJobMetrics: boolean
 }
 
 export const run = async (inputs: Inputs): Promise<void> => {
@@ -20,7 +20,7 @@ export const run = async (inputs: Inputs): Promise<void> => {
     const configuration = v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } })
     const metrics = new v1.MetricsApi(configuration)
     const dryRun = inputs.datadogApiKey === undefined
-    return await handleWorkflowRun(e, octokit, metrics, dryRun, inputs.collectJobMetricsForOnlyDefaultBranch)
+    return await handleWorkflowRun(e, octokit, metrics, dryRun, inputs.collectJobMetrics)
   }
   core.warning(`unknown event ${github.context.eventName}`)
 }
@@ -30,14 +30,14 @@ const handleWorkflowRun = async (
   octokit: Octokit,
   metrics: v1.MetricsApi,
   dryRun: boolean,
-  collectJobMetricsForOnlyDefaultBranch: boolean
+  collectJobMetrics: boolean
 ): Promise<void> => {
   core.info(`Received a workflow run event: ${e.workflow_run.html_url}`)
   core.info(`head_sha = ${e.workflow_run.head_sha}`)
   core.info(`head_branch = ${e.workflow_run.head_branch}`)
   core.info(`default_branch = ${e.repository.default_branch}`)
 
-  const series = await computeWorkflowRunEventMetrics(e, octokit, collectJobMetricsForOnlyDefaultBranch)
+  const series = await computeWorkflowRunEventMetrics(e, octokit, collectJobMetrics)
 
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
   core.info(JSON.stringify(series, undefined, 2))
@@ -51,10 +51,9 @@ const handleWorkflowRun = async (
 const computeWorkflowRunEventMetrics = async (
   e: WorkflowRunCompletedEvent,
   octokit: Octokit,
-  collectJobMetricsForOnlyDefaultBranch: boolean
+  collectJobMetrics: boolean
 ): Promise<Series[]> => {
-  if (collectJobMetricsForOnlyDefaultBranch && e.workflow_run.head_branch !== e.repository.default_branch) {
-    core.info(`skip job metrics because ${e.workflow_run.head_branch} is not default branch`)
+  if (!collectJobMetrics) {
     return computeWorkflowRunMetrics(e)
   }
 
