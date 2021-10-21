@@ -1,12 +1,23 @@
 # datadog-actions-metrics [![ts](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml) [![e2e](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml)
 
 This is an action to send metrics of GitHub Actions to Datadog when a workflow is completed.
-It is inspired from @yuya-takeyama's [github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
+It is inspired from [yuya-takeyama/github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
+
+
+## Example
+
+Here is an example of screenshot in Datadog.
+
+![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
+
+You can see the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
 
 
 ## Getting Started
 
 You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
+
+### Workflow metrics
 
 To collect the metrics when a workflow is completed:
 
@@ -28,12 +39,6 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-You can see the metrics in Datadog, for example,
-
-![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
-
-See also the actual metrics in [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
-
 
 ### Jobs and steps metrics
 
@@ -46,8 +51,8 @@ To collect the metrics of jobs and steps:
           collect-job-metrics: true
 ```
 
-This action calls GitHub API to get jobs and steps of a workflow run.
-It may cause the rate limit exceeding error.
+Note that this calls GitHub API to get jobs and steps of a workflow run.
+It may cause the rate limit exceeding error if too many workflows are run.
 
 To collect the metrics of jobs and steps on the default branch only:
 
