@@ -8,7 +8,7 @@ on:
       - completed
 
 jobs:
-  submit:
+  test:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -20,3 +20,4 @@ jobs:
       - uses: int128/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
