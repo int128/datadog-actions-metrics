@@ -9,4 +9,4 @@ const main = async (): Promise<void> => {
   })
 }
 
-main().catch((error) => core.setFailed(error))
+main().catch((e) => core.setFailed(e instanceof Error ? e.message : JSON.stringify(e)))
