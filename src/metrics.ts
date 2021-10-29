@@ -1,5 +1,5 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
-import { WorkflowRunCompletedEvent } from '@octokit/webhooks-definitions/schema'
+import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { inferRunner, WorkflowDefinition } from './parse_workflow'
 import { ListJobsForWorkflowRun } from './types'
 
