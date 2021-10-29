@@ -77,6 +77,10 @@ Name | Type | Description
 Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
 
+### Outputs
+
+Nothing.
+
 
 ## Metrics
 
@@ -146,7 +150,8 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
-By default, this action sends the job metrics only for the default branch.
+You need to set `collect-job-metrics` to enable the metrics.
+
 
 ### Step
 
@@ -179,7 +184,7 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
-By default, this action sends the step metrics only for the default branch.
+You need to set `collect-job-metrics` to enable the metrics.
 
 
 ## Contribution
