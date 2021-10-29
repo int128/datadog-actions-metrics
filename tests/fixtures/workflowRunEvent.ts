@@ -1,4 +1,4 @@
-import { WorkflowRunCompletedEvent } from '@octokit/webhooks-definitions/schema'
+import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 
 export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
   workflow: {
@@ -20,6 +20,7 @@ export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
     name: 'Build',
     node_id: 'MDEyOldvcmtmbG93IFJ1bjI2OTI4OQ==',
     check_suite_id: 42,
+    check_suite_node_id: 'MDEwOkNoZWNrU3VpdGU0Mg==',
     head_branch: 'master',
     head_sha: 'acb5820ced9479c074f688cc328bf03f341a511d',
     run_number: 562,
@@ -243,6 +244,7 @@ export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
     hooks_url: 'https://api.github.com/repos/Codertocat/Hello-World/hooks',
     html_url: 'https://github.com/Codertocat/Hello-World',
     id: 283462325,
+    is_template: false,
     issue_comment_url: 'https://api.github.com/repos/Codertocat/Hello-World/issues/comments{/number}',
     issue_events_url: 'https://api.github.com/repos/Codertocat/Hello-World/issues/events{/number}',
     issues_url: 'https://api.github.com/repos/Codertocat/Hello-World/issues{/number}',
