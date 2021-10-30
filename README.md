@@ -10,16 +10,14 @@ Here is an example of screenshot in Datadog.
 
 ![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
 
-You can see the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
+See also the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
 
 
 ## Getting Started
 
 You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
 
-### Workflow metrics
-
-To collect the metrics when a workflow is completed:
+To send the metrics to Datadog when a workflow is completed:
 
 ```yaml
 on:
@@ -30,7 +28,7 @@ on:
       - completed
 
 jobs:
-  submit:
+  send:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -40,33 +38,9 @@ jobs:
 ```
 
 
-### Jobs and steps metrics
-
-To collect the metrics of jobs and steps:
-
-```yaml
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          collect-job-metrics: true
-```
-
-Note that this calls GitHub API to get jobs and steps of a workflow run.
-It may cause the rate limit exceeding error if too many workflows are run.
-
-To collect the metrics of jobs and steps on the default branch only:
-
-```yaml
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
-```
-
-
 ## Parameters
 
-### Inputs
+You can set the following inputs:
 
 Name | Type | Description
 -----|------|------------
@@ -78,18 +52,42 @@ Name | Type | Description
 Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
 
-### Outputs
 
-Nothing.
+### Jobs and steps metrics
+
+By default, this actions sends only workflow run metrics.
+As well as you can use jobs and steps metrics.
+It is useful to improve the deployment pipeline such as build or test.
+
+To send the metrics of jobs and steps:
+
+```yaml
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
+```
+
+Note that this calls GitHub API to get jobs and steps of a workflow run.
+It may cause the rate limit exceeding error if too many workflows are run.
+
+To send the metrics of jobs and steps on the default branch only:
+
+```yaml
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+```
 
 
 ## Metrics
 
 When a workflow is completed, this action sends the following metrics to Datadog:
 
-- Workflow run related metrics
-- Job related metrics
-- Step related metrics
+- Workflow run metrics
+- Job metrics
+- Step metrics
 - Rate limit metrics
 
 
@@ -119,6 +117,7 @@ It has the following tags:
 - `branch`
 - `default_branch` = `true` or `false`
 - `conclusion`
+
 
 ### Job
 
