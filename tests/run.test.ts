@@ -10,6 +10,7 @@ import {
   exampleWorkflowRunSimpleMetrics,
 } from './fixtures/metrics'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
+import { exampleRateLimitMetrics, exampleRateLimitResponse } from './metrics/fixtures/rateLimit'
 
 jest.mock('@actions/core')
 
@@ -21,6 +22,9 @@ const octokitMock = {
     },
     repos: {
       getContent: jest.fn(),
+    },
+    rateLimit: {
+      get: jest.fn(),
     },
   },
 }
@@ -41,8 +45,6 @@ jobs:
 `
 
 test('run with collectJobMetrics', async () => {
-  github.context.eventName = 'workflow_run'
-  github.context.payload = exampleWorkflowRunEvent
   octokitMock.rest.actions.listJobsForWorkflowRun.mockResolvedValue({
     data: exampleListJobsForWorkflowRun,
   })
@@ -53,35 +55,51 @@ test('run with collectJobMetrics', async () => {
       content: Buffer.from(exampleWorkflow).toString('base64'),
     },
   })
+  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
 
-  await run({
-    githubToken: 'GITHUB_TOKEN',
-    datadogApiKey: 'DATADOG_API_KEY',
-    collectJobMetrics: true,
-  })
+  await run(
+    {
+      eventName: 'workflow_run',
+      payload: exampleWorkflowRunEvent,
+      repo: { owner: 'Codertocat', repo: 'Hello-World' },
+    },
+    {
+      githubToken: 'GITHUB_TOKEN',
+      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
+      datadogApiKey: 'DATADOG_API_KEY',
+      collectJobMetrics: true,
+    }
+  )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledWith({
     body: {
-      series: [...exampleWorkflowRunMetrics, ...exampleJobMetrics, ...exampleStepMetrics],
+      series: [...exampleWorkflowRunMetrics, ...exampleJobMetrics, ...exampleStepMetrics, ...exampleRateLimitMetrics],
     },
   })
 })
 
 test('run', async () => {
-  github.context.eventName = 'workflow_run'
-  github.context.payload = exampleWorkflowRunEvent
+  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
 
-  await run({
-    githubToken: 'GITHUB_TOKEN',
-    datadogApiKey: 'DATADOG_API_KEY',
-    collectJobMetrics: false,
-  })
+  await run(
+    {
+      eventName: 'workflow_run',
+      payload: exampleWorkflowRunEvent,
+      repo: { owner: 'Codertocat', repo: 'Hello-World' },
+    },
+    {
+      githubToken: 'GITHUB_TOKEN',
+      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
+      datadogApiKey: 'DATADOG_API_KEY',
+      collectJobMetrics: false,
+    }
+  )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledWith({
     body: {
-      series: [...exampleWorkflowRunSimpleMetrics],
+      series: [...exampleWorkflowRunSimpleMetrics, ...exampleRateLimitMetrics],
     },
   })
 })

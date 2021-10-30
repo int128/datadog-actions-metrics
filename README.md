@@ -70,7 +70,8 @@ To collect the metrics of jobs and steps on the default branch only:
 
 Name | Type | Description
 -----|------|------------
-`github-token` | optional | GitHub token. Default to `github.token`
+`github-token` | optional | GitHub token to get jobs and steps if needed. Default to `github.token`
+`github-token-rate-limit-metrics` | optional | GitHub token for rate limit metrics. Default to `github.token`
 `datadog-api-key` | optional | Datadog API key. If not set, this action does not send metrics actually
 `collect-job-metrics` | optional | Collect metrics of jobs and steps. Default to `false`
 
@@ -89,6 +90,7 @@ When a workflow is completed, this action sends the following metrics to Datadog
 - Workflow run related metrics
 - Job related metrics
 - Step related metrics
+- Rate limit metrics
 
 
 ### Workflow run
@@ -185,6 +187,23 @@ It has the following tags:
   - e.g. `ubuntu-latest`
 
 You need to set `collect-job-metrics` to enable the metrics.
+
+
+### Rate limit
+
+This action sends the following metrics of [the built-in `GITHUB_TOKEN` rate limit](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting):
+
+- `github.actions.api_rate_limit.remaining`
+- `github.actions.api_rate_limit.limit`
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `resource` is either of values
+  - `core`
+  - `search`
+  - `graphql`
 
 
 ## Contribution

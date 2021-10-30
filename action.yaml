@@ -1,8 +1,13 @@
 name: datadog-actions-metrics
 description: submit metrics of GitHub Actions to Datadog
+
 inputs:
   github-token:
-    description: GitHub token
+    description: GitHub token to get jobs and steps if needed
+    default: ${{ github.token }}
+    required: true
+  github-token-rate-limit-metrics:
+    description: GitHub token for rate limit metrics
     default: ${{ github.token }}
     required: true
   datadog-api-key:
@@ -16,6 +21,7 @@ inputs:
     description: No longer supported
     required: false
     deprecationMessage: Use collect-job-metrics instead
+
 runs:
   using: 'node12'
   main: 'dist/index.js'
