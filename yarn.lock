@@ -683,7 +683,7 @@
   dependencies:
     "@octokit/openapi-types" "^9.0.0"
 
-"@octokit/webhooks-types@^4.13.1":
+"@octokit/webhooks-types@4.13.1":
   version "4.13.1"
   resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-4.13.1.tgz#b5f5e1306f0fdb94af1117f369c93e3aaf1a4137"
   integrity sha512-BglyrGsj9408IH3xmdEDIqxRgfrnrllGgg497kBpxyNx8wgYwFv/vbv7p9VYO1fbpBPQd4a6/WBB9fArIbyY1w==
