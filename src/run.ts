@@ -5,57 +5,58 @@ import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-cl
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from './metrics'
 import { parseWorkflowFile, WorkflowDefinition } from './parse_workflow'
-import { Octokit } from './types'
+import { computeRateLimitMetrics } from './metrics/rateLimit'
+import { GitHubContext, Octokit } from './types'
 
 type Inputs = {
   githubToken: string
+  githubTokenForRateLimitMetrics: string
   datadogApiKey?: string
   collectJobMetrics: boolean
 }
 
-export const run = async (inputs: Inputs): Promise<void> => {
-  if (github.context.eventName === 'workflow_run') {
-    const e = github.context.payload as WorkflowRunCompletedEvent
-    const octokit = github.getOctokit(inputs.githubToken)
-    const configuration = v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } })
-    const metrics = new v1.MetricsApi(configuration)
-    const dryRun = inputs.datadogApiKey === undefined
-    return await handleWorkflowRun(e, octokit, metrics, dryRun, inputs.collectJobMetrics)
+export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
+  if (context.eventName === 'workflow_run') {
+    const e = context.payload as WorkflowRunCompletedEvent
+    core.info(`workflow run event: ${e.workflow_run.html_url}`)
+    return await handleWorkflowRun(e, context, inputs)
   }
-  core.warning(`unknown event ${github.context.eventName}`)
+
+  core.warning(`unknown event ${context.eventName}`)
 }
 
 const handleWorkflowRun = async (
   e: WorkflowRunCompletedEvent,
-  octokit: Octokit,
-  metrics: v1.MetricsApi,
-  dryRun: boolean,
-  collectJobMetrics: boolean
+  context: GitHubContext,
+  inputs: Inputs
 ): Promise<void> => {
-  core.info(`Received a workflow run event: ${e.workflow_run.html_url}`)
-  core.info(`head_sha = ${e.workflow_run.head_sha}`)
-  core.info(`head_branch = ${e.workflow_run.head_branch}`)
-  core.info(`default_branch = ${e.repository.default_branch}`)
+  const workflowRunEventMetrics = await getWorkflowRunEventMetrics(e, inputs)
+  const rateLimitMetrics = await getRateLimitMetrics(context, inputs)
+  const series = [...workflowRunEventMetrics, ...rateLimitMetrics]
 
-  const series = await computeWorkflowRunEventMetrics(e, octokit, collectJobMetrics)
-
+  const dryRun = inputs.datadogApiKey === undefined
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
   core.info(JSON.stringify(series, undefined, 2))
   if (!dryRun) {
+    const metrics = new v1.MetricsApi(v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } }))
     const accepted = await metrics.submitMetrics({ body: { series } })
     core.info(`sent as ${JSON.stringify(accepted)}`)
   }
   core.endGroup()
 }
 
-const computeWorkflowRunEventMetrics = async (
-  e: WorkflowRunCompletedEvent,
-  octokit: Octokit,
-  collectJobMetrics: boolean
-): Promise<Series[]> => {
-  if (!collectJobMetrics) {
+const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs): Promise<Series[]> => {
+  const octokit = github.getOctokit(inputs.githubTokenForRateLimitMetrics)
+  const rateLimit = await octokit.rest.rateLimit.get()
+  return computeRateLimitMetrics(context, rateLimit)
+}
+
+const getWorkflowRunEventMetrics = async (e: WorkflowRunCompletedEvent, inputs: Inputs): Promise<Series[]> => {
+  if (!inputs.collectJobMetrics) {
     return computeWorkflowRunMetrics(e)
   }
+
+  const octokit = github.getOctokit(inputs.githubToken)
 
   core.info(`List jobs for workflow run ${e.workflow_run.id}`)
   const listJobsForWorkflowRun = await octokit.rest.actions.listJobsForWorkflowRun({
