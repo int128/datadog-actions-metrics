@@ -2,15 +2,15 @@ import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { IntakePayloadAccepted } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/IntakePayloadAccepted'
 import { run } from '../src/run'
-import { exampleListJobsForWorkflowRun } from './fixtures/listJobsForWorkflowRun'
+import { exampleListJobsForWorkflowRun } from './workflowRun/fixtures/listJobsForWorkflowRun'
 import {
   exampleJobMetrics,
   exampleStepMetrics,
   exampleWorkflowRunMetrics,
   exampleWorkflowRunSimpleMetrics,
-} from './fixtures/metrics'
-import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
-import { exampleRateLimitMetrics, exampleRateLimitResponse } from './metrics/fixtures/rateLimit'
+} from './workflowRun/fixtures/metrics'
+import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
+import { exampleRateLimitMetrics, exampleRateLimitResponse } from './rateLimit/fixtures'
 
 jest.mock('@actions/core')
 

@@ -1,4 +1,4 @@
-import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from '../src/metrics'
+import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from '../../src/workflowRun/metrics'
 import { exampleListJobsForWorkflowRun } from './fixtures/listJobsForWorkflowRun'
 import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from './fixtures/metrics'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'

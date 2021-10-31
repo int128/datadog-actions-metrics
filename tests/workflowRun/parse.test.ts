@@ -1,4 +1,4 @@
-import { inferRunner, parseWorkflowFile, WorkflowDefinition } from '../src/parse_workflow'
+import { inferRunner, parseWorkflowFile, WorkflowDefinition } from '../../src/workflowRun/parse'
 
 test('parseWorkflowFile', () => {
   const workflowDefinition = parseWorkflowFile(`
