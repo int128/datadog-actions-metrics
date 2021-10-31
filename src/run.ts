@@ -3,10 +3,9 @@ import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
-import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from './metrics'
-import { parseWorkflowFile, WorkflowDefinition } from './parse_workflow'
-import { computeRateLimitMetrics } from './metrics/rateLimit'
-import { GitHubContext, Octokit } from './types'
+import { computeRateLimitMetrics } from './rateLimit/metrics'
+import { GitHubContext } from './types'
+import { getWorkflowRunMetrics, getWorkflowRunMetricsWithJobsSteps } from './workflowRun/get'
 
 type Inputs = {
   githubToken: string
@@ -30,9 +29,15 @@ const handleWorkflowRun = async (
   context: GitHubContext,
   inputs: Inputs
 ): Promise<void> => {
-  const workflowRunEventMetrics = await getWorkflowRunEventMetrics(e, inputs)
-  const rateLimitMetrics = await getRateLimitMetrics(context, inputs)
-  const series = [...workflowRunEventMetrics, ...rateLimitMetrics]
+  let series
+  if (inputs.collectJobMetrics) {
+    const octokit = github.getOctokit(inputs.githubToken)
+    series = await getWorkflowRunMetricsWithJobsSteps(e, octokit)
+  } else {
+    series = getWorkflowRunMetrics(e)
+  }
+
+  series.push(...(await getRateLimitMetrics(context, inputs)))
 
   const dryRun = inputs.datadogApiKey === undefined
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
@@ -49,54 +54,4 @@ const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs): Prom
   const octokit = github.getOctokit(inputs.githubTokenForRateLimitMetrics)
   const rateLimit = await octokit.rest.rateLimit.get()
   return computeRateLimitMetrics(context, rateLimit)
-}
-
-const getWorkflowRunEventMetrics = async (e: WorkflowRunCompletedEvent, inputs: Inputs): Promise<Series[]> => {
-  if (!inputs.collectJobMetrics) {
-    return computeWorkflowRunMetrics(e)
-  }
-
-  const octokit = github.getOctokit(inputs.githubToken)
-
-  core.info(`List jobs for workflow run ${e.workflow_run.id}`)
-  const listJobsForWorkflowRun = await octokit.rest.actions.listJobsForWorkflowRun({
-    owner: e.workflow_run.repository.owner.login,
-    repo: e.workflow_run.repository.name,
-    run_id: e.workflow_run.id,
-    per_page: 100,
-  })
-
-  core.info(`Parse workflow definition from ${e.workflow.path}`)
-  let workflowDefinition
-  try {
-    workflowDefinition = await getWorkflowDefinition(e, octokit)
-  } catch (error) {
-    const path = `${e.workflow_run.head_repository.full_name}/${e.workflow.path}@${e.workflow_run.head_sha}`
-    core.warning(`could not get the workflow definition from ${path}: ${JSON.stringify(error)}`)
-  }
-
-  const workflowRunMetrics = computeWorkflowRunMetrics(e, listJobsForWorkflowRun.data)
-  const jobMetrics = computeJobMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
-  const stepMetrics = computeStepMetrics(e, listJobsForWorkflowRun.data, workflowDefinition)
-  return [...workflowRunMetrics, ...jobMetrics, ...stepMetrics]
-}
-
-const getWorkflowDefinition = async (
-  e: WorkflowRunCompletedEvent,
-  octokit: Octokit
-): Promise<WorkflowDefinition | undefined> => {
-  const resp = await octokit.rest.repos.getContent({
-    owner: e.workflow_run.head_repository.owner.login,
-    repo: e.workflow_run.head_repository.name,
-    ref: e.workflow_run.head_sha,
-    path: e.workflow.path,
-  })
-  if (!('type' in resp.data)) {
-    throw new Error(`response does not have field "type"`)
-  }
-  if (!('content' in resp.data)) {
-    throw new Error(`response does not have field "content"`)
-  }
-  const content = Buffer.from(resp.data.content, resp.data.encoding === 'base64' ? 'base64' : 'ascii').toString()
-  return parseWorkflowFile(content)
 }

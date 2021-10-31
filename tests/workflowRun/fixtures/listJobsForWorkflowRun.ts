@@ -1,4 +1,4 @@
-import { ListJobsForWorkflowRun } from '../../src/types'
+import { ListJobsForWorkflowRun } from '../../../src/types'
 
 export const exampleListJobsForWorkflowRun: ListJobsForWorkflowRun = {
   // https://docs.github.com/en/rest/reference/actions#list-jobs-for-a-workflow-run
