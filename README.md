@@ -17,7 +17,7 @@ See also the actual metrics in the [E2E test](https://github.com/int128/datadog-
 
 You need to create an API key in [Datadog](https://docs.datadoghq.com/account_management/api-app-keys/).
 
-To send the metrics to Datadog when a workflow is completed:
+To collect the metrics of a workflow when it is completed:
 
 ```yaml
 on:
@@ -38,7 +38,7 @@ jobs:
 ```
 
 
-## Parameters
+## Specification
 
 You can set the following inputs:
 
@@ -55,7 +55,7 @@ Use `collect-job-metrics` instead.
 
 ### Jobs and steps metrics
 
-By default, this actions sends only workflow run metrics.
+By default, this actions sends only workflow run metrics on `workflow_run` event.
 As well as you can use jobs and steps metrics.
 It is useful to improve the deployment pipeline such as build or test.
 
@@ -83,17 +83,19 @@ To send the metrics of jobs and steps on the default branch only:
 
 ## Metrics
 
-When a workflow is completed, this action sends the following metrics to Datadog:
+This action supports the following events:
 
-- Workflow run metrics
-- Job metrics
-- Step metrics
-- Rate limit metrics
+- `workflow_run`
+  - `completed`
+- `pull_request` (beta)
+  - `opened`
+  - `closed`
+- `push` (beta)
 
 
 ### Workflow run
 
-This action sends the following metrics to Datadog:
+This action sends the following metrics:
 
 - `github.actions.workflow_run.total`
 - `github.actions.workflow_run.conclusion.{CONCLUSION}_total`
@@ -121,7 +123,7 @@ It has the following tags:
 
 ### Job
 
-This action sends the following metrics to Datadog:
+This action sends the following metrics:
 
 - `github.actions.job.total`
 - `github.actions.job.conclusion.{CONCLUSION}_total`
@@ -156,7 +158,7 @@ You need to set `collect-job-metrics` to enable the metrics.
 
 ### Step
 
-This action sends the following metrics to Datadog:
+This action sends the following metrics:
 
 - `github.actions.step.total`
 - `github.actions.step.conclusion.{CONCLUSION}_total`
@@ -186,6 +188,76 @@ It has the following tags:
   - e.g. `ubuntu-latest`
 
 You need to set `collect-job-metrics` to enable the metrics.
+
+
+### Pull request (opened)
+
+This action sends the following metrics:
+
+- `github.actions.pull_request_opened.total`
+- `github.actions.pull_request_opened.commits`
+- `github.actions.pull_request_opened.changed_files`
+- `github.actions.pull_request_opened.additions`
+- `github.actions.pull_request_opened.deletions`
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
+- `user`
+- `pull_request_number`
+- `draft` = `true` or `false`
+- `base_ref`
+- `head_ref`
+- `label` = label(s) of the pull request
+
+
+### Pull request (closed)
+
+This action sends the following metrics:
+
+- `github.actions.pull_request_closed.total`
+- `github.actions.pull_request_closed.since_opened_seconds`
+  - Time from a pull request is opened to closed
+- `github.actions.pull_request_closed.commits`
+- `github.actions.pull_request_closed.changed_files`
+- `github.actions.pull_request_closed.additions`
+- `github.actions.pull_request_closed.deletions`
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
+- `user`
+- `pull_request_number`
+- `draft` = `true` or `false`
+- `base_ref`
+- `head_ref`
+- `label` = label(s) of the pull request
+- `merged` = `true` or `false`
+
+
+### Push
+
+This action sends the following metrics:
+
+- `github.actions.push.total`
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
+- `ref`
+- `created` = `true` or `false`
+- `deleted` = `true` or `false`
+- `forced` = `true` or `false`
+- `default_branch` = `true` or `false`
 
 
 ### Rate limit
