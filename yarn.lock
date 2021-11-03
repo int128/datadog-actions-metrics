@@ -326,10 +326,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@datadog/datadog-api-client@1.0.0-beta.5":
-  version "1.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.0.0-beta.5.tgz#cbb43a9bc842196425c32170ee645e6091b9f2ae"
-  integrity sha512-ntlucRLbklbWiVn9N8LxZKN4Y5uB6Q4legSPbuhFewGhxcWCXZFCH/wVH83CED8Of/iOGot/d0DepkHcVr+1xw==
+"@datadog/datadog-api-client@1.0.0-beta.6":
+  version "1.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.0.0-beta.6.tgz#f43d99517fe2dea03662244bce16f558fa680145"
+  integrity sha512-hU6dAM818VaksUuLakqQZvoQeaQhH/OJcPAFuhxv8Eo+w5iV4Gp2RA9wCzI3TDCAmScsN7J3xddmB8G/mOJQpg==
   dependencies:
     "@types/node" "*"
     "@types/node-fetch" "^2.5.7"
