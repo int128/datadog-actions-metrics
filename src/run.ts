@@ -80,7 +80,15 @@ const submitMetrics = async (series: Series[], inputs: Inputs) => {
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
   core.info(JSON.stringify(series, undefined, 2))
   if (!dryRun) {
-    const metrics = new v1.MetricsApi(v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } }))
+    const configuration = v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } })
+
+    if (process.env.DD_SITE) {
+      v1.setServerVariables(configuration, {
+        site: process.env.DD_SITE,
+      })
+    }
+
+    const metrics = new v1.MetricsApi(configuration)
     const accepted = await metrics.submitMetrics({ body: { series } })
     core.info(`sent as ${JSON.stringify(accepted)}`)
   }
