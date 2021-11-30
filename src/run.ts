@@ -13,6 +13,7 @@ type Inputs = {
   githubToken: string
   githubTokenForRateLimitMetrics: string
   datadogApiKey?: string
+  datadogSite?: string
   collectJobMetrics: boolean
 }
 
@@ -80,7 +81,17 @@ const submitMetrics = async (series: Series[], inputs: Inputs) => {
   core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
   core.info(JSON.stringify(series, undefined, 2))
   if (!dryRun) {
-    const metrics = new v1.MetricsApi(v1.createConfiguration({ authMethods: { apiKeyAuth: inputs.datadogApiKey } }))
+    const configuration = v1.createConfiguration({
+      authMethods: { apiKeyAuth: inputs.datadogApiKey },
+    })
+
+    if (inputs.datadogSite) {
+      v1.setServerVariables(configuration, {
+        site: inputs.datadogSite,
+      })
+    }
+
+    const metrics = new v1.MetricsApi(configuration)
     const accepted = await metrics.submitMetrics({ body: { series } })
     core.info(`sent as ${JSON.stringify(accepted)}`)
   }
