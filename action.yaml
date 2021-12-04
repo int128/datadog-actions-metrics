@@ -13,6 +13,9 @@ inputs:
   datadog-api-key:
     description: Datadog API key (dry-run if not set)
     required: false
+  datadog-site:
+    description: Datadog Site name if different than datadoghq.com.
+    required: false
   collect-job-metrics:
     description: Collect metrics of jobs and steps
     required: false
