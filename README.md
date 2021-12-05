@@ -269,13 +269,13 @@ This does not affect the rate limit of GitHub API because it just calls [`/rate_
 
 You can set the following inputs:
 
-Name | Type | Description
------|------|------------
-`github-token` | optional | GitHub token to get jobs and steps if needed. Default to `github.token`
-`github-token-rate-limit-metrics` | optional | GitHub token for rate limit metrics. Default to `github.token`
-`datadog-api-key` | optional | Datadog API key. If not set, this action does not send metrics actually
-`datadog-site` | optional | Datadog Server name such as "datadoghq.eu", "ddog-gov.com", "us3.datadoghq.com".
-`collect-job-metrics` | optional | Collect metrics of jobs and steps. Default to `false`
+Name | Default | Description
+-----|---------|------------
+`github-token` | `github.token` | GitHub token to get jobs and steps if needed
+`github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics
+`datadog-api-key` | - | Datadog API key. If not set, this action does not send metrics actually
+`datadog-site` | - | Datadog Server name such as "datadoghq.eu", "ddog-gov.com", "us3.datadoghq.com"
+`collect-job-metrics` | `false` | Collect metrics of jobs and steps
 
 Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
