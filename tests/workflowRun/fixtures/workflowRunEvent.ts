@@ -15,6 +15,9 @@ export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
     badge_url: 'https://github.com/octo-org/octo-repo/workflows/CI/badge.svg',
   },
   workflow_run: {
+    previous_attempt_url: null,
+    run_attempt: 0,
+    run_started_at: '2020-01-22T19:33:08Z',
     // https://docs.github.com/en/rest/reference/actions#get-a-workflow-run
     id: 30433642,
     name: 'Build',
@@ -207,6 +210,8 @@ export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
     url: 'https://api.github.com/orgs/Codertocat',
   },
   repository: {
+    topics: [],
+    visibility: 'public',
     archive_url: 'https://api.github.com/repos/Codertocat/Hello-World/{archive_format}{/ref}',
     archived: false,
     assignees_url: 'https://api.github.com/repos/Codertocat/Hello-World/assignees{/user}',
