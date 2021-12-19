@@ -16,14 +16,20 @@ on:
 
 jobs:
   test:
+    name: test / ${{ github.eventName }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Event payload
-        run: |
-          jq . <<EOF
-          ${{ toJSON(github.event) }}
-          EOF
+      - name: Event
+        uses: actions/github-script@v5
+        with:
+          script: |
+            core.info(`eventName=${context.eventName}`)
+            core.info(`sha=${context.sha}`)
+            core.info(`ref=${context.ref}`)
+            core.info(`actor=${context.actor}`)
+            core.info(`payload=${JSON.stringify(context.payload, undefined, 2)}`)
+
       - uses: int128/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
