@@ -16,6 +16,7 @@ on:
 
 jobs:
   test:
+    name: test / ${{ github.eventName }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -24,7 +25,6 @@ jobs:
         with:
           script: |
             core.info(`eventName=${context.eventName}`)
-            core.info(`action=${context.action}`)
             core.info(`sha=${context.sha}`)
             core.info(`ref=${context.ref}`)
             core.info(`actor=${context.actor}`)
