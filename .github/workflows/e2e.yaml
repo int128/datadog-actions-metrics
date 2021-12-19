@@ -6,6 +6,13 @@ on:
       - '**'
     types:
       - completed
+  pull_request:
+    types:
+      - opened
+      - closed
+  push:
+    branches:
+      - main
 
 jobs:
   test:
