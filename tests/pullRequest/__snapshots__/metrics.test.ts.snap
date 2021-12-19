@@ -1,0 +1,259 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`computePullRequestClosedMetrics 1`] = `
+Array [
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_closed.total",
+    "points": Array [
+      Array [
+        1558279233,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+      "merged:false",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_closed.since_opened_seconds",
+    "points": Array [
+      Array [
+        1558279233,
+        345600,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+      "merged:false",
+    ],
+    "type": "gauge",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_closed.commits",
+    "points": Array [
+      Array [
+        1558279233,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+      "merged:false",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_closed.changed_files",
+    "points": Array [
+      Array [
+        1558279233,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+      "merged:false",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_closed.additions",
+    "points": Array [
+      Array [
+        1558279233,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+      "merged:false",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_closed.deletions",
+    "points": Array [
+      Array [
+        1558279233,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+      "merged:false",
+    ],
+    "type": "count",
+  },
+]
+`;
+
+exports[`computePullRequestOpenedMetrics 1`] = `
+Array [
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_opened.total",
+    "points": Array [
+      Array [
+        1557933633,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_opened.commits",
+    "points": Array [
+      Array [
+        1557933633,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_opened.changed_files",
+    "points": Array [
+      Array [
+        1557933633,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_opened.additions",
+    "points": Array [
+      Array [
+        1557933633,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+    ],
+    "type": "count",
+  },
+  Object {
+    "host": "github.com",
+    "metric": "github.actions.pull_request_opened.deletions",
+    "points": Array [
+      Array [
+        1557933633,
+        1,
+      ],
+    ],
+    "tags": Array [
+      "repository_owner:Codertocat",
+      "repository_name:Hello-World",
+      "sender:Codertocat",
+      "sender_type:User",
+      "user:Codertocat",
+      "pull_request_number:2",
+      "draft:false",
+      "base_ref:master",
+      "head_ref:changes",
+    ],
+    "type": "count",
+  },
+]
+`;
