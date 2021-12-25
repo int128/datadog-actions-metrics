@@ -1517,10 +1517,10 @@
   dependencies:
     "@octokit/openapi-types" "^9.0.0"
 
-"@octokit/webhooks-types@4.17.1":
-  version "4.17.1"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-4.17.1.tgz#850a29131c9cb03c22ad76a3c9d5c55500ce9beb"
-  integrity sha512-L8VCfue+t5oopkPr81f2+LgWLAZbaX6gyu5fVYhWq8QE/QmzdyHuQr5zbUbCfAGAC0a1eRPPYmwPFPFOncku7A==
+"@octokit/webhooks-types@4.18.0":
+  version "4.18.0"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-4.18.0.tgz#c41038728e586b58f8e74ae51d86c129956cad88"
+  integrity sha512-fxq0bBXgJWAwNheFSWWkAx3mvX299IS46PnSksqmbTRsS6RT7i1r7J8ogD1dO5tb1SNCmgUjDexfiSq9BsPtxg==
 
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.1"
@@ -1667,10 +1667,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.2.tgz#1f2b42c4be7156ff4a6f914b2fb03d05fa84e38d"
   integrity sha512-zjQ69G564OCIWIOHSXyQEEDpdpGl+G348RAKY0XXy9Z5kU9Vzv1GMNnkar/ZJ8dzXB3COzD9Mo9NtRZ4xfgUww==
 
-"@types/node@16.11.15":
-  version "16.11.15"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.15.tgz#724da13bc1ba99fe8190d0f5cd35cb53c67db942"
-  integrity sha512-LMGR7iUjwZRxoYnfc9+YELxwqkaLmkJlo4/HUvOMyGvw9DaHO0gtAbH2FUdoFE6PXBTYZIT7x610r7kdo8o1fQ==
+"@types/node@16.11.17":
+  version "16.11.17"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.17.tgz#ae146499772e33fc6382e1880bc567e41a528586"
+  integrity sha512-C1vTZME8cFo8uxY2ui41xcynEotVkczIVI5AjLmy5pkpBv/FtG+jhtOlfcPysI8VRVwoOMv6NJm44LGnoMSWkw==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
