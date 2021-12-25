@@ -21,7 +21,7 @@ type Inputs = {
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
   const series = await handleEvent(context, inputs)
   if (series === undefined) {
-    core.warning(`not supported event ${context.eventName} action ${String(context.payload.action)}`)
+    core.warning(`Not supported event ${context.eventName} action ${String(context.payload.action)}`)
     return
   }
 
@@ -48,7 +48,7 @@ const handleEvent = async (context: GitHubContext, inputs: Inputs) => {
 }
 
 const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
-  core.info(`workflow run ${e.action} event: ${e.workflow_run.html_url}`)
+  core.info(`Got workflow run ${e.action} event: ${e.workflow_run.html_url}`)
 
   if (e.action === 'completed') {
     if (inputs.collectJobMetrics) {
@@ -60,7 +60,7 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
 }
 
 const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, inputs: Inputs) => {
-  core.info(`pull request ${e.action} event: ${e.pull_request.html_url}`)
+  core.info(`Got pull request ${e.action} event: ${e.pull_request.html_url}`)
 
   if (e.action === 'opened') {
     return computePullRequestOpenedMetrics(e)
@@ -78,7 +78,7 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
 }
 
 const handlePush = (e: PushEvent) => {
-  core.info(`push event: ${e.compare}`)
+  core.info(`Got push event: ${e.compare}`)
   return computePushMetrics(e, new Date())
 }
 
@@ -89,23 +89,28 @@ const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
 }
 
 const submitMetrics = async (series: Series[], inputs: Inputs) => {
-  const dryRun = inputs.datadogApiKey === undefined
-  core.startGroup(`Send metrics to Datadog ${dryRun ? '(dry-run)' : ''}`)
+  core.startGroup('Metrics payload')
   core.info(JSON.stringify(series, undefined, 2))
-  if (!dryRun) {
-    const configuration = v1.createConfiguration({
-      authMethods: { apiKeyAuth: inputs.datadogApiKey },
-    })
-
-    if (inputs.datadogSite) {
-      v1.setServerVariables(configuration, {
-        site: inputs.datadogSite,
-      })
-    }
-
-    const metrics = new v1.MetricsApi(configuration)
-    const accepted = await metrics.submitMetrics({ body: { series } })
-    core.info(`sent as ${JSON.stringify(accepted)}`)
-  }
   core.endGroup()
+
+  const dryRun = inputs.datadogApiKey === undefined
+  if (dryRun) {
+    return
+  }
+
+  const configuration = v1.createConfiguration({
+    authMethods: {
+      apiKeyAuth: inputs.datadogApiKey,
+    },
+  })
+  if (inputs.datadogSite) {
+    v1.setServerVariables(configuration, {
+      site: inputs.datadogSite,
+    })
+  }
+  const metrics = new v1.MetricsApi(configuration)
+
+  core.info(`Sending ${series.length} metrics to Datadog`)
+  const accepted = await metrics.submitMetrics({ body: { series } })
+  core.info(`Sent as ${JSON.stringify(accepted)}`)
 }
