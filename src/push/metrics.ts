@@ -8,9 +8,9 @@ export const computePushMetrics = (e: PushEvent, now: Date): Series[] => {
     `sender:${e.sender.login}`,
     `sender_type:${e.sender.type}`,
     `ref:${e.ref}`,
-    `created:${JSON.stringify(e.created)}`,
-    `deleted:${JSON.stringify(e.deleted)}`,
-    `forced:${JSON.stringify(e.forced)}`,
+    `created:${String(e.created)}`,
+    `deleted:${String(e.deleted)}`,
+    `forced:${String(e.forced)}`,
     `default_branch:${(e.ref === `refs/heads/${e.repository.default_branch}`).toString()}`,
   ]
   const t = now.getTime() / 1000

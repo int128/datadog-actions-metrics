@@ -10,7 +10,7 @@ const computeCommonTags = (e: PullRequestEvent): string[] => {
     `sender_type:${e.sender.type}`,
     `user:${e.pull_request.user.login}`,
     `pull_request_number:${e.number}`,
-    `draft:${JSON.stringify(e.pull_request.draft)}`,
+    `draft:${String(e.pull_request.draft)}`,
     `base_ref:${e.pull_request.base.ref}`,
     `head_ref:${e.pull_request.head.ref}`,
   ]
@@ -64,7 +64,7 @@ export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): Seri
 
 export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: ClosedPullRequest): Series[] => {
   const tags = computeCommonTags(e)
-  tags.push(`merged:${JSON.stringify(e.pull_request.merged)}`)
+  tags.push(`merged:${String(e.pull_request.merged)}`)
 
   const t = unixTime(e.pull_request.closed_at)
   const series = [

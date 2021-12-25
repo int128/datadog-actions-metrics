@@ -25,7 +25,7 @@ export const getWorkflowRunMetricsWithJobsSteps = async (
     workflowDefinition = await getWorkflowDefinition(e, octokit)
   } catch (error) {
     const path = `${e.workflow_run.head_repository.full_name}/${e.workflow.path}@${e.workflow_run.head_sha}`
-    core.warning(`could not get the workflow definition from ${path}: ${JSON.stringify(error)}`)
+    core.warning(`could not get the workflow definition from ${path}: ${String(error)}`)
   }
 
   const workflowRunMetrics = computeWorkflowRunMetrics(e, listJobsForWorkflowRun.data)
