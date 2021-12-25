@@ -21,8 +21,10 @@ type Inputs = {
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
   const series = await handleEvent(context, inputs)
   if (series === undefined) {
+    core.warning(`not supported event ${context.eventName} action ${String(context.payload.action)}`)
     return
   }
+
   const rateLimit = await getRateLimitMetrics(context, inputs)
   series.push(...rateLimit)
   await submitMetrics(series, inputs)
@@ -43,8 +45,6 @@ const handleEvent = async (context: GitHubContext, inputs: Inputs) => {
     const e = context.payload as PushEvent
     return handlePush(e)
   }
-
-  core.warning(`not supported event ${context.eventName}`)
 }
 
 const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
@@ -57,8 +57,6 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
     }
     return getWorkflowRunMetrics(e)
   }
-
-  core.warning(`not supported type ${e.action}`)
 }
 
 const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, inputs: Inputs) => {
@@ -77,8 +75,6 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
     })
     return computePullRequestClosedMetrics(e, pr)
   }
-
-  core.warning(`not supported type ${e.action}`)
 }
 
 const handlePush = (e: PushEvent) => {
