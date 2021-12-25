@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
-import { PullRequestEvent, PushEvent, WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
+import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
 import { queryClosedPullRequest } from './queries/closedPullRequest'
@@ -19,43 +19,53 @@ type Inputs = {
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
-  if (context.eventName === 'workflow_run') {
-    const e = context.payload as WorkflowRunCompletedEvent
-    return await handleWorkflowRun(e, context, inputs)
+  const series = await handleEvent(context, inputs)
+  if (series === undefined) {
+    return
   }
+  const rateLimit = await getRateLimitMetrics(context, inputs)
+  series.push(...rateLimit)
+  await submitMetrics(series, inputs)
+}
+
+const handleEvent = async (context: GitHubContext, inputs: Inputs) => {
+  if (context.eventName === 'workflow_run') {
+    const e = context.payload as WorkflowRunEvent
+    return await handleWorkflowRun(e, inputs)
+  }
+
   if (context.eventName === 'pull_request') {
     const e = context.payload as PullRequestEvent
     return await handlePullRequest(e, context, inputs)
   }
+
   if (context.eventName === 'push') {
     const e = context.payload as PushEvent
-    return await handlePush(e, context, inputs)
+    return handlePush(e)
   }
+
   core.warning(`not supported event ${context.eventName}`)
 }
 
-const handleWorkflowRun = async (e: WorkflowRunCompletedEvent, context: GitHubContext, inputs: Inputs) => {
+const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
   core.info(`workflow run ${e.action} event: ${e.workflow_run.html_url}`)
 
-  let series
-  if (inputs.collectJobMetrics) {
-    const octokit = github.getOctokit(inputs.githubToken)
-    series = await getWorkflowRunMetricsWithJobsSteps(e, octokit)
-  } else {
-    series = getWorkflowRunMetrics(e)
+  if (e.action === 'completed') {
+    if (inputs.collectJobMetrics) {
+      const octokit = github.getOctokit(inputs.githubToken)
+      return await getWorkflowRunMetricsWithJobsSteps(e, octokit)
+    }
+    return getWorkflowRunMetrics(e)
   }
 
-  series.push(...(await getRateLimitMetrics(context, inputs)))
-  await submitMetrics(series, inputs)
+  core.warning(`not supported type ${e.action}`)
 }
 
 const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, inputs: Inputs) => {
   core.info(`pull request ${e.action} event: ${e.pull_request.html_url}`)
 
   if (e.action === 'opened') {
-    const series = computePullRequestOpenedMetrics(e)
-    series.push(...(await getRateLimitMetrics(context, inputs)))
-    return await submitMetrics(series, inputs)
+    return computePullRequestOpenedMetrics(e)
   }
 
   if (e.action === 'closed') {
@@ -65,22 +75,15 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
       name: context.repo.repo,
       number: e.pull_request.number,
     })
-
-    const series = computePullRequestClosedMetrics(e, pr)
-    series.push(...(await getRateLimitMetrics(context, inputs)))
-    return await submitMetrics(series, inputs)
+    return computePullRequestClosedMetrics(e, pr)
   }
 
   core.warning(`not supported type ${e.action}`)
 }
 
-const handlePush = async (e: PushEvent, context: GitHubContext, inputs: Inputs) => {
+const handlePush = (e: PushEvent) => {
   core.info(`push event: ${e.compare}`)
-
-  const series = computePushMetrics(e, new Date())
-
-  series.push(...(await getRateLimitMetrics(context, inputs)))
-  await submitMetrics(series, inputs)
+  return computePushMetrics(e, new Date())
 }
 
 const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
