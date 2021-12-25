@@ -16,7 +16,7 @@ on:
 
 jobs:
   test:
-    name: test / ${{ github.eventName }}
+    name: test / ${{ github.event_name }} / ${{ github.payload.action }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
