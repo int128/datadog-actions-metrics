@@ -62,7 +62,7 @@ export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): Seri
   ]
 }
 
-export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, m?: ClosedPullRequest): Series[] => {
+export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: ClosedPullRequest): Series[] => {
   const tags = computeCommonTags(e)
   tags.push(`merged:${JSON.stringify(e.pull_request.merged)}`)
 
@@ -112,21 +112,21 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, m?: C
     },
   ]
 
-  if (m !== undefined) {
+  if (pr !== undefined) {
     series.push(
       {
         host: 'github.com',
         tags,
         metric: 'github.actions.pull_request_closed.since_first_authored_seconds',
         type: 'gauge',
-        points: [[t, t - m.firstCommit.authoredDate.getTime() / 1000]],
+        points: [[t, t - pr.firstCommit.authoredDate.getTime() / 1000]],
       },
       {
         host: 'github.com',
         tags,
         metric: 'github.actions.pull_request_closed.since_first_committed_seconds',
         type: 'gauge',
-        points: [[t, t - m.firstCommit.committedDate.getTime() / 1000]],
+        points: [[t, t - pr.firstCommit.committedDate.getTime() / 1000]],
       }
     )
   }

@@ -60,13 +60,13 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
 
   if (e.action === 'closed') {
     const octokit = github.getOctokit(inputs.githubToken)
-    const m = await queryClosedPullRequest(octokit, {
+    const pr = await queryClosedPullRequest(octokit, {
       owner: context.repo.owner,
       name: context.repo.repo,
       number: e.pull_request.number,
     })
 
-    const series = computePullRequestClosedMetrics(e, m)
+    const series = computePullRequestClosedMetrics(e, pr)
     series.push(...(await getRateLimitMetrics(context, inputs)))
     return await submitMetrics(series, inputs)
   }
