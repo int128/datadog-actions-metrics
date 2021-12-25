@@ -203,6 +203,10 @@ This action sends the following metrics:
 - `github.actions.pull_request_closed.total`
 - `github.actions.pull_request_closed.since_opened_seconds`
   - Time from a pull request is opened to closed
+- `github.actions.pull_request_closed.since_first_authored_seconds`
+  - Time from the authored time of the first commit until closed
+- `github.actions.pull_request_closed.since_first_committed_seconds`
+  - Time from the committed time of the first commit until closed
 - `github.actions.pull_request_closed.commits`
 - `github.actions.pull_request_closed.changed_files`
 - `github.actions.pull_request_closed.additions`

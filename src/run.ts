@@ -3,8 +3,9 @@ import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { PullRequestEvent, PushEvent, WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
-import { computePullRequestMetrics } from './pullRequest/metrics'
+import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
+import { queryClosedPullRequest } from './queries/closedPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
 import { getWorkflowRunMetrics, getWorkflowRunMetricsWithJobsSteps } from './workflowRun/get'
@@ -51,14 +52,26 @@ const handleWorkflowRun = async (e: WorkflowRunCompletedEvent, context: GitHubCo
 const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, inputs: Inputs) => {
   core.info(`pull request ${e.action} event: ${e.pull_request.html_url}`)
 
-  const series = computePullRequestMetrics(e)
-  if (series === null) {
-    core.warning(`not supported type ${e.action}`)
-    return
+  if (e.action === 'opened') {
+    const series = computePullRequestOpenedMetrics(e)
+    series.push(...(await getRateLimitMetrics(context, inputs)))
+    return await submitMetrics(series, inputs)
   }
 
-  series.push(...(await getRateLimitMetrics(context, inputs)))
-  await submitMetrics(series, inputs)
+  if (e.action === 'closed') {
+    const octokit = github.getOctokit(inputs.githubToken)
+    const pr = await queryClosedPullRequest(octokit, {
+      owner: context.repo.owner,
+      name: context.repo.repo,
+      number: e.pull_request.number,
+    })
+
+    const series = computePullRequestClosedMetrics(e, pr)
+    series.push(...(await getRateLimitMetrics(context, inputs)))
+    return await submitMetrics(series, inputs)
+  }
+
+  core.warning(`not supported type ${e.action}`)
 }
 
 const handlePush = async (e: PushEvent, context: GitHubContext, inputs: Inputs) => {

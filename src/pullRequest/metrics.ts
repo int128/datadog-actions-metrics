@@ -1,15 +1,6 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent } from '@octokit/webhooks-types'
-
-export const computePullRequestMetrics = (e: PullRequestEvent): Series[] | null => {
-  if (e.action === 'opened') {
-    return computePullRequestOpenedMetrics(e)
-  }
-  if (e.action === 'closed') {
-    return computePullRequestClosedMetrics(e)
-  }
-  return null
-}
+import { ClosedPullRequest } from '../queries/closedPullRequest'
 
 const computeCommonTags = (e: PullRequestEvent): string[] => {
   const tags = [
@@ -71,12 +62,12 @@ export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): Seri
   ]
 }
 
-export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent): Series[] => {
+export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: ClosedPullRequest): Series[] => {
   const tags = computeCommonTags(e)
   tags.push(`merged:${JSON.stringify(e.pull_request.merged)}`)
 
   const t = unixTime(e.pull_request.closed_at)
-  return [
+  const series = [
     {
       host: 'github.com',
       tags,
@@ -120,6 +111,26 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent): Seri
       points: [[t, e.pull_request.deletions]],
     },
   ]
+
+  if (pr !== undefined) {
+    series.push(
+      {
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.pull_request_closed.since_first_authored_seconds',
+        type: 'gauge',
+        points: [[t, t - pr.firstCommit.authoredDate.getTime() / 1000]],
+      },
+      {
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.pull_request_closed.since_first_committed_seconds',
+        type: 'gauge',
+        points: [[t, t - pr.firstCommit.committedDate.getTime() / 1000]],
+      }
+    )
+  }
+  return series
 }
 
 const unixTime = (s: string): number => new Date(s).getTime() / 1000
