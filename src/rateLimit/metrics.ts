@@ -9,7 +9,7 @@ type Context = {
 }
 
 export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): Series[] => {
-  const now = parseDate(r.headers.date) ?? Math.floor(Date.now() / 1000)
+  const t = unixTime(r.headers.date) ?? Math.floor(Date.now() / 1000)
   const tags = [`repository_owner:${e.repo.owner}`, `repository_name:${e.repo.repo}`]
 
   const series = [
@@ -18,28 +18,28 @@ export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): Serie
       tags: [...tags, 'resource:core'],
       metric: 'github.actions.api_rate_limit.remaining',
       type: 'gauge',
-      points: [[now, r.data.resources.core.remaining]],
+      points: [[t, r.data.resources.core.remaining]],
     },
     {
       host: 'github.com',
       tags: [...tags, 'resource:core'],
       metric: `github.actions.api_rate_limit.limit`,
       type: 'gauge',
-      points: [[now, r.data.resources.core.limit]],
+      points: [[t, r.data.resources.core.limit]],
     },
     {
       host: 'github.com',
       tags: [...tags, 'resource:search'],
       metric: 'github.actions.api_rate_limit.remaining',
       type: 'gauge',
-      points: [[now, r.data.resources.search.remaining]],
+      points: [[t, r.data.resources.search.remaining]],
     },
     {
       host: 'github.com',
       tags: [...tags, 'resource:search'],
       metric: `github.actions.api_rate_limit.limit`,
       type: 'gauge',
-      points: [[now, r.data.resources.search.limit]],
+      points: [[t, r.data.resources.search.limit]],
     },
   ]
 
@@ -50,14 +50,14 @@ export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): Serie
         tags: [...tags, 'resource:graphql'],
         metric: 'github.actions.api_rate_limit.remaining',
         type: 'gauge',
-        points: [[now, r.data.resources.graphql.remaining]],
+        points: [[t, r.data.resources.graphql.remaining]],
       },
       {
         host: 'github.com',
         tags: [...tags, 'resource:graphql'],
         metric: 'github.actions.api_rate_limit.limit',
         type: 'gauge',
-        points: [[now, r.data.resources.graphql.limit]],
+        points: [[t, r.data.resources.graphql.limit]],
       }
     )
   }
@@ -65,7 +65,7 @@ export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): Serie
   return series
 }
 
-const parseDate = (s: string | undefined): number | undefined => {
+const unixTime = (s: string | undefined): number | undefined => {
   if (s === undefined) {
     return
   }

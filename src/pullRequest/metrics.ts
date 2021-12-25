@@ -80,7 +80,7 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: 
       tags,
       metric: 'github.actions.pull_request_closed.since_opened_seconds',
       type: 'gauge',
-      points: [[t, (Date.parse(e.pull_request.closed_at) - Date.parse(e.pull_request.created_at)) / 1000]],
+      points: [[t, t - unixTime(e.pull_request.created_at)]],
     },
     {
       host: 'github.com',
@@ -133,4 +133,4 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: 
   return series
 }
 
-const unixTime = (s: string): number => new Date(s).getTime() / 1000
+const unixTime = (s: string): number => Date.parse(s) / 1000
