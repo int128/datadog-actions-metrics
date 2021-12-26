@@ -2,7 +2,6 @@ import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { IntakePayloadAccepted } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/IntakePayloadAccepted'
 import { run } from '../src/run'
-import { exampleListJobsForWorkflowRun } from './workflowRun/fixtures/listJobsForWorkflowRun'
 import {
   exampleJobMetrics,
   exampleStepMetrics,
@@ -11,15 +10,14 @@ import {
 } from './workflowRun/fixtures/metrics'
 import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
 import { exampleRateLimitMetrics, exampleRateLimitResponse } from './rateLimit/fixtures'
+import { exampleCompletedCheckSuite } from './workflowRun/fixtures/checkSuite'
 
 jest.mock('@actions/core')
 
 jest.mock('@actions/github')
 const octokitMock = {
+  graphql: jest.fn(),
   rest: {
-    actions: {
-      listJobsForWorkflowRun: jest.fn(),
-    },
     repos: {
       getContent: jest.fn(),
     },
@@ -45,9 +43,7 @@ jobs:
 `
 
 test('run with collectJobMetrics', async () => {
-  octokitMock.rest.actions.listJobsForWorkflowRun.mockResolvedValue({
-    data: exampleListJobsForWorkflowRun,
-  })
+  octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
   octokitMock.rest.repos.getContent.mockResolvedValue({
     data: {
       type: 'file',
