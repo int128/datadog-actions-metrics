@@ -10,7 +10,7 @@ const computeCommonTags = (e: PullRequestEvent): string[] => {
     `sender_type:${e.sender.type}`,
     `user:${e.pull_request.user.login}`,
     `pull_request_number:${e.number}`,
-    `draft:${JSON.stringify(e.pull_request.draft)}`,
+    `draft:${String(e.pull_request.draft)}`,
     `base_ref:${e.pull_request.base.ref}`,
     `head_ref:${e.pull_request.head.ref}`,
   ]
@@ -64,7 +64,7 @@ export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): Seri
 
 export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: ClosedPullRequest): Series[] => {
   const tags = computeCommonTags(e)
-  tags.push(`merged:${JSON.stringify(e.pull_request.merged)}`)
+  tags.push(`merged:${String(e.pull_request.merged)}`)
 
   const t = unixTime(e.pull_request.closed_at)
   const series = [
@@ -80,7 +80,7 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: 
       tags,
       metric: 'github.actions.pull_request_closed.since_opened_seconds',
       type: 'gauge',
-      points: [[t, (Date.parse(e.pull_request.closed_at) - Date.parse(e.pull_request.created_at)) / 1000]],
+      points: [[t, t - unixTime(e.pull_request.created_at)]],
     },
     {
       host: 'github.com',
@@ -133,4 +133,4 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: 
   return series
 }
 
-const unixTime = (s: string): number => new Date(s).getTime() / 1000
+const unixTime = (s: string): number => Date.parse(s) / 1000

@@ -190,4 +190,4 @@ export const computeStepMetrics = (
   return series
 }
 
-const unixTime = (s: string): number => new Date(s).getTime() / 1000
+const unixTime = (s: string): number => Date.parse(s) / 1000
