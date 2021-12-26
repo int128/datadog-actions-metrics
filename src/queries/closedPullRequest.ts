@@ -36,8 +36,8 @@ export const queryClosedPullRequest = async (
   }
   return {
     firstCommit: {
-      authoredDate: new Date(firstCommit.authoredDate as string),
-      committedDate: new Date(firstCommit.committedDate as string),
+      authoredDate: new Date(firstCommit.authoredDate),
+      committedDate: new Date(firstCommit.committedDate),
     },
   }
 }

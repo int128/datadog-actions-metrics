@@ -15,7 +15,7 @@ export type Scalars = {
   /** An ISO-8601 encoded date string. */
   Date: any;
   /** An ISO-8601 encoded UTC date string. */
-  DateTime: any;
+  DateTime: string;
   /** A Git object ID. */
   GitObjectID: any;
   /** Git SSH string */

@@ -12,3 +12,7 @@ generates:
     preset: import-types
     presetConfig:
       typesPath: ./graphql-types
+config:
+  scalars:
+    # https://docs.github.com/en/graphql/reference/scalars
+    DateTime: string
