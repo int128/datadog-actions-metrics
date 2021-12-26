@@ -7,4 +7,4 @@ export type ClosedPullRequestQueryVariables = Types.Exact<{
 }>;
 
 
-export type ClosedPullRequestQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', pullRequest?: { __typename?: 'PullRequest', commits: { __typename?: 'PullRequestCommitConnection', nodes?: Array<{ __typename?: 'PullRequestCommit', commit: { __typename?: 'Commit', authoredDate: any, committedDate: any } } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
+export type ClosedPullRequestQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', pullRequest?: { __typename?: 'PullRequest', commits: { __typename?: 'PullRequestCommitConnection', nodes?: Array<{ __typename?: 'PullRequestCommit', commit: { __typename?: 'Commit', authoredDate: string, committedDate: string } } | null | undefined> | null | undefined } } | null | undefined } | null | undefined };
