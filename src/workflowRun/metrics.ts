@@ -1,7 +1,7 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { inferRunner, WorkflowDefinition } from './parse'
-import { ListJobsForWorkflowRun } from '../types'
+import { CompletedCheckSuite } from '../queries/checkSuite'
 
 const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,
@@ -15,10 +15,22 @@ const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
 ]
 
-export const computeWorkflowRunMetrics = (
+export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
-  listJobsForWorkflowRun?: ListJobsForWorkflowRun
+  checkSuite?: CompletedCheckSuite,
+  workflowDefinition?: WorkflowDefinition
 ): Series[] => {
+  if (checkSuite === undefined) {
+    return computeWorkflowRunMetrics(e)
+  }
+  return [
+    ...computeWorkflowRunMetrics(e, checkSuite),
+    ...computeJobMetrics(e, checkSuite, workflowDefinition),
+    ...computeStepMetrics(e, checkSuite, workflowDefinition),
+  ]
+}
+
+export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent, checkSuite?: CompletedCheckSuite): Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
   const series = [
@@ -48,8 +60,8 @@ export const computeWorkflowRunMetrics = (
     points: [[updatedAt, duration]],
   })
 
-  if (listJobsForWorkflowRun !== undefined && listJobsForWorkflowRun.jobs.length > 0) {
-    const firstJobStartedAt = Math.min(...listJobsForWorkflowRun.jobs.map((j) => unixTime(j.started_at)))
+  if (checkSuite !== undefined) {
+    const firstJobStartedAt = Math.min(...checkSuite.node.checkRuns.nodes.map((j) => unixTime(j.startedAt)))
     const queued = firstJobStartedAt - createdAt
     series.push({
       host: 'github.com',
@@ -64,24 +76,24 @@ export const computeWorkflowRunMetrics = (
 
 export const computeJobMetrics = (
   e: WorkflowRunCompletedEvent,
-  listJobsForWorkflowRun: ListJobsForWorkflowRun,
+  checkSuite: CompletedCheckSuite,
   workflowDefinition?: WorkflowDefinition
 ): Series[] => {
   const series: Series[] = []
-  for (const j of listJobsForWorkflowRun.jobs) {
-    if (j.completed_at === null) {
-      continue
-    }
+  for (const checkRun of checkSuite.node.checkRuns.nodes) {
+    // lower case for backward compatibility
+    const conclusion = String(checkRun.conclusion).toLowerCase()
+    const status = String(checkRun.status).toLowerCase()
 
-    const completedAt = unixTime(j.completed_at)
+    const completedAt = unixTime(checkRun.completedAt)
     const tags = [
       ...computeCommonTags(e),
-      `job_id:${j.id}`,
-      `job_name:${j.name}`,
-      `conclusion:${j.conclusion ?? 'null'}`,
-      `status:${j.status}`,
+      `job_id:${String(checkRun.databaseId)}`,
+      `job_name:${checkRun.name}`,
+      `conclusion:${conclusion}`,
+      `status:${status}`,
     ]
-    const runsOn = inferRunner(j.name, workflowDefinition)
+    const runsOn = inferRunner(checkRun.name, workflowDefinition)
     if (runsOn !== undefined) {
       tags.push(`runs_on:${runsOn}`)
     }
@@ -97,13 +109,13 @@ export const computeJobMetrics = (
       {
         host: 'github.com',
         tags,
-        metric: `github.actions.job.conclusion.${j.conclusion ?? 'null'}_total`,
+        metric: `github.actions.job.conclusion.${conclusion}_total`,
         type: 'count',
         points: [[completedAt, 1]],
       }
     )
 
-    const startedAt = unixTime(j.started_at)
+    const startedAt = unixTime(checkRun.startedAt)
     const duration = completedAt - startedAt
     series.push({
       host: 'github.com',
@@ -113,8 +125,8 @@ export const computeJobMetrics = (
       points: [[completedAt, duration]],
     })
 
-    if (j.steps?.length) {
-      const firstStepStartedAt = Math.min(...j.steps.map((s) => (s.started_at ? unixTime(s.started_at) : Infinity)))
+    if (checkRun.steps.nodes.length > 0) {
+      const firstStepStartedAt = Math.min(...checkRun.steps.nodes.map((s) => unixTime(s.startedAt)))
       const queued = firstStepStartedAt - startedAt
       series.push({
         host: 'github.com',
@@ -130,30 +142,26 @@ export const computeJobMetrics = (
 
 export const computeStepMetrics = (
   e: WorkflowRunCompletedEvent,
-  listJobsForWorkflowRun: ListJobsForWorkflowRun,
+  checkSuite: CompletedCheckSuite,
   workflowDefinition?: WorkflowDefinition
 ): Series[] => {
   const series: Series[] = []
-  for (const job of listJobsForWorkflowRun.jobs) {
-    if (job.completed_at === null || job.steps === undefined) {
-      continue
-    }
-    const runsOn = inferRunner(job.name, workflowDefinition)
+  for (const checkRun of checkSuite.node.checkRuns.nodes) {
+    const runsOn = inferRunner(checkRun.name, workflowDefinition)
 
-    for (const s of job.steps) {
-      if (s.started_at == null || s.completed_at == null) {
-        continue
-      }
-
-      const completedAt = unixTime(s.completed_at)
+    for (const s of checkRun.steps.nodes) {
+      // lower case for backward compatibility
+      const conclusion = String(s.conclusion).toLowerCase()
+      const status = String(s.status).toLowerCase()
+      const completedAt = unixTime(s.completedAt)
       const tags = [
         ...computeCommonTags(e),
-        `job_id:${job.id}`,
-        `job_name:${job.name}`,
+        `job_id:${String(checkRun.databaseId)}`,
+        `job_name:${checkRun.name}`,
         `step_name:${s.name}`,
         `step_number:${s.number}`,
-        `conclusion:${s.conclusion ?? 'null'}`,
-        `status:${s.status}`,
+        `conclusion:${conclusion}`,
+        `status:${status}`,
       ]
       if (runsOn !== undefined) {
         tags.push(`runs_on:${runsOn}`)
@@ -170,13 +178,13 @@ export const computeStepMetrics = (
         {
           host: 'github.com',
           tags,
-          metric: `github.actions.step.conclusion.${s.conclusion ?? 'null'}_total`,
+          metric: `github.actions.step.conclusion.${conclusion}_total`,
           type: 'count',
           points: [[completedAt, 1]],
         }
       )
 
-      const startedAt = unixTime(s.started_at)
+      const startedAt = unixTime(s.startedAt)
       const duration = completedAt - startedAt
       series.push({
         host: 'github.com',
