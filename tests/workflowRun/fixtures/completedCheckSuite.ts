@@ -1,4 +1,4 @@
-import { CompletedCheckSuite } from '../../../src/queries/checkSuite'
+import { CompletedCheckSuite } from '../../../src/queries/completedCheckSuite'
 import { CheckConclusionState, CheckStatusState } from '../../../src/generated/graphql-types'
 import { CompletedCheckSuiteQuery } from '../../../src/generated/graphql'
 

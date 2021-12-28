@@ -5,7 +5,7 @@ import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-cl
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
-import { queryCompletedCheckSuite } from './queries/checkSuite'
+import { queryCompletedCheckSuite } from './queries/completedCheckSuite'
 import { queryClosedPullRequest } from './queries/closedPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'

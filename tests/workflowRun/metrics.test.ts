@@ -1,5 +1,5 @@
 import { computeJobMetrics, computeStepMetrics, computeWorkflowRunMetrics } from '../../src/workflowRun/metrics'
-import { exampleCompletedCheckSuite } from './fixtures/checkSuite'
+import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite'
 import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from './fixtures/metrics'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
 
