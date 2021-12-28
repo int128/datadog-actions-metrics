@@ -10,6 +10,7 @@ import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
 import { getWorkflowRunMetrics, getWorkflowRunMetricsWithJobsSteps } from './workflowRun/get'
 
+// DO NOT MERGE
 type Inputs = {
   githubToken: string
   githubTokenForRateLimitMetrics: string
