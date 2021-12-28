@@ -5,6 +5,7 @@ import { Octokit } from '../types'
 const query = /* GraphQL */ `
   query completedCheckSuite($node_id: ID!, $workflow_path: String!) {
     node(id: $node_id) {
+      __typename
       ... on CheckSuite {
         checkRuns(first: 100, filterBy: { checkType: LATEST }) {
           nodes {
@@ -29,6 +30,7 @@ const query = /* GraphQL */ `
         commit {
           file(path: $workflow_path) {
             object {
+              __typename
               ... on Blob {
                 text
               }
