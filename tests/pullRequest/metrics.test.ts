@@ -16,8 +16,8 @@ test('computePullRequestClosedMetrics', () => {
 test('computePullRequestClosedMetricsWithQuery', () => {
   const pr: ClosedPullRequest = {
     firstCommit: {
-      authoredDate: new Date('2019-05-15T15:00:11Z'),
-      committedDate: new Date('2019-05-15T15:11:22Z'),
+      authoredDate: '2019-05-15T15:00:11Z',
+      committedDate: '2019-05-15T15:11:22Z',
     },
   }
   const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent, pr)

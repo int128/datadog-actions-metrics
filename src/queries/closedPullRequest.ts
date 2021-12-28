@@ -20,24 +20,24 @@ const query = /* GraphQL */ `
 
 export type ClosedPullRequest = {
   firstCommit: {
-    authoredDate: Date
-    committedDate: Date
+    authoredDate: string
+    committedDate: string
   }
 }
 
 export const queryClosedPullRequest = async (
   o: Octokit,
   v: ClosedPullRequestQueryVariables
-): Promise<ClosedPullRequest | undefined> => {
+): Promise<ClosedPullRequest> => {
   const r = await o.graphql<ClosedPullRequestQuery>(query, v)
-  const firstCommit = r.repository?.pullRequest?.commits.nodes?.pop()?.commit
-  if (firstCommit === undefined) {
-    return
+  if (!r.repository?.pullRequest?.commits.nodes?.length) {
+    throw new Error(`pull request contains no commit: ${JSON.stringify(r)}`)
   }
+  if (r.repository.pullRequest.commits.nodes[0] == null) {
+    throw new Error(`commit is null: ${JSON.stringify(r)}`)
+  }
+  const firstCommit = r.repository.pullRequest.commits.nodes[0].commit
   return {
-    firstCommit: {
-      authoredDate: new Date(firstCommit.authoredDate),
-      committedDate: new Date(firstCommit.committedDate),
-    },
+    firstCommit,
   }
 }
