@@ -3,7 +3,7 @@ import { CheckRun, CheckStep } from '../generated/graphql-types'
 import { Octokit } from '../types'
 
 const query = /* GraphQL */ `
-  query completedCheckSuite($node_id: ID!) {
+  query completedCheckSuite($node_id: ID!, $workflow_path: String!) {
     node(id: $node_id) {
       ... on CheckSuite {
         checkRuns(first: 100, filterBy: { checkType: LATEST }) {
@@ -26,6 +26,15 @@ const query = /* GraphQL */ `
             }
           }
         }
+        commit {
+          file(path: $workflow_path) {
+            object {
+              ... on Blob {
+                text
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -40,6 +49,13 @@ export type CompletedCheckSuite = {
     __typename: 'CheckSuite'
     checkRuns: {
       nodes: CompletedCheckRun[]
+    }
+    commit: {
+      file: {
+        object: {
+          text: string
+        }
+      } | null
     }
   }
 }
@@ -59,6 +75,16 @@ export const queryCompletedCheckSuite = async (
   v: CompletedCheckSuiteQueryVariables
 ): Promise<CompletedCheckSuite | undefined> => {
   const r = await o.graphql<CompletedCheckSuiteQuery>(query, v)
+  return {
+    node: {
+      __typename: 'CheckSuite',
+      checkRuns: extractCheckRuns(r),
+      commit: extractCommit(r),
+    },
+  }
+}
+
+const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
   if (r.node?.__typename !== 'CheckSuite') {
     throw new Error(`invalid __typename ${String(r.node?.__typename)}`)
   }
@@ -98,14 +124,34 @@ export const queryCompletedCheckSuite = async (
       steps: { nodes: steps },
     })
   }
+  return { nodes: checkRuns }
+}
 
-  if (checkRuns.length < 1) {
-    return
+const extractCommit = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['commit'] => {
+  if (r.node?.__typename !== 'CheckSuite') {
+    throw new Error(`invalid __typename ${String(r.node?.__typename)}`)
+  }
+  if (r.node?.commit?.__typename !== 'Commit') {
+    throw new Error(`invalid __typename ${String(r.node?.commit?.__typename)}`)
+  }
+  if (r.node.commit.file == null) {
+    return { file: null } // file not found
+  }
+  if (r.node.commit.file?.__typename !== 'TreeEntry') {
+    throw new Error(`invalid __typename ${String(r.node.commit.file?.__typename)}`)
+  }
+  if (r.node.commit.file.object?.__typename !== 'Blob') {
+    return { file: null } // possibly Blob or Tree
+  }
+  const { text } = r.node.commit.file.object
+  if (text == null) {
+    return { file: null }
   }
   return {
-    node: {
-      __typename: 'CheckSuite',
-      checkRuns: { nodes: checkRuns },
+    file: {
+      object: {
+        text,
+      },
     },
   }
 }
