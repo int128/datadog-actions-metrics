@@ -13,6 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - uses: actions/github-script@v5
+        continue-on-error: true
+        with:
+          script: |
+            await github.rest.checks.create({
+              ...context.repo,
+              name: 'e2e-target',
+              head_sha: '${{ github.event.workflow_run.head_sha }}',
+              details_url: '${{ github.server_url }}/${{ github.repository }}/runs/${{ github.run_id }}',
+              status: 'in_progress',
+            })
+
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
@@ -33,7 +45,6 @@ jobs:
         with:
           collect-job-metrics: true
 
-      # show the status on the target commit
       - if: always()
         uses: actions/github-script@v5
         with:
@@ -42,5 +53,6 @@ jobs:
               ...context.repo,
               name: 'e2e-target',
               head_sha: '${{ github.event.workflow_run.head_sha }}',
+              details_url: '${{ github.server_url }}/${{ github.repository }}/runs/${{ github.run_id }}',
               conclusion: '${{ job.status }}',
             })
