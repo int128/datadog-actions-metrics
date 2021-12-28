@@ -1,0 +1,45 @@
+name: e2e-target / ${{ github.event_name }} / ${{ github.event.action }}
+
+on:
+  workflow_run:
+    workflows:
+      - ts
+    types:
+      - completed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - id: yarn-cache-dir
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        with:
+          path: ${{ steps.yarn-cache-dir.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn
+      - run: yarn build
+      - run: yarn package
+
+      - uses: ./
+        with:
+          collect-job-metrics: true
+
+      # show the status on the target commit
+      - if: always()
+        uses: actions/github-script@v5
+        with:
+          script: |
+            await github.rest.checks.create({
+              ...context.repo,
+              name: 'e2e-target',
+              head_sha: context.payload.head_sha,
+              conclusion: '${{ job.status }}',
+            })
