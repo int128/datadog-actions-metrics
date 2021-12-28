@@ -1,4 +1,4 @@
-name: e2e-target / ${{ github.event_name }} / ${{ github.event.action }}
+name: e2e-target
 
 on:
   workflow_run:
@@ -9,6 +9,7 @@ on:
 
 jobs:
   test:
+    name: test / ${{ github.event_name }} / ${{ github.event.action }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
