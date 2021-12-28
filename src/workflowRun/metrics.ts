@@ -1,7 +1,7 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
-import { CompletedCheckSuite } from '../queries/checkSuite'
+import { CompletedCheckSuite } from '../queries/completedCheckSuite'
 
 const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,

@@ -10,7 +10,7 @@ import {
 } from './workflowRun/fixtures/metrics'
 import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
 import { exampleRateLimitMetrics, exampleRateLimitResponse } from './rateLimit/fixtures'
-import { exampleCompletedCheckSuite } from './workflowRun/fixtures/checkSuite'
+import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite'
 
 jest.mock('@actions/core')
 
