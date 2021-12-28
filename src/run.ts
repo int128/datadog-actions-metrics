@@ -68,12 +68,17 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
 
   if (e.action === 'closed') {
     const octokit = github.getOctokit(inputs.githubToken)
-    const pr = await queryClosedPullRequest(octokit, {
-      owner: context.repo.owner,
-      name: context.repo.repo,
-      number: e.pull_request.number,
-    })
-    return computePullRequestClosedMetrics(e, pr)
+    let closedPullRequest
+    try {
+      closedPullRequest = await queryClosedPullRequest(octokit, {
+        owner: context.repo.owner,
+        name: context.repo.repo,
+        number: e.pull_request.number,
+      })
+    } catch (error) {
+      core.warning(`Could not get the pull request: ${String(error)}`)
+    }
+    return computePullRequestClosedMetrics(e, closedPullRequest)
   }
 }
 

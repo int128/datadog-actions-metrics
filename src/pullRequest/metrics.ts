@@ -119,14 +119,14 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: 
         tags,
         metric: 'github.actions.pull_request_closed.since_first_authored_seconds',
         type: 'gauge',
-        points: [[t, t - pr.firstCommit.authoredDate.getTime() / 1000]],
+        points: [[t, t - unixTime(pr.firstCommit.authoredDate)]],
       },
       {
         host: 'github.com',
         tags,
         metric: 'github.actions.pull_request_closed.since_first_committed_seconds',
         type: 'gauge',
-        points: [[t, t - pr.firstCommit.committedDate.getTime() / 1000]],
+        points: [[t, t - unixTime(pr.firstCommit.committedDate)]],
       }
     )
   }
