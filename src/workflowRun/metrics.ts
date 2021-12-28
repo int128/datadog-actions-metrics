@@ -1,3 +1,4 @@
+import * as core from '@actions/core'
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
@@ -24,8 +25,10 @@ export const computeWorkflowRunJobStepMetrics = (
   }
 
   let workflowDefinition
-  if (checkSuite.node.commit.file != null) {
+  try {
     workflowDefinition = parseWorkflowFile(checkSuite.node.commit.file.object.text)
+  } catch (error) {
+    core.warning(`Invalid workflow file: ${String(error)}`)
   }
 
   return [

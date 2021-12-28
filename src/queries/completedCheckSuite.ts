@@ -55,7 +55,7 @@ export type CompletedCheckSuite = {
         object: {
           text: string
         }
-      } | null
+      }
     }
   }
 }
@@ -86,7 +86,7 @@ export const queryCompletedCheckSuite = async (
 
 const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
   if (r.node?.__typename !== 'CheckSuite') {
-    throw new Error(`invalid __typename ${String(r.node?.__typename)}`)
+    throw new Error(`invalid __typename ${String(r.node?.__typename)} !== CheckSuite`)
   }
 
   const checkRuns: CompletedCheckRun[] = []
@@ -129,23 +129,14 @@ const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['nod
 
 const extractCommit = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['commit'] => {
   if (r.node?.__typename !== 'CheckSuite') {
-    throw new Error(`invalid __typename ${String(r.node?.__typename)}`)
+    throw new Error(`invalid __typename ${String(r.node?.__typename)} !== CheckSuite`)
   }
-  if (r.node?.commit?.__typename !== 'Commit') {
-    throw new Error(`invalid __typename ${String(r.node?.commit?.__typename)}`)
-  }
-  if (r.node.commit.file == null) {
-    return { file: null } // file not found
-  }
-  if (r.node.commit.file?.__typename !== 'TreeEntry') {
-    throw new Error(`invalid __typename ${String(r.node.commit.file?.__typename)}`)
-  }
-  if (r.node.commit.file.object?.__typename !== 'Blob') {
-    return { file: null } // possibly Blob or Tree
+  if (r.node.commit.file?.object?.__typename !== 'Blob') {
+    throw new Error(`invalid __typename ${String(r.node.commit.file?.object?.__typename)} !== Blob`)
   }
   const { text } = r.node.commit.file.object
   if (text == null) {
-    return { file: null }
+    throw new Error(`invalid text ${String(text)}`)
   }
   return {
     file: {

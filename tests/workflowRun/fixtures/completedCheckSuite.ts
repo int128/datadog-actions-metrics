@@ -104,22 +104,13 @@ export const exampleCompletedCheckSuite: CompletedCheckSuiteQuery & CompletedChe
     },
     commit: {
       __typename: 'Commit',
-      file: null,
+      file: {
+        __typename: 'TreeEntry',
+        object: {
+          __typename: 'Blob',
+          text: `INVALID`,
+        },
+      },
     },
-    // TODO
-    //     commit: {
-    //       __typename: 'Commit',
-    //       file: {
-    //         __typename: 'TreeEntry',
-    //         object: {
-    //           __typename: 'Blob',
-    //           text: `
-    // jobs:
-    //   build:
-    //     runs-on: ubuntu-latest
-    // `,
-    //         },
-    //       },
-    //     },
   },
 }

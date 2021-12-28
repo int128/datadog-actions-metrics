@@ -52,15 +52,18 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
   core.info(`Got workflow run ${e.action} event: ${e.workflow_run.html_url}`)
 
   if (e.action === 'completed') {
-    if (!inputs.collectJobMetrics) {
-      return computeWorkflowRunJobStepMetrics(e)
+    let checkSuite
+    if (inputs.collectJobMetrics) {
+      const octokit = github.getOctokit(inputs.githubToken)
+      try {
+        checkSuite = await queryCompletedCheckSuite(octokit, {
+          node_id: e.workflow_run.check_suite_node_id,
+          workflow_path: e.workflow.path,
+        })
+      } catch (error) {
+        core.warning(`Could not get the check suite: ${String(error)}`)
+      }
     }
-
-    const octokit = github.getOctokit(inputs.githubToken)
-    const checkSuite = await queryCompletedCheckSuite(octokit, {
-      node_id: e.workflow_run.check_suite_node_id,
-      workflow_path: e.workflow.path,
-    })
     return computeWorkflowRunJobStepMetrics(e, checkSuite)
   }
 }
