@@ -15,8 +15,8 @@ on:
       - main
 
 jobs:
-  test:
-    name: test / ${{ github.event_name }} / ${{ github.payload.action }}
+  main:
+    name: main / ${{ github.event_name }} / ${{ github.event.action }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -33,4 +33,16 @@ jobs:
       - uses: int128/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
+
+  target:
+    name: target / ${{ github.event_name }} / ${{ github.event.action }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+      - uses: ./
+        with:
           collect-job-metrics: true
