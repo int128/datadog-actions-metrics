@@ -64,6 +64,9 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
         core.warning(`Could not get the check suite: ${String(error)}`)
       }
     }
+    if (checkSuite) {
+      core.info(`Found check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
+    }
     return computeWorkflowRunJobStepMetrics(e, checkSuite)
   }
 }

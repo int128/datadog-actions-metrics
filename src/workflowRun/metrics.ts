@@ -30,6 +30,9 @@ export const computeWorkflowRunJobStepMetrics = (
   } catch (error) {
     core.warning(`Invalid workflow file: ${String(error)}`)
   }
+  if (workflowDefinition) {
+    core.info(`Found ${Object.keys(workflowDefinition.jobs).length} job(s) in the workflow file`)
+  }
 
   return [
     ...computeWorkflowRunMetrics(e, checkSuite),
