@@ -41,6 +41,6 @@ jobs:
             await github.rest.checks.create({
               ...context.repo,
               name: 'e2e-target',
-              head_sha: context.payload.head_sha,
+              head_sha: '${{ github.event.workflow_run.head_sha }}',
               conclusion: '${{ job.status }}',
             })
