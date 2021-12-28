@@ -9,7 +9,6 @@ import { queryCompletedCheckSuite } from './queries/checkSuite'
 import { queryClosedPullRequest } from './queries/closedPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
-import { getWorkflowDefinition } from './workflowRun/get'
 import { computeWorkflowRunJobStepMetrics } from './workflowRun/metrics'
 
 type Inputs = {
@@ -53,13 +52,16 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
   core.info(`Got workflow run ${e.action} event: ${e.workflow_run.html_url}`)
 
   if (e.action === 'completed') {
-    let checkSuite, workflowDefinition
-    if (inputs.collectJobMetrics) {
-      const octokit = github.getOctokit(inputs.githubToken)
-      checkSuite = await queryCompletedCheckSuite(octokit, { node_id: e.workflow_run.check_suite_node_id })
-      workflowDefinition = await getWorkflowDefinition(e, octokit)
+    if (!inputs.collectJobMetrics) {
+      return computeWorkflowRunJobStepMetrics(e)
     }
-    return computeWorkflowRunJobStepMetrics(e, checkSuite, workflowDefinition)
+
+    const octokit = github.getOctokit(inputs.githubToken)
+    const checkSuite = await queryCompletedCheckSuite(octokit, {
+      node_id: e.workflow_run.check_suite_node_id,
+      workflow_path: e.workflow.path,
+    })
+    return computeWorkflowRunJobStepMetrics(e, checkSuite)
   }
 }
 

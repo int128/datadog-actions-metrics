@@ -18,9 +18,6 @@ jest.mock('@actions/github')
 const octokitMock = {
   graphql: jest.fn(),
   rest: {
-    repos: {
-      getContent: jest.fn(),
-    },
     rateLimit: {
       get: jest.fn(),
     },
@@ -36,21 +33,8 @@ const metricsApiMock = {
 const metricsApiConstructor = v1.MetricsApi as jest.Mock
 metricsApiConstructor.mockReturnValue(metricsApiMock)
 
-const exampleWorkflow = `
-jobs:
-  ts:
-    runs-on: ubuntu-latest
-`
-
 test('run with collectJobMetrics', async () => {
   octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
-  octokitMock.rest.repos.getContent.mockResolvedValue({
-    data: {
-      type: 'file',
-      encoding: 'base64',
-      content: Buffer.from(exampleWorkflow).toString('base64'),
-    },
-  })
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
 

@@ -1,6 +1,6 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
-import { inferRunner, WorkflowDefinition } from './parse'
+import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
 import { CompletedCheckSuite } from '../queries/checkSuite'
 
 const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
@@ -17,12 +17,17 @@ const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
 
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
-  checkSuite?: CompletedCheckSuite,
-  workflowDefinition?: WorkflowDefinition
+  checkSuite?: CompletedCheckSuite
 ): Series[] => {
   if (checkSuite === undefined) {
     return computeWorkflowRunMetrics(e)
   }
+
+  let workflowDefinition
+  if (checkSuite.node.commit.file != null) {
+    workflowDefinition = parseWorkflowFile(checkSuite.node.commit.file.object.text)
+  }
+
   return [
     ...computeWorkflowRunMetrics(e, checkSuite),
     ...computeJobMetrics(e, checkSuite, workflowDefinition),
