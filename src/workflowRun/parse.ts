@@ -9,10 +9,6 @@ export type WorkflowDefinition = {
   }
 }
 
-export type Error = {
-  error: string
-}
-
 export const parseWorkflowFile = (s: string): WorkflowDefinition => {
   const parsed = yaml.load(s)
   if (typeof parsed !== 'object' || parsed === null) {
