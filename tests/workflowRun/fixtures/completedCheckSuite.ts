@@ -2,6 +2,17 @@ import { CompletedCheckSuite } from '../../../src/queries/completedCheckSuite'
 import { CheckConclusionState, CheckStatusState } from '../../../src/generated/graphql-types'
 import { CompletedCheckSuiteQuery } from '../../../src/generated/graphql'
 
+const exampleWorkflowText = `
+on:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+`
+
 export const exampleCompletedCheckSuite: CompletedCheckSuiteQuery & CompletedCheckSuite = {
   // https://docs.github.com/en/rest/reference/actions#list-jobs-for-a-workflow-run
   node: {
@@ -108,7 +119,7 @@ export const exampleCompletedCheckSuite: CompletedCheckSuiteQuery & CompletedChe
         __typename: 'TreeEntry',
         object: {
           __typename: 'Blob',
-          text: `INVALID`,
+          text: exampleWorkflowText,
         },
       },
     },
