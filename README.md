@@ -41,7 +41,7 @@ See also the actual metrics in the [E2E test](https://github.com/int128/datadog-
 
 ### Analyze pull request statistics
 
-You can analyze development activity such as number of merged pull requests.
+You can analyze your development activity such as number of merged pull requests.
 It helps the continuous process improvement of your team.
 
 To collect the metrics of a pull request:
@@ -69,9 +69,7 @@ jobs:
 
 ### Workflow run
 
-This metrics will be sent on `workflow_run` event.
-
-This action sends the following metrics:
+This action sends the following metrics on `workflow_run` event.
 
 - `github.actions.workflow_run.total`
 - `github.actions.workflow_run.conclusion.{CONCLUSION}_total`
@@ -99,10 +97,7 @@ It has the following tags:
 
 ### Job
 
-This metrics will be sent on `workflow_run` event.
-You need to set `collect-job-metrics` to enable the metrics.
-
-This action sends the following metrics:
+This action sends the following metrics on `workflow_run` event.
 
 - `github.actions.job.total`
 - `github.actions.job.conclusion.{CONCLUSION}_total`
@@ -112,6 +107,8 @@ This action sends the following metrics:
   - Time from a job is started to completed
 - `github.actions.job.queued_duration_second`
   - Time from a job is started until the first step is started
+
+You need to set `collect-job-metrics` to enable the metrics.
 
 It has the following tags:
 
@@ -135,16 +132,15 @@ It has the following tags:
 
 ### Step
 
-This metrics will be sent on `workflow_run` event.
-You need to set `collect-job-metrics` to enable the metrics.
-
-This action sends the following metrics:
+This action sends the following metrics on `workflow_run` event.
 
 - `github.actions.step.total`
 - `github.actions.step.conclusion.{CONCLUSION}_total`
   - e.g. `github.actions.step.conclusion.success_total`
   - e.g. `github.actions.step.conclusion.failure_total`
 - `github.actions.step.duration_second`
+
+You need to set `collect-job-metrics` to enable the metrics.
 
 It has the following tags:
 
@@ -170,9 +166,7 @@ It has the following tags:
 
 ### Pull request (opened)
 
-This metrics will be sent on `pull_request` event.
-
-This action sends the following metrics:
+This action sends the following metrics on `pull_request` event.
 
 - `github.actions.pull_request_opened.total`
 - `github.actions.pull_request_opened.commits`
@@ -196,9 +190,7 @@ It has the following tags:
 
 ### Pull request (closed)
 
-This metrics will be sent on `pull_request` event.
-
-This action sends the following metrics:
+This action sends the following metrics on `pull_request` event.
 
 - `github.actions.pull_request_closed.total`
 - `github.actions.pull_request_closed.since_opened_seconds`
@@ -229,9 +221,7 @@ It has the following tags:
 
 ### Push
 
-This metrics will be sent on `push` event.
-
-This action sends the following metrics:
+This action sends the following metrics on `push` event.
 
 - `github.actions.push.total`
 
@@ -250,9 +240,7 @@ It has the following tags:
 
 ### Rate limit
 
-This metrics will be sent on any events.
-
-This action sends the following metrics of [the built-in `GITHUB_TOKEN` rate limit](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting):
+This action always sends the following metrics of [the built-in `GITHUB_TOKEN` rate limit](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting).
 
 - `github.actions.api_rate_limit.remaining`
 - `github.actions.api_rate_limit.limit`
@@ -261,10 +249,7 @@ It has the following tags:
 
 - `repository_owner`
 - `repository_name`
-- `resource` is either of values
-  - `core`
-  - `search`
-  - `graphql`
+- `resource` = `core`, `search` and `graphql`
 
 This does not affect the rate limit of GitHub API because it just calls [`/rate_limit` endpoint](https://docs.github.com/en/rest/reference/rate-limit).
 
@@ -300,7 +285,7 @@ To send the metrics of jobs and steps:
           collect-job-metrics: true
 ```
 
-Note that this calls GitHub API to get jobs and steps of a workflow run.
+Note that this calls GitHub GraphQL API to get jobs and steps of a workflow run.
 It may cause the rate limit exceeding error if too many workflows are run.
 
 To send the metrics of jobs and steps on the default branch only:
