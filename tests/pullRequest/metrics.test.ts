@@ -1,7 +1,7 @@
-import { ClosedPullRequest } from '../../src/queries/closedPullRequest'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from '../../src/pullRequest/metrics'
 import { examplePullRequestClosedEvent } from './fixtures/closed'
 import { examplePullRequestOpenedEvent } from './fixtures/opened'
+import { exampleClosedPullRequest } from './fixtures/closedPullRequest'
 
 test('computePullRequestOpenedMetrics', () => {
   const series = computePullRequestOpenedMetrics(examplePullRequestOpenedEvent)
@@ -14,12 +14,6 @@ test('computePullRequestClosedMetrics', () => {
 })
 
 test('computePullRequestClosedMetricsWithQuery', () => {
-  const pr: ClosedPullRequest = {
-    firstCommit: {
-      authoredDate: '2019-05-15T15:00:11Z',
-      committedDate: '2019-05-15T15:11:22Z',
-    },
-  }
-  const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent, pr)
+  const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent, exampleClosedPullRequest)
   expect(series).toMatchSnapshot()
 })

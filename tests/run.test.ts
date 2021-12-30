@@ -11,6 +11,10 @@ import {
 import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
 import { exampleRateLimitMetrics, exampleRateLimitResponse } from './rateLimit/fixtures'
 import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite'
+import { examplePullRequestClosedEvent } from './pullRequest/fixtures/closed'
+import { WebhookPayload } from '@actions/github/lib/interfaces'
+import { examplePullRequestOpenedEvent } from './pullRequest/fixtures/opened'
+import { exampleClosedPullRequestQuery } from './pullRequest/fixtures/closedPullRequest'
 
 jest.mock('@actions/core')
 
@@ -33,7 +37,7 @@ const metricsApiMock = {
 const metricsApiConstructor = v1.MetricsApi as jest.Mock
 metricsApiConstructor.mockReturnValue(metricsApiMock)
 
-test('run with collectJobMetrics', async () => {
+test('workflow_run with collectJobMetrics', async () => {
   octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
@@ -59,7 +63,7 @@ test('run with collectJobMetrics', async () => {
   })
 })
 
-test('run', async () => {
+test('workflow_run', async () => {
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
 
@@ -82,4 +86,49 @@ test('run', async () => {
       series: [...exampleWorkflowRunSimpleMetrics, ...exampleRateLimitMetrics],
     },
   })
+})
+
+test('pull_request_opened', async () => {
+  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+
+  await run(
+    {
+      eventName: 'pull_request',
+      payload: examplePullRequestOpenedEvent as WebhookPayload,
+      repo: { owner: 'Codertocat', repo: 'Hello-World' },
+    },
+    {
+      githubToken: 'GITHUB_TOKEN',
+      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
+      datadogApiKey: 'DATADOG_API_KEY',
+      collectJobMetrics: false,
+    }
+  )
+  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toBeCalledTimes(1)
+  expect(metricsApiMock.submitMetrics.mock.calls[0]).toMatchSnapshot()
+})
+
+test('pull_request_closed', async () => {
+  octokitMock.graphql.mockResolvedValue(exampleClosedPullRequestQuery)
+  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+
+  await run(
+    {
+      eventName: 'pull_request',
+      payload: examplePullRequestClosedEvent as WebhookPayload,
+      repo: { owner: 'Codertocat', repo: 'Hello-World' },
+    },
+    {
+      githubToken: 'GITHUB_TOKEN',
+      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
+      datadogApiKey: 'DATADOG_API_KEY',
+      collectJobMetrics: false,
+    }
+  )
+  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toBeCalledTimes(1)
+  expect(metricsApiMock.submitMetrics.mock.calls[0]).toMatchSnapshot()
 })
