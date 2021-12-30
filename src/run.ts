@@ -33,18 +33,13 @@ export const run = async (context: GitHubContext, inputs: Inputs): Promise<void>
 
 const handleEvent = async (context: GitHubContext, inputs: Inputs) => {
   if (context.eventName === 'workflow_run') {
-    const e = context.payload as WorkflowRunEvent
-    return await handleWorkflowRun(e, inputs)
+    return await handleWorkflowRun(context.payload as WorkflowRunEvent, inputs)
   }
-
   if (context.eventName === 'pull_request') {
-    const e = context.payload as PullRequestEvent
-    return await handlePullRequest(e, context, inputs)
+    return await handlePullRequest(context.payload as PullRequestEvent, context, inputs)
   }
-
   if (context.eventName === 'push') {
-    const e = context.payload as PushEvent
-    return handlePush(e)
+    return handlePush(context.payload as PushEvent)
   }
 }
 
