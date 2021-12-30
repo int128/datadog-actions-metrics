@@ -108,8 +108,6 @@ This action sends the following metrics on `workflow_run` event.
 - `github.actions.job.queued_duration_second`
   - Time from a job is started until the first step is started
 
-You need to set `collect-job-metrics` to enable the metrics.
-
 It has the following tags:
 
 - `repository_owner`
@@ -129,6 +127,8 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
+You need to set `collect-job-metrics` to enable the job metrics.
+
 
 ### Step
 
@@ -139,8 +139,6 @@ This action sends the following metrics on `workflow_run` event.
   - e.g. `github.actions.step.conclusion.success_total`
   - e.g. `github.actions.step.conclusion.failure_total`
 - `github.actions.step.duration_second`
-
-You need to set `collect-job-metrics` to enable the metrics.
 
 It has the following tags:
 
@@ -162,6 +160,8 @@ It has the following tags:
 - `runs_on`
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
+
+You need to set `collect-job-metrics` to enable the step metrics.
 
 
 ### Pull request (opened)
@@ -263,7 +263,7 @@ Name | Default | Description
 `github-token` | `github.token` | GitHub token to get jobs and steps if needed
 `github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics
 `datadog-api-key` | - | Datadog API key. If not set, this action does not send metrics actually
-`datadog-site` | - | Datadog Server name such as "datadoghq.eu", "ddog-gov.com", "us3.datadoghq.com"
+`datadog-site` | - | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com`
 `collect-job-metrics` | `false` | Collect metrics of jobs and steps
 
 Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
@@ -271,10 +271,6 @@ Use `collect-job-metrics` instead.
 
 
 ### Jobs and steps metrics
-
-By default, this actions sends only workflow run metrics on `workflow_run` event.
-As well as you can use jobs and steps metrics.
-It is useful to improve the deployment pipeline such as build or test.
 
 To send the metrics of jobs and steps:
 
@@ -285,8 +281,8 @@ To send the metrics of jobs and steps:
           collect-job-metrics: true
 ```
 
-Note that this calls GitHub GraphQL API to get jobs and steps of a workflow run.
-It may cause the rate limit exceeding error if too many workflows are run.
+Note that this action calls GitHub GraphQL API to get jobs and steps of a workflow run.
+It may cause the rate exceeding error if too many workflows are run.
 
 To send the metrics of jobs and steps on the default branch only:
 
