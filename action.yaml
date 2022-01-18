@@ -26,5 +26,5 @@ inputs:
     deprecationMessage: Use collect-job-metrics instead
 
 runs:
-  using: 'node12'
+  using: 'node16'
   main: 'dist/index.js'
