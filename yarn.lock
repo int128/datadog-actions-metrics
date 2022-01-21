@@ -957,18 +957,23 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@datadog/datadog-api-client@1.0.0-beta.6":
-  version "1.0.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.0.0-beta.6.tgz#f43d99517fe2dea03662244bce16f558fa680145"
-  integrity sha512-hU6dAM818VaksUuLakqQZvoQeaQhH/OJcPAFuhxv8Eo+w5iV4Gp2RA9wCzI3TDCAmScsN7J3xddmB8G/mOJQpg==
+"@datadog/datadog-api-client@1.0.0-beta.7":
+  version "1.0.0-beta.7"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.0.0-beta.7.tgz#14da621a3bea8e44a14b3daf128a4d55572323f1"
+  integrity sha512-VQTWp0Hr+jU2g/YkysDRvQahuWq2hdsFXq6bYSQcUhXAqZZ4hRWdeCa9T/XzQTxeS37PMU3iZr1okxeMXOQdMg==
   dependencies:
+    "@types/buffer-from" "^1.1.0"
     "@types/node" "*"
     "@types/node-fetch" "^2.5.7"
+    "@types/pako" "^1.0.3"
     btoa "^1.2.1"
+    buffer-from "^1.1.2"
     durations "^3.4.2"
     es6-promise "^4.2.4"
     form-data "^3.0.0"
+    loglevel "^1.7.1"
     node-fetch "^2.6.0"
+    pako "^2.0.4"
     url-parse "^1.4.3"
 
 "@endemolshinegroup/cosmiconfig-typescript-loader@3.0.2":
@@ -1776,6 +1781,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/buffer-from@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@types/buffer-from/-/buffer-from-1.1.0.tgz#fed6287e90fe524dc2b412e0fbc2222c1889c21f"
+  integrity sha512-BLFpLBcN+RPKUsFxqRkMiwqTOOdi+TrKr5OpLJ9qCnUdSxS6S80+QRX/mIhfR66u0Ykc4QTkReaejOM2ILh+9Q==
+  dependencies:
+    "@types/node" "*"
+
 "@types/graceful-fs@^4.1.2":
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.5.tgz#21ffba0d98da4350db64891f92a9e5db3cdb4e15"
@@ -1849,6 +1861,11 @@
   version "16.11.21"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.21.tgz#474d7589a30afcf5291f59bd49cca9ad171ffde4"
   integrity sha512-Pf8M1XD9i1ksZEcCP8vuSNwooJ/bZapNmIzpmsMaL+jMI+8mEYU3PKvs+xDNuQcJWF/x24WzY4qxLtB0zNow9A==
+
+"@types/pako@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@types/pako/-/pako-1.0.3.tgz#2e61c2b02020b5f44e2e5e946dfac74f4ec33c58"
+  integrity sha512-EDxOsHAD5dqjbjEUM1xwa7rpKPFb8ECBE5irONTQU7/OsO3thI5YrNEWSPNMvYmvFM0l/OLQJ6Mgw7PEdXSjhg==
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -2405,6 +2422,11 @@ buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
   integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
+
+buffer-from@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.2.tgz#2b146a6fd72e80b4f55d255f35ed59a3a9a41bd5"
+  integrity sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==
 
 buffer@^5.5.0, buffer@^5.7.0:
   version "5.7.1"
@@ -4787,6 +4809,11 @@ log-update@^2.3.0:
     cli-cursor "^2.0.0"
     wrap-ansi "^3.0.1"
 
+loglevel@^1.7.1:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
+  integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
+
 loose-envify@^1.0.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
@@ -5145,6 +5172,11 @@ package-json@^6.3.0:
     registry-auth-token "^4.0.0"
     registry-url "^5.0.0"
     semver "^6.2.0"
+
+pako@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-2.0.4.tgz#6cebc4bbb0b6c73b0d5b8d7e8476e2b2fbea576d"
+  integrity sha512-v8tweI900AUkZN6heMU/4Uy4cXRc2AYNRggVmTR+dEncawDJgCdLMximOVA2p4qO57WMynangsfGRb5WD6L1Bg==
 
 param-case@^3.0.4:
   version "3.0.4"
