@@ -19,10 +19,10 @@
     "graphql": "16.3.0"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "2.4.0",
-    "@graphql-codegen/import-types-preset": "2.1.9",
-    "@graphql-codegen/typescript": "2.4.2",
-    "@graphql-codegen/typescript-operations": "2.2.3",
+    "@graphql-codegen/cli": "2.5.0",
+    "@graphql-codegen/import-types-preset": "2.1.10",
+    "@graphql-codegen/typescript": "2.4.3",
+    "@graphql-codegen/typescript-operations": "2.2.4",
     "@octokit/graphql-schema": "10.73.0",
     "@types/jest": "27.4.0",
     "@types/js-yaml": "4.0.5",
