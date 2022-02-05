@@ -185,7 +185,6 @@ It has the following tags:
 - `draft` = `true` or `false`
 - `base_ref`
 - `head_ref`
-- `label` = label(s) of the pull request
 
 
 ### Pull request (closed)
@@ -215,8 +214,11 @@ It has the following tags:
 - `draft` = `true` or `false`
 - `base_ref`
 - `head_ref`
-- `label` = label(s) of the pull request
+- `label` = label(s) of a pull request
 - `merged` = `true` or `false`
+
+You can aggregate a metric by a label in Datadog.
+If a pull request has multiple labels, this action sends the metrics for each label.
 
 
 ### Push
