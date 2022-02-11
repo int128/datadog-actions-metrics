@@ -34,7 +34,7 @@ jobs:
           collect-job-metrics: true
 
       - if: always()
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             const details_url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`

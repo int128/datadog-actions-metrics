@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Event
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         with:
           script: |
             core.info(`eventName=${context.eventName}`)
