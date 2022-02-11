@@ -1,12 +1,6 @@
 {
+  "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "strict": true,
-    "outDir": "./lib",
-    "rootDirs": ["./src"],
-
-    // for datadog-api-client
-    "esModuleInterop": true
+    "outDir": "./lib"
   }
 }
