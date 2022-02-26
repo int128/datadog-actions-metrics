@@ -80,7 +80,7 @@ This action sends the following metrics on `workflow_run` event.
   - Time from a workflow is started until it is updated
 - `github.actions.workflow_run.queued_duration_second`
   - Time from a workflow is created until the first job is started
-  - Only available on the first run
+  - Available for the first workflow run only
 
 It has the following tags:
 
@@ -216,10 +216,12 @@ It has the following tags:
 - `base_ref`
 - `head_ref`
 - `merged` = `true` or `false`
-- `requested_team` = team(s) of requested reviewer(s)
-- `label` = label(s) of a pull request
+- `requested_team`
+  - Team(s) of requested reviewer(s)
+- `label`
+  - Label(s) of a pull request
+  - Available if `send-pull-request-labels` is set
 
-You can set `send-pull-request-labels` to use `label` tag in Datadog.
 If a pull request has multiple labels, this action sends the metrics for each label.
 This action does not send labels by default from the cost perspective of the custom metrics.
 
