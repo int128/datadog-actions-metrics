@@ -1,13 +1,13 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 
-export const expandSeriesByLabels = (series: Series[], labels: { name: string }[]): Series[] => {
-  if (labels.length === 0) {
+export const expandSeriesByValues = (series: Series[], key: string, values: string[]): Series[] => {
+  if (values.length === 0) {
     return series
   }
   return series.flatMap((s) =>
-    labels.map((label) => ({
+    values.map((v) => ({
       ...s,
-      tags: [...(s.tags ?? []), `label:${label.name}`],
+      tags: [...(s.tags ?? []), `${key}:${v}`],
     }))
   )
 }

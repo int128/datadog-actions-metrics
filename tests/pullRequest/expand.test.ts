@@ -1,8 +1,8 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
-import { expandSeriesByLabels } from '../../src/pullRequest/expand'
+import { expandSeriesByValues } from '../../src/pullRequest/expand'
 
 test('empty', () => {
-  expect(expandSeriesByLabels([], [])).toStrictEqual([])
+  expect(expandSeriesByValues([], 'label', [])).toStrictEqual([])
 })
 
 test('expand series by no label', () => {
@@ -16,7 +16,7 @@ test('expand series by no label', () => {
       points: [[1579721588, 2]],
     },
   ]
-  expect(expandSeriesByLabels(series, [])).toStrictEqual(series)
+  expect(expandSeriesByValues(series, 'label', [])).toStrictEqual(series)
 })
 
 test('expand series by 1 label', () => {
@@ -30,7 +30,7 @@ test('expand series by 1 label', () => {
       points: [[1579721588, 2]],
     },
   ]
-  expect(expandSeriesByLabels(series, [{ name: 'app' }])).toStrictEqual([
+  expect(expandSeriesByValues(series, 'label', ['app'])).toStrictEqual([
     {
       metric: 'github.actions.pull_request_closed.total',
       points: [[1579721588, 1]],
@@ -55,7 +55,7 @@ test('expand series by 2 labels', () => {
       points: [[1579721588, 2]],
     },
   ]
-  expect(expandSeriesByLabels(series, [{ name: 'app' }, { name: 'critical' }])).toStrictEqual([
+  expect(expandSeriesByValues(series, 'label', ['app', 'critical'])).toStrictEqual([
     {
       metric: 'github.actions.pull_request_closed.total',
       points: [[1579721588, 1]],
