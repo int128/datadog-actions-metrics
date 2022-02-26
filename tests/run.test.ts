@@ -53,6 +53,7 @@ test('workflow_run with collectJobMetrics', async () => {
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: true,
+      sendPullRequestLabels: false,
     }
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
@@ -78,6 +79,7 @@ test('workflow_run', async () => {
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: false,
+      sendPullRequestLabels: false,
     }
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
@@ -103,6 +105,7 @@ test('pull_request_opened', async () => {
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: false,
+      sendPullRequestLabels: false,
     }
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
@@ -126,6 +129,7 @@ test('pull_request_closed', async () => {
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: false,
+      sendPullRequestLabels: true,
     }
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')

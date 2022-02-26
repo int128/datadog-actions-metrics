@@ -60,7 +60,15 @@ export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): Seri
   ]
 }
 
-export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: ClosedPullRequest): Series[] => {
+type ClosedMetricsOptions = {
+  sendPullRequestLabels: boolean
+}
+
+export const computePullRequestClosedMetrics = (
+  e: PullRequestClosedEvent,
+  pr: ClosedPullRequest | undefined,
+  options: ClosedMetricsOptions
+): Series[] => {
   const tags = computeCommonTags(e)
   tags.push(`merged:${String(e.pull_request.merged)}`)
   const t = unixTime(e.pull_request.closed_at)
@@ -128,9 +136,12 @@ export const computePullRequestClosedMetrics = (e: PullRequestClosedEvent, pr?: 
     )
   }
 
-  // Datadog treats a tag as combination of values.
-  // For example, if we send a metric with tags `label:foo` and `label:bar`, Datadog will show `label:foo,bar`.
-  return expandSeriesByLabels(series, e.pull_request.labels)
+  if (options.sendPullRequestLabels) {
+    // Datadog treats a tag as combination of values.
+    // For example, if we send a metric with tags `label:foo` and `label:bar`, Datadog will show `label:foo,bar`.
+    return expandSeriesByLabels(series, e.pull_request.labels)
+  }
+  return series
 }
 
 const unixTime = (s: string): number => Date.parse(s) / 1000

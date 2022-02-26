@@ -17,6 +17,7 @@ type Inputs = {
   datadogApiKey?: string
   datadogSite?: string
   collectJobMetrics: boolean
+  sendPullRequestLabels: boolean
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
@@ -85,7 +86,7 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
     } catch (error) {
       core.warning(`Could not get the pull request: ${String(error)}`)
     }
-    return computePullRequestClosedMetrics(e, closedPullRequest)
+    return computePullRequestClosedMetrics(e, closedPullRequest, inputs)
   }
 }
 
