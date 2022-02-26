@@ -16,7 +16,7 @@ export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
   },
   workflow_run: {
     previous_attempt_url: null,
-    run_attempt: 0,
+    run_attempt: 1,
     run_started_at: '2020-01-22T19:33:08Z',
     // https://docs.github.com/en/rest/reference/actions#get-a-workflow-run
     id: 30433642,
