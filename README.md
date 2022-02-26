@@ -215,8 +215,9 @@ It has the following tags:
 - `draft` = `true` or `false`
 - `base_ref`
 - `head_ref`
-- `label` = label(s) of a pull request
 - `merged` = `true` or `false`
+- `requested_team` = team(s) of requested reviewer(s)
+- `label` = label(s) of a pull request
 
 You can set `send-pull-request-labels` to use `label` tag in Datadog.
 If a pull request has multiple labels, this action sends the metrics for each label.
