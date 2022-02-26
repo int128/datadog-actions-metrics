@@ -217,8 +217,9 @@ It has the following tags:
 - `label` = label(s) of a pull request
 - `merged` = `true` or `false`
 
-You can aggregate a metric by a label in Datadog.
+You can set `send-pull-request-labels` to use `label` tag in Datadog.
 If a pull request has multiple labels, this action sends the metrics for each label.
+This action does not send labels by default from the cost perspective of the custom metrics.
 
 
 ### Push
@@ -266,6 +267,7 @@ Name | Default | Description
 `github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics
 `datadog-api-key` | - | Datadog API key. If not set, this action does not send metrics actually
 `datadog-site` | - | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com`
+`send-pull-request-labels` | `false` | Send pull request labels as Datadog tags
 `collect-job-metrics` | `false` | Collect metrics of jobs and steps
 
 Note that `collect-job-metrics-for-only-default-branch` is no longer supported.

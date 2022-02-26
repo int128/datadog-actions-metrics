@@ -9,11 +9,15 @@ test('computePullRequestOpenedMetrics', () => {
 })
 
 test('computePullRequestClosedMetrics', () => {
-  const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent)
+  const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent, undefined, {
+    sendPullRequestLabels: true,
+  })
   expect(series).toMatchSnapshot()
 })
 
 test('computePullRequestClosedMetricsWithQuery', () => {
-  const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent, exampleClosedPullRequest)
+  const series = computePullRequestClosedMetrics(examplePullRequestClosedEvent, exampleClosedPullRequest, {
+    sendPullRequestLabels: true,
+  })
   expect(series).toMatchSnapshot()
 })

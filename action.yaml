@@ -10,16 +10,23 @@ inputs:
     description: GitHub token for rate limit metrics
     default: ${{ github.token }}
     required: true
+
   datadog-api-key:
     description: Datadog API key (dry-run if not set)
     required: false
   datadog-site:
     description: Datadog Site name if different than datadoghq.com.
     required: false
+
   collect-job-metrics:
     description: Collect metrics of jobs and steps
     required: false
     default: 'false'
+  send-pull-request-labels:
+    description: Send pull request labels as Datadog tags
+    required: false
+    default: 'false'
+
   collect-job-metrics-for-only-default-branch:
     description: No longer supported
     required: false
