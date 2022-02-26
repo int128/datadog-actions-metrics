@@ -77,9 +77,10 @@ This action sends the following metrics on `workflow_run` event.
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
   - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
 - `github.actions.workflow_run.duration_second`
-  - Time from a workflow is created to updated
+  - Time from a workflow is started until it is updated
 - `github.actions.workflow_run.queued_duration_second`
   - Time from a workflow is created until the first job is started
+  - Only available on the first run
 
 It has the following tags:
 
