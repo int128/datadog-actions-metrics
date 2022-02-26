@@ -134,6 +134,18 @@ export const computePullRequestClosedMetrics = (
         points: [[t, t - unixTime(pr.firstCommit.committedDate)]],
       }
     )
+
+    if (pr.firstReviewRequest && pr.firstReview) {
+      const firstReviewRequestedAt = unixTime(pr.firstReviewRequest.createdAt)
+      const firstReviewedAt = unixTime(pr.firstReview.createdAt)
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.pull_request_closed.first_review_time_seconds',
+        type: 'gauge',
+        points: [[t, firstReviewedAt - firstReviewRequestedAt]],
+      })
+    }
   }
 
   // Datadog treats a tag as combination of values.

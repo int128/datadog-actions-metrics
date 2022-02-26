@@ -216,6 +216,9 @@ It has the following tags:
 - `base_ref`
 - `head_ref`
 - `merged` = `true` or `false`
+- `first_review_time_seconds`
+  - Time from the first review request to the first review
+  - Available if a pull request has both review request and review
 - `requested_team`
   - Team(s) of requested reviewer(s)
 - `label`
