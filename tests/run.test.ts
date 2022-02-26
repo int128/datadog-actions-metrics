@@ -2,7 +2,12 @@ import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { IntakePayloadAccepted } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/IntakePayloadAccepted'
 import { run } from '../src/run'
-import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from './workflowRun/fixtures/metrics'
+import {
+  exampleJobMetrics,
+  exampleStepMetrics,
+  exampleWorkflowRunMetrics,
+  exampleWorkflowRunSimpleMetrics,
+} from './workflowRun/fixtures/metrics'
 import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
 import { exampleRateLimitMetrics, exampleRateLimitResponse } from './rateLimit/fixtures'
 import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite'
@@ -80,7 +85,7 @@ test('workflow_run', async () => {
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledWith({
     body: {
-      series: [...exampleWorkflowRunMetrics, ...exampleRateLimitMetrics],
+      series: [...exampleWorkflowRunSimpleMetrics, ...exampleRateLimitMetrics],
     },
   })
 })
