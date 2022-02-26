@@ -1,7 +1,7 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent } from '@octokit/webhooks-types'
 import { ClosedPullRequest } from '../queries/closedPullRequest'
-import { expandSeriesByLabels } from './expand'
+import { expandSeriesByValues } from './expand'
 
 const computeCommonTags = (e: PullRequestEvent): string[] => {
   const tags = [
@@ -139,7 +139,7 @@ export const computePullRequestClosedMetrics = (
   if (options.sendPullRequestLabels) {
     // Datadog treats a tag as combination of values.
     // For example, if we send a metric with tags `label:foo` and `label:bar`, Datadog will show `label:foo,bar`.
-    return expandSeriesByLabels(series, e.pull_request.labels)
+    return expandSeriesByValues(series, 'label', e.pull_request.labels.map((l) => l.name))
   }
   return series
 }
