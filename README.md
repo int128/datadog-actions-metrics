@@ -222,9 +222,6 @@ It has the following tags:
   - Label(s) of a pull request
   - Available if `send-pull-request-labels` is set
 
-If a pull request has multiple labels, this action sends the metrics for each label.
-This action does not send labels by default from the cost perspective of the custom metrics.
-
 
 ### Push
 

@@ -1,7 +1,6 @@
 import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
 import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent } from '@octokit/webhooks-types'
 import { ClosedPullRequest } from '../queries/closedPullRequest'
-import { expandSeriesByValues } from './expand'
 
 const computeCommonTags = (e: PullRequestEvent): string[] => {
   const tags = [
@@ -136,26 +135,21 @@ export const computePullRequestClosedMetrics = (
     )
   }
 
-  // Datadog treats a tag as combination of values.
-  // For example, if we send a metric with tags `label:foo` and `label:bar`, Datadog will show `label:foo,bar`.
-  // Here send a metric for each tag
-  let expanded: Series[] = series
-
-  expanded = expandSeriesByValues(
-    expanded,
-    'requested_team',
-    e.pull_request.requested_teams.map((team) => team.name)
-  )
-
+  // TODO: investigate how to analyze multi-value tag in Datadog
+  //
+  // When it sends multiple values, Datadog will show the tag as combination of values.
+  // For example, it sends `label:x` and `label:y`, Datadog will show it as `label:x,y`.
+  // Don't send each metric for a tag value, because sum of count metric would be wrong value.
+  for (const requested_team of e.pull_request.requested_teams) {
+    tags.push(`requested_team:${requested_team.name}`)
+  }
   if (options.sendPullRequestLabels) {
-    expanded = expandSeriesByValues(
-      expanded,
-      'label',
-      e.pull_request.labels.map((l) => l.name)
-    )
+    for (const label of e.pull_request.labels) {
+      tags.push(`label:${label.name}`)
+    }
   }
 
-  return expanded
+  return series
 }
 
 const unixTime = (s: string): number => Date.parse(s) / 1000
