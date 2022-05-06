@@ -72,6 +72,7 @@ This action handles the following events:
 - workflow_run event
 - pull_request event
 - push event
+- schedule event
 
 It ignores other events.
 
@@ -273,6 +274,22 @@ It has the following tags:
 - `deleted` = `true` or `false`
 - `forced` = `true` or `false`
 - `default_branch` = `true` or `false`
+
+
+## Metrics for schedule event
+
+### Workflow run
+
+This action sends the following metrics:
+
+- `github.actions.schedule.queued_workflow_run.total` (gauge)
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+
+It is useful for monitoring self-hosted runners.
 
 
 ## Metrics for all supported events
