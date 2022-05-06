@@ -65,11 +65,22 @@ jobs:
 ```
 
 
-## Metrics
+## Overview
+
+This action handles the following events:
+
+- workflow_run event
+- pull_request event
+- push event
+
+It ignores other events.
+
+
+## Metrics for workflow_run event
 
 ### Workflow run
 
-This action sends the following metrics on `workflow_run` event.
+This action sends the following metrics.
 
 - `github.actions.workflow_run.total`
 - `github.actions.workflow_run.conclusion.{CONCLUSION}_total`
@@ -98,7 +109,7 @@ It has the following tags:
 
 ### Job
 
-This action sends the following metrics on `workflow_run` event.
+This action sends the following metrics if enabled.
 
 - `github.actions.job.total`
 - `github.actions.job.conclusion.{CONCLUSION}_total`
@@ -128,12 +139,10 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
-You need to set `collect-job-metrics` to enable the job metrics.
-
 
 ### Step
 
-This action sends the following metrics on `workflow_run` event.
+This action sends the following metrics if enabled.
 
 - `github.actions.step.total`
 - `github.actions.step.conclusion.{CONCLUSION}_total`
@@ -162,12 +171,36 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
-You need to set `collect-job-metrics` to enable the step metrics.
 
+### Enable job and step metrics
+
+To send the metrics of jobs and steps:
+
+```yaml
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
+```
+
+Note that this action calls GitHub GraphQL API to get jobs and steps of a workflow run.
+It may cause the rate exceeding error if too many workflows are run.
+
+To send the metrics of jobs and steps on the default branch only:
+
+```yaml
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+```
+
+
+## Metrics for pull_request event
 
 ### Pull request (opened)
 
-This action sends the following metrics on `pull_request` event.
+This action sends the following metrics on `opened` type.
 
 - `github.actions.pull_request_opened.total`
 - `github.actions.pull_request_opened.commits`
@@ -190,7 +223,7 @@ It has the following tags:
 
 ### Pull request (closed)
 
-This action sends the following metrics on `pull_request` event.
+This action sends the following metrics on `closed` type.
 
 - `github.actions.pull_request_closed.total`
 - `github.actions.pull_request_closed.since_opened_seconds`
@@ -223,9 +256,9 @@ It has the following tags:
   - Available if `send-pull-request-labels` is set
 
 
-### Push
+## Metrics for push event
 
-This action sends the following metrics on `push` event.
+This action sends the following metrics.
 
 - `github.actions.push.total`
 
@@ -241,6 +274,8 @@ It has the following tags:
 - `forced` = `true` or `false`
 - `default_branch` = `true` or `false`
 
+
+## Metrics for all supported events
 
 ### Rate limit
 
@@ -273,30 +308,6 @@ Name | Default | Description
 
 Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
-
-
-### Jobs and steps metrics
-
-To send the metrics of jobs and steps:
-
-```yaml
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          collect-job-metrics: true
-```
-
-Note that this action calls GitHub GraphQL API to get jobs and steps of a workflow run.
-It may cause the rate exceeding error if too many workflows are run.
-
-To send the metrics of jobs and steps on the default branch only:
-
-```yaml
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
-```
 
 
 ## Contribution
