@@ -10,6 +10,7 @@ import { queryClosedPullRequest } from './queries/closedPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
 import { computeWorkflowRunJobStepMetrics } from './workflowRun/metrics'
+import { computeScheduleMetrics } from './schedule/metrics'
 
 type Inputs = {
   githubToken: string
@@ -41,6 +42,9 @@ const handleEvent = async (context: GitHubContext, inputs: Inputs) => {
   }
   if (context.eventName === 'push') {
     return handlePush(context.payload as PushEvent)
+  }
+  if (context.eventName === 'schedule') {
+    return handleSchedule(context, inputs)
   }
 }
 
@@ -93,6 +97,18 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
 const handlePush = (e: PushEvent) => {
   core.info(`Got push event: ${e.compare}`)
   return computePushMetrics(e, new Date())
+}
+
+const handleSchedule = async (context: GitHubContext, inputs: Inputs) => {
+  core.info(`Got schedule event`)
+  const octokit = github.getOctokit(inputs.githubToken)
+  const queuedWorkflowRuns = await octokit.rest.actions.listWorkflowRunsForRepo({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    status: 'queued',
+    per_page: 100,
+  })
+  return computeScheduleMetrics(context, queuedWorkflowRuns, new Date())
 }
 
 const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
