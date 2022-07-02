@@ -1,4 +1,4 @@
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { v1 } from '@datadog/datadog-api-client'
 import { RateLimitResponse } from '../../../src/types'
 
 export const exampleRateLimitResponse: RateLimitResponse = {
@@ -39,7 +39,7 @@ export const exampleRateLimitResponse: RateLimitResponse = {
 
 const now = 1445412480
 
-export const exampleRateLimitMetrics: Series[] = [
+export const exampleRateLimitMetrics: v1.Series[] = [
   {
     host: 'github.com',
     tags: ['repository_owner:Codertocat', 'repository_name:Hello-World', 'resource:core'],

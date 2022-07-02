@@ -1,7 +1,7 @@
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { v1 } from '@datadog/datadog-api-client'
 import { PushEvent } from '@octokit/webhooks-types'
 
-export const computePushMetrics = (e: PushEvent, now: Date): Series[] => {
+export const computePushMetrics = (e: PushEvent, now: Date): v1.Series[] => {
   const tags = [
     `repository_owner:${e.repository.owner.login}`,
     `repository_name:${e.repository.name}`,

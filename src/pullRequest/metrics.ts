@@ -1,4 +1,4 @@
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { v1 } from '@datadog/datadog-api-client'
 import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent } from '@octokit/webhooks-types'
 import { ClosedPullRequest } from '../queries/closedPullRequest'
 
@@ -17,7 +17,7 @@ const computeCommonTags = (e: PullRequestEvent): string[] => {
   return tags
 }
 
-export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): Series[] => {
+export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): v1.Series[] => {
   const tags = computeCommonTags(e)
   const t = unixTime(e.pull_request.created_at)
   return [
@@ -67,11 +67,11 @@ export const computePullRequestClosedMetrics = (
   e: PullRequestClosedEvent,
   pr: ClosedPullRequest | undefined,
   options: ClosedMetricsOptions
-): Series[] => {
+): v1.Series[] => {
   const tags = computeCommonTags(e)
   tags.push(`merged:${String(e.pull_request.merged)}`)
   const t = unixTime(e.pull_request.closed_at)
-  const series = [
+  const series: v1.Series[] = [
     {
       host: 'github.com',
       tags,

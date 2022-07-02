@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { v1 } from '@datadog/datadog-api-client'
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { client, v1 } from '@datadog/datadog-api-client'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
@@ -117,7 +116,7 @@ const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
   return computeRateLimitMetrics(context, rateLimit)
 }
 
-const submitMetrics = async (series: Series[], inputs: Inputs) => {
+const submitMetrics = async (series: v1.Series[], inputs: Inputs) => {
   core.startGroup('Metrics payload')
   core.info(JSON.stringify(series, undefined, 2))
   core.endGroup()
@@ -127,13 +126,13 @@ const submitMetrics = async (series: Series[], inputs: Inputs) => {
     return
   }
 
-  const configuration = v1.createConfiguration({
+  const configuration = client.createConfiguration({
     authMethods: {
       apiKeyAuth: inputs.datadogApiKey,
     },
   })
   if (inputs.datadogSite) {
-    v1.setServerVariables(configuration, {
+    client.setServerVariables(configuration, {
       site: inputs.datadogSite,
     })
   }

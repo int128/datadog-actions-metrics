@@ -1,6 +1,6 @@
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { v1 } from '@datadog/datadog-api-client'
 
-export const exampleWorkflowRunMetrics: Series[] = [
+export const exampleWorkflowRunMetrics: v1.Series[] = [
   {
     host: 'github.com',
     metric: 'github.actions.workflow_run.total',
@@ -75,7 +75,7 @@ export const exampleWorkflowRunMetrics: Series[] = [
   },
 ]
 
-export const exampleWorkflowRunSimpleMetrics: Series[] = [
+export const exampleWorkflowRunSimpleMetrics: v1.Series[] = [
   {
     host: 'github.com',
     metric: 'github.actions.workflow_run.total',
@@ -132,7 +132,7 @@ export const exampleWorkflowRunSimpleMetrics: Series[] = [
   },
 ]
 
-export const exampleJobMetrics: Series[] = [
+export const exampleJobMetrics: v1.Series[] = [
   {
     host: 'github.com',
     metric: 'github.actions.job.total',
@@ -223,7 +223,7 @@ export const exampleJobMetrics: Series[] = [
   },
 ]
 
-export const exampleStepMetrics: Series[] = [
+export const exampleStepMetrics: v1.Series[] = [
   {
     host: 'github.com',
     metric: 'github.actions.step.total',

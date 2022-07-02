@@ -1,6 +1,5 @@
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
-import { IntakePayloadAccepted } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/IntakePayloadAccepted'
 import { run } from '../src/run'
 import {
   exampleJobMetrics,
@@ -32,7 +31,7 @@ getOctokit.mockReturnValue(octokitMock)
 
 jest.mock('@datadog/datadog-api-client')
 const metricsApiMock = {
-  submitMetrics: jest.fn<Promise<IntakePayloadAccepted>, [v1.MetricsApiSubmitMetricsRequest]>(),
+  submitMetrics: jest.fn<Promise<v1.IntakePayloadAccepted>, [v1.MetricsApiSubmitMetricsRequest]>(),
 }
 const metricsApiConstructor = v1.MetricsApi as jest.Mock
 metricsApiConstructor.mockReturnValue(metricsApiMock)

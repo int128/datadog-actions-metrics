@@ -1,4 +1,4 @@
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { v1 } from '@datadog/datadog-api-client'
 import { RateLimitResponse } from '../types'
 
 type Context = {
@@ -8,11 +8,11 @@ type Context = {
   }
 }
 
-export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): Series[] => {
+export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): v1.Series[] => {
   const t = unixTime(r.headers.date) ?? Math.floor(Date.now() / 1000)
   const tags = [`repository_owner:${e.repo.owner}`, `repository_name:${e.repo.repo}`]
 
-  const series = [
+  const series: v1.Series[] = [
     {
       host: 'github.com',
       tags: [...tags, 'resource:core'],
