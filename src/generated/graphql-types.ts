@@ -20726,6 +20726,8 @@ export type SecurityAdvisoryConnection = {
 export enum SecurityAdvisoryEcosystem {
   /** PHP packages hosted at packagist.org */
   Composer = 'COMPOSER',
+  /** Erlang/Elixir packages hosted at hex.pm */
+  Erlang = 'ERLANG',
   /** Go modules */
   Go = 'GO',
   /** Java artifacts hosted at the Maven central repository */
