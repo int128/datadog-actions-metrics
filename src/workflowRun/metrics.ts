@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import { Series } from '@datadog/datadog-api-client/dist/packages/datadog-api-client-v1/models/Series'
+import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
 import { CompletedCheckSuite } from '../queries/completedCheckSuite'
@@ -19,7 +19,7 @@ const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
   checkSuite?: CompletedCheckSuite
-): Series[] => {
+): v1.Series[] => {
   if (checkSuite === undefined) {
     return computeWorkflowRunMetrics(e)
   }
@@ -41,10 +41,13 @@ export const computeWorkflowRunJobStepMetrics = (
   ]
 }
 
-export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent, checkSuite?: CompletedCheckSuite): Series[] => {
+export const computeWorkflowRunMetrics = (
+  e: WorkflowRunCompletedEvent,
+  checkSuite?: CompletedCheckSuite
+): v1.Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
-  const series = [
+  const series: v1.Series[] = [
     {
       host: 'github.com',
       tags,
@@ -91,8 +94,8 @@ export const computeJobMetrics = (
   e: WorkflowRunCompletedEvent,
   checkSuite: CompletedCheckSuite,
   workflowDefinition?: WorkflowDefinition
-): Series[] => {
-  const series: Series[] = []
+): v1.Series[] => {
+  const series: v1.Series[] = []
   for (const checkRun of checkSuite.node.checkRuns.nodes) {
     // lower case for backward compatibility
     const conclusion = String(checkRun.conclusion).toLowerCase()
@@ -157,8 +160,8 @@ export const computeStepMetrics = (
   e: WorkflowRunCompletedEvent,
   checkSuite: CompletedCheckSuite,
   workflowDefinition?: WorkflowDefinition
-): Series[] => {
-  const series: Series[] = []
+): v1.Series[] => {
+  const series: v1.Series[] = []
   for (const checkRun of checkSuite.node.checkRuns.nodes) {
     const runsOn = inferRunner(checkRun.name, workflowDefinition)
 
