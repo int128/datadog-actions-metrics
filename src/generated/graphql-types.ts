@@ -10,25 +10,15 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** A (potentially binary) string encoded using base64. */
   Base64String: any;
-  /** An ISO-8601 encoded date string. */
   Date: any;
-  /** An ISO-8601 encoded UTC date string. */
   DateTime: string;
-  /** A Git object ID. */
   GitObjectID: any;
-  /** Git SSH string */
   GitSSHRemote: any;
-  /** An ISO-8601 encoded date string. Unlike the DateTime type, GitTimestamp is not converted in UTC. */
   GitTimestamp: any;
-  /** A string containing HTML code. */
   HTML: any;
-  /** An ISO-8601 encoded UTC date string with millisecond precision. */
   PreciseDateTime: any;
-  /** An RFC 3986, RFC 3987, and RFC 6570 (level 4) compliant URI string. */
   URI: any;
-  /** A valid x509 certificate string */
   X509Certificate: any;
 };
 
@@ -13114,7 +13104,10 @@ export type PackageTag = Node & {
 export enum PackageType {
   /** A debian package. */
   Debian = 'DEBIAN',
-  /** A docker image. */
+  /**
+   * A docker image.
+   * @deprecated DOCKER will be removed from this enum as this type will be migrated to only be used by the Packages REST API. Removal on 2021-06-21 UTC.
+   */
   Docker = 'DOCKER',
   /** A maven package. */
   Maven = 'MAVEN',
@@ -14112,31 +14105,70 @@ export type ProjectNextFieldEdge = {
 
 /** The type of a project next field. */
 export enum ProjectNextFieldType {
-  /** Assignees */
+  /**
+   * Assignees
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Assignees = 'ASSIGNEES',
-  /** Date */
+  /**
+   * Date
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Date = 'DATE',
-  /** Iteration */
+  /**
+   * Iteration
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Iteration = 'ITERATION',
-  /** Labels */
+  /**
+   * Labels
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Labels = 'LABELS',
-  /** Linked Pull Requests */
+  /**
+   * Linked Pull Requests
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   LinkedPullRequests = 'LINKED_PULL_REQUESTS',
-  /** Milestone */
+  /**
+   * Milestone
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Milestone = 'MILESTONE',
-  /** Number */
+  /**
+   * Number
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Number = 'NUMBER',
-  /** Repository */
+  /**
+   * Repository
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Repository = 'REPOSITORY',
-  /** Reviewers */
+  /**
+   * Reviewers
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Reviewers = 'REVIEWERS',
-  /** Single Select */
+  /**
+   * Single Select
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   SingleSelect = 'SINGLE_SELECT',
-  /** Text */
+  /**
+   * Text
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Text = 'TEXT',
-  /** Title */
+  /**
+   * Title
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Title = 'TITLE',
-  /** Tracks */
+  /**
+   * Tracks
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Tracks = 'TRACKS'
 }
 
@@ -14295,13 +14327,25 @@ export type ProjectNextItemFieldValueEdge = {
 
 /** Properties by which the return project can be ordered. */
 export enum ProjectNextOrderField {
-  /** The project's date and time of creation */
+  /**
+   * The project's date and time of creation
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   CreatedAt = 'CREATED_AT',
-  /** The project's number */
+  /**
+   * The project's number
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Number = 'NUMBER',
-  /** The project's title */
+  /**
+   * The project's title
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   Title = 'TITLE',
-  /** The project's date and time of update */
+  /**
+   * The project's date and time of update
+   * @deprecated The `ProjectNext` API is deprecated in favour of the more capable `ProjectV2` API. Follow the ProjectV2 guide at https://github.blog/changelog/2022-06-23-the-new-github-issues-june-23rd-update/, to find a suitable replacement. Removal on 2022-10-01 UTC.
+   */
   UpdatedAt = 'UPDATED_AT'
 }
 
