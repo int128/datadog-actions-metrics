@@ -191,6 +191,29 @@ Array [
         },
         Object {
           "host": "github.com",
+          "metric": "github.actions.pull_request_closed.first_review_time_seconds",
+          "points": Array [
+            Array [
+              1558279233,
+              600,
+            ],
+          ],
+          "tags": Array [
+            "repository_owner:Codertocat",
+            "repository_name:Hello-World",
+            "sender:Codertocat",
+            "sender_type:User",
+            "user:Codertocat",
+            "pull_request_number:2",
+            "draft:false",
+            "base_ref:master",
+            "head_ref:changes",
+            "merged:false",
+          ],
+          "type": "gauge",
+        },
+        Object {
+          "host": "github.com",
           "metric": "github.actions.api_rate_limit.remaining",
           "points": Array [
             Array [

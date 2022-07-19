@@ -14,6 +14,22 @@ export const exampleClosedPullRequestQuery: ClosedPullRequestQuery = {
           },
         ],
       },
+      reviewRequests: {
+        nodes: [
+          {
+            __typename: 'ReviewRequestedEvent',
+            createdAt: '2019-05-15T15:30:00Z',
+          },
+        ],
+      },
+      reviews: {
+        nodes: [
+          {
+            __typename: 'PullRequestReview',
+            createdAt: '2019-05-15T15:40:00Z',
+          },
+        ],
+      },
     },
   },
 }
