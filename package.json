@@ -14,7 +14,7 @@
   "dependencies": {
     "@actions/core": "1.9.0",
     "@actions/github": "5.0.3",
-    "@datadog/datadog-api-client": "1.1.0",
+    "@datadog/datadog-api-client": "1.2.0",
     "@octokit/webhooks-types": "6.1.2",
     "graphql": "16.5.0"
   },
