@@ -141,6 +141,16 @@ export const computeJobMetrics = (
       points: [[completedAt, duration]],
     })
 
+    if (checkRun.annotations.nodes.some((a) => isLostCommunicationWithServerError(a.message))) {
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.job.lost_communication_with_server_error_total',
+        type: 'count',
+        points: [[completedAt, 1]],
+      })
+    }
+
     if (checkRun.steps.nodes.length > 0) {
       const firstStepStartedAt = Math.min(...checkRun.steps.nodes.map((s) => unixTime(s.startedAt)))
       const queued = firstStepStartedAt - startedAt
@@ -155,6 +165,9 @@ export const computeJobMetrics = (
   }
   return series
 }
+
+export const isLostCommunicationWithServerError = (message: string): boolean =>
+  /^The self-hosted runner: .+? lost communication with the server./.test(message)
 
 export const computeStepMetrics = (
   e: WorkflowRunCompletedEvent,
