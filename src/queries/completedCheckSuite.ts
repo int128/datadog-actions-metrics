@@ -1,5 +1,5 @@
 import { CompletedCheckSuiteQuery, CompletedCheckSuiteQueryVariables } from '../generated/graphql'
-import { CheckRun, CheckStep } from '../generated/graphql-types'
+import { CheckAnnotation, CheckRun, CheckStep } from '../generated/graphql-types'
 import { Octokit } from '../types'
 
 const query = /* GraphQL */ `
@@ -15,6 +15,11 @@ const query = /* GraphQL */ `
             completedAt
             conclusion
             status
+            annotations(first: 10) {
+              nodes {
+                message
+              }
+            }
             steps(first: 50) {
               nodes {
                 number
@@ -64,6 +69,9 @@ export type CompletedCheckSuite = {
 
 type CompletedCheckRun = Pick<CheckRun, 'databaseId' | 'name' | 'status'> &
   NonNullablePick<CheckRun, 'startedAt' | 'completedAt' | 'conclusion'> & {
+    annotations: {
+      nodes: Pick<CheckAnnotation, 'message'>[]
+    }
     steps: {
       nodes: CompletedStep[]
     }
@@ -97,6 +105,14 @@ const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['nod
       continue
     }
 
+    const annotations = []
+    for (const annotation of checkRun.annotations?.nodes ?? []) {
+      if (annotation == null) {
+        continue
+      }
+      annotations.push(annotation)
+    }
+
     const steps: CompletedStep[] = []
     for (const step of checkRun.steps?.nodes ?? []) {
       if (step == null) {
@@ -123,6 +139,7 @@ const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['nod
       startedAt,
       completedAt,
       conclusion,
+      annotations: { nodes: annotations },
       steps: { nodes: steps },
     })
   }

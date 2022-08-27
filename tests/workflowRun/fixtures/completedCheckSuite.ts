@@ -26,6 +26,7 @@ export const exampleCompletedCheckSuite: CompletedCheckSuiteQuery & CompletedChe
           name: 'build',
           status: CheckStatusState.Completed,
           conclusion: CheckConclusionState.Success,
+          annotations: { nodes: [] },
           steps: {
             nodes: [
               {
