@@ -252,6 +252,7 @@ export const exampleWorkflowRunEvent: WorkflowRunCompletedEvent = {
   repository: {
     topics: [],
     visibility: 'public',
+    web_commit_signoff_required: false,
     archive_url: 'https://api.github.com/repos/Codertocat/Hello-World/{archive_format}{/ref}',
     archived: false,
     assignees_url: 'https://api.github.com/repos/Codertocat/Hello-World/assignees{/user}',

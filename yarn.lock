@@ -2063,10 +2063,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@octokit/webhooks-types@6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-6.1.2.tgz#c4005c3a2741bd8a7fb259e5afc2e4cb11281937"
-  integrity sha512-Y3wC0EyB3EGroARAgrq8wJY/yVx31AHYusSm9T2t7a5BcDAFpJ4ThF38KbQrrX6Xw3yMZ3qfEAc8xtZ91i+09A==
+"@octokit/webhooks-types@6.3.6":
+  version "6.3.6"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-6.3.6.tgz#b211e42386463175ebc652c86d5c7433675986fc"
+  integrity sha512-x6yBtWobk20OhOiJ4VWsH3iJ/30IG+VoDWSgS4Tiyidi2KOiBS3bL+AJrNuq4OyNuWOM/FbHQTp6KEZs1oPD/g==
 
 "@peculiar/asn1-schema@^2.1.6":
   version "2.2.0"
