@@ -6,16 +6,9 @@ It is inspired from [yuya-takeyama/github-actions-metrics-to-datadog-action](htt
 
 ## Purpose
 
-### Analyze workflow run statistics
+### Improve the reliability and experience of CI/CD pipeline
 
-You can analyze the workflow run statistics such as duration or success rate.
-It is useful to improve long-time tests or flaky tests.
-
-Here is an example of screenshot in Datadog.
-
-![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
-
-To collect the metrics of a workflow on completed:
+To collect the metrics when a workflow is completed:
 
 ```yaml
 on:
@@ -36,15 +29,35 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-See also the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
+Here is an example of screenshot in Datadog.
+
+![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
+
+For developer experience, you can analyze the following metrics:
+
+- Time to test an application
+- Time to deploy an application
+
+For reliability, you can monitor the following metrics:
+
+- Success rate of the main branch
+- Rate limit of built-in `GITHUB_TOKEN`
 
 
-### Analyze pull request statistics
+### Improve the reliability and experience of self-hosted runners
+
+For the self-hosted runners, you can monitor the following metrics for reliability and experience:
+
+- Count of the [lost communication with the server](https://github.com/actions-runner-controller/actions-runner-controller/issues/466) errors
+- Queued time of job (time to pick a job by a runner)
+
+
+### Improve your team development process
 
 You can analyze your development activity such as number of merged pull requests.
 It helps the continuous process improvement of your team.
 
-To collect the metrics of a pull request:
+To collect the metrics when a pull request is opened or closed:
 
 ```yaml
 on:
@@ -106,6 +119,8 @@ It has the following tags:
 - `branch`
 - `default_branch` = `true` or `false`
 - `conclusion`
+
+See also the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
 
 
 ### Job
