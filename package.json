@@ -21,7 +21,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "2.13.7",
     "@graphql-codegen/import-types-preset": "2.2.5",
-    "@graphql-codegen/typescript": "2.7.5",
+    "@graphql-codegen/typescript": "2.8.0",
     "@graphql-codegen/typescript-operations": "2.5.5",
     "@octokit/graphql-schema": "12.15.1",
     "@tsconfig/node16": "1.0.3",
