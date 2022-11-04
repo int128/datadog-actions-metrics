@@ -58,7 +58,7 @@ export const exampleWorkflowRunMetrics: v1.Series[] = [
   {
     host: 'github.com',
     metric: 'github.actions.workflow_run.queued_duration_second',
-    points: [[1579721588, -179428]],
+    points: [[1579721588, -119]],
     tags: [
       'repository_owner:octocat',
       'repository_name:Hello-World',
