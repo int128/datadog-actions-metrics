@@ -1130,10 +1130,10 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@datadog/datadog-api-client@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.5.0.tgz#22bc55f2e8bd32450d972418a179ad6f0ccc35d9"
-  integrity sha512-POIqS/kAc2xn0FKYQ0svDSDLs9l0I2DAjI78cCIl02YZ8wD/6prK+EQ0UP90zy5yQtFnVVjTsHNpdiOPUPPHKw==
+"@datadog/datadog-api-client@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.6.0.tgz#c09caa7e34ddaa346ba56c04c0e43bb288c501bd"
+  integrity sha512-+iYaZt/yb7Unv4zIsh2WSdQU15cwsBTKrtpU4Z1wG90G2LFabqhWzARx/4qQ2Wms07hjUkA2rLTffd0+vGgyGA==
   dependencies:
     "@types/buffer-from" "^1.1.0"
     "@types/node" "*"
