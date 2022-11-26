@@ -22,33 +22,29 @@ type Inputs = {
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
-  const series = await handleEvent(context, inputs)
-  if (series === undefined) {
-    core.warning(`Not supported event ${context.eventName} action ${String(context.payload.action)}`)
-    return
-  }
-
+  const submitMetrics = createMetricsClient(inputs)
+  await handleEvent(submitMetrics, context, inputs)
   const rateLimit = await getRateLimitMetrics(context, inputs)
-  series.push(...rateLimit)
-  await submitMetrics(series, inputs)
+  await submitMetrics(rateLimit, 'rate limit')
 }
 
-const handleEvent = async (context: GitHubContext, inputs: Inputs) => {
+const handleEvent = async (submitMetrics: SubmitMetrics, context: GitHubContext, inputs: Inputs) => {
   if (context.eventName === 'workflow_run') {
-    return await handleWorkflowRun(context.payload as WorkflowRunEvent, inputs)
+    return await handleWorkflowRun(submitMetrics, context.payload as WorkflowRunEvent, inputs)
   }
   if (context.eventName === 'pull_request') {
-    return await handlePullRequest(context.payload as PullRequestEvent, context, inputs)
+    return await handlePullRequest(submitMetrics, context.payload as PullRequestEvent, context, inputs)
   }
   if (context.eventName === 'push') {
-    return handlePush(context.payload as PushEvent)
+    return handlePush(submitMetrics, context.payload as PushEvent)
   }
   if (context.eventName === 'schedule') {
-    return handleSchedule(context, inputs)
+    return handleSchedule(submitMetrics, context, inputs)
   }
+  core.warning(`Not supported event ${context.eventName}`)
 }
 
-const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
+const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEvent, inputs: Inputs) => {
   core.info(`Got workflow run ${e.action} event: ${e.workflow_run.html_url}`)
 
   if (e.action === 'completed') {
@@ -69,22 +65,29 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
     }
 
     const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite)
-    const series = [...metrics.workflowRunMetrics]
+    await submitMetrics(metrics.workflowRunMetrics, 'workflow run')
     if (inputs.collectJobMetrics) {
-      series.push(...metrics.jobMetrics)
+      await submitMetrics(metrics.jobMetrics, 'job')
     }
     if (inputs.collectStepMetrics) {
-      series.push(...metrics.stepMetrics)
+      await submitMetrics(metrics.stepMetrics, 'step')
     }
-    return series
+    return
   }
+
+  core.warning(`Not supported action ${e.action}`)
 }
 
-const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, inputs: Inputs) => {
+const handlePullRequest = async (
+  submitMetrics: SubmitMetrics,
+  e: PullRequestEvent,
+  context: GitHubContext,
+  inputs: Inputs
+) => {
   core.info(`Got pull request ${e.action} event: ${e.pull_request.html_url}`)
 
   if (e.action === 'opened') {
-    return computePullRequestOpenedMetrics(e)
+    return await submitMetrics(computePullRequestOpenedMetrics(e), 'pull request')
   }
 
   if (e.action === 'closed') {
@@ -99,16 +102,18 @@ const handlePullRequest = async (e: PullRequestEvent, context: GitHubContext, in
     } catch (error) {
       core.warning(`Could not get the pull request: ${String(error)}`)
     }
-    return computePullRequestClosedMetrics(e, closedPullRequest, inputs)
+    return await submitMetrics(computePullRequestClosedMetrics(e, closedPullRequest, inputs), 'pull request')
   }
+
+  core.warning(`Not supported action ${e.action}`)
 }
 
-const handlePush = (e: PushEvent) => {
+const handlePush = async (submitMetrics: SubmitMetrics, e: PushEvent) => {
   core.info(`Got push event: ${e.compare}`)
-  return computePushMetrics(e, new Date())
+  return await submitMetrics(computePushMetrics(e, new Date()), 'push')
 }
 
-const handleSchedule = async (context: GitHubContext, inputs: Inputs) => {
+const handleSchedule = async (submitMetrics: SubmitMetrics, context: GitHubContext, inputs: Inputs) => {
   core.info(`Got schedule event`)
   const octokit = github.getOctokit(inputs.githubToken)
   const queuedWorkflowRuns = await octokit.rest.actions.listWorkflowRunsForRepo({
@@ -117,7 +122,7 @@ const handleSchedule = async (context: GitHubContext, inputs: Inputs) => {
     status: 'queued',
     per_page: 100,
   })
-  return computeScheduleMetrics(context, queuedWorkflowRuns, new Date())
+  return await submitMetrics(computeScheduleMetrics(context, queuedWorkflowRuns, new Date()), 'schedule')
 }
 
 const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
@@ -126,14 +131,16 @@ const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
   return computeRateLimitMetrics(context, rateLimit)
 }
 
-const submitMetrics = async (series: v1.Series[], inputs: Inputs) => {
-  core.startGroup('Metrics payload')
-  core.info(JSON.stringify(series, undefined, 2))
-  core.endGroup()
+type SubmitMetrics = (series: v1.Series[], description: string) => Promise<void>
 
-  const dryRun = inputs.datadogApiKey === undefined
-  if (dryRun) {
-    return
+const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
+  if (inputs.datadogApiKey === undefined) {
+    // eslint-disable-next-line @typescript-eslint/require-await
+    return async (series: v1.Series[], description: string) => {
+      core.startGroup(`Metrics payload (dry-run) (${description})`)
+      core.info(JSON.stringify(series, undefined, 2))
+      core.endGroup()
+    }
   }
 
   const configuration = client.createConfiguration({
@@ -148,7 +155,13 @@ const submitMetrics = async (series: v1.Series[], inputs: Inputs) => {
   }
   const metrics = new v1.MetricsApi(configuration)
 
-  core.info(`Sending ${series.length} metrics to Datadog`)
-  const accepted = await metrics.submitMetrics({ body: { series } })
-  core.info(`Sent as ${JSON.stringify(accepted)}`)
+  return async (series: v1.Series[], description: string) => {
+    core.startGroup(`Metrics payload (${description})`)
+    core.info(JSON.stringify(series, undefined, 2))
+    core.endGroup()
+
+    core.info(`Sending ${series.length} metrics to Datadog`)
+    const accepted = await metrics.submitMetrics({ body: { series } })
+    core.info(`Sent ${JSON.stringify(accepted)}`)
+  }
 }
