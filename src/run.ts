@@ -72,6 +72,7 @@ const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEve
     if (inputs.collectStepMetrics) {
       await submitMetrics(metrics.stepMetrics, 'step')
     }
+    return
   }
 
   core.warning(`Not supported action ${e.action}`)
