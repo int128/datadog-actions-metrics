@@ -17,6 +17,7 @@ type Inputs = {
   datadogApiKey?: string
   datadogSite?: string
   collectJobMetrics: boolean
+  collectStepMetrics: boolean
   sendPullRequestLabels: boolean
 }
 
@@ -52,7 +53,7 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
 
   if (e.action === 'completed') {
     let checkSuite
-    if (inputs.collectJobMetrics) {
+    if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
       const octokit = github.getOctokit(inputs.githubToken)
       try {
         checkSuite = await queryCompletedCheckSuite(octokit, {
@@ -66,7 +67,16 @@ const handleWorkflowRun = async (e: WorkflowRunEvent, inputs: Inputs) => {
     if (checkSuite) {
       core.info(`Found check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
     }
-    return computeWorkflowRunJobStepMetrics(e, checkSuite)
+
+    const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite)
+    const series = [...metrics.workflowRunMetrics]
+    if (inputs.collectJobMetrics) {
+      series.push(...metrics.jobMetrics)
+    }
+    if (inputs.collectStepMetrics) {
+      series.push(...metrics.stepMetrics)
+    }
+    return series
   }
 }
 

@@ -17,12 +17,18 @@ const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
 ]
 
+export type WorkflowRunJobStepMetrics = {
+  workflowRunMetrics: v1.Series[]
+  jobMetrics: v1.Series[]
+  stepMetrics: v1.Series[]
+}
+
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
   checkSuite?: CompletedCheckSuite
-): v1.Series[] => {
+): WorkflowRunJobStepMetrics => {
   if (checkSuite === undefined) {
-    return computeWorkflowRunMetrics(e)
+    return { workflowRunMetrics: computeWorkflowRunMetrics(e), jobMetrics: [], stepMetrics: [] }
   }
 
   let workflowDefinition
@@ -35,11 +41,11 @@ export const computeWorkflowRunJobStepMetrics = (
     core.info(`Found ${Object.keys(workflowDefinition.jobs).length} job(s) in the workflow file`)
   }
 
-  return [
-    ...computeWorkflowRunMetrics(e, checkSuite),
-    ...computeJobMetrics(e, checkSuite, workflowDefinition),
-    ...computeStepMetrics(e, checkSuite, workflowDefinition),
-  ]
+  return {
+    workflowRunMetrics: computeWorkflowRunMetrics(e, checkSuite),
+    jobMetrics: computeJobMetrics(e, checkSuite, workflowDefinition),
+    stepMetrics: computeStepMetrics(e, checkSuite, workflowDefinition),
+  }
 }
 
 export const computeWorkflowRunMetrics = (
