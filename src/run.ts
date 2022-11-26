@@ -140,6 +140,9 @@ const submitMetrics = async (series: v1.Series[], inputs: Inputs) => {
     authMethods: {
       apiKeyAuth: inputs.datadogApiKey,
     },
+    httpConfig: {
+      compress: true,
+    },
   })
   if (inputs.datadogSite) {
     client.setServerVariables(configuration, {
