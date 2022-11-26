@@ -349,10 +349,10 @@ Name | Default | Description
 
 ### Breaking changes
 
+`collect-step-metrics` is explicitly required to send the step metrics.
+
 `collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
-
-`collect-step-metrics` is required to explicitly send the step metrics.
 
 
 ## Contribution
