@@ -113,6 +113,8 @@ It has the following tags:
 - `repository_name`
 - `workflow_name`
 - `workflow_id`
+- `run_attempt`
+  - Attempt number of the run, 1 for first attempt and higher if the workflow was re-run
 - `event`
 - `sender`
 - `sender_type` = either `Bot`, `User` or `Organization`
