@@ -127,7 +127,7 @@ See also the actual metrics in the [E2E test](https://github.com/int128/datadog-
 
 ### Job
 
-This action sends the following metrics if enabled.
+This action sends the following metrics if `collect-job-metrics` is enabled.
 
 - `github.actions.job.total`
 - `github.actions.job.conclusion.{CONCLUSION}_total`
@@ -163,7 +163,7 @@ It has the following tags:
 
 ### Step
 
-This action sends the following metrics if enabled.
+This action sends the following metrics if `collect-step-metrics` is enabled.
 
 - `github.actions.step.total`
 - `github.actions.step.conclusion.{CONCLUSION}_total`
@@ -193,7 +193,11 @@ It has the following tags:
   - e.g. `ubuntu-latest`
 
 
-### Enable job and step metrics
+### Enable job or step metrics
+
+Note that this action calls GitHub GraphQL API to get jobs and steps of a workflow run.
+It may cause the rate exceeding error if too many workflows are run.
+It may also increase the cost of custom metrics in Datadog.
 
 To send the metrics of jobs and steps:
 
@@ -202,10 +206,8 @@ To send the metrics of jobs and steps:
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: true
+          collect-step-metrics: true
 ```
-
-Note that this action calls GitHub GraphQL API to get jobs and steps of a workflow run.
-It may cause the rate exceeding error if too many workflows are run.
 
 To send the metrics of jobs and steps on the default branch only:
 
@@ -214,6 +216,7 @@ To send the metrics of jobs and steps on the default branch only:
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+          collect-step-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
 ```
 
 
@@ -341,9 +344,14 @@ Name | Default | Description
 `datadog-api-key` | - | Datadog API key. If not set, this action does not send metrics actually
 `datadog-site` | - | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com`
 `send-pull-request-labels` | `false` | Send pull request labels as Datadog tags
-`collect-job-metrics` | `false` | Collect metrics of jobs and steps
+`collect-job-metrics` | `false` | Collect job metrics
+`collect-step-metrics` | `false` | Collect step metrics
 
-Note that `collect-job-metrics-for-only-default-branch` is no longer supported.
+### Breaking changes
+
+`collect-step-metrics` is explicitly required to send the step metrics.
+
+`collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
 
 

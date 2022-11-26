@@ -33,3 +33,4 @@ jobs:
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: true
+          collect-step-metrics: true

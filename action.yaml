@@ -19,18 +19,17 @@ inputs:
     required: false
 
   collect-job-metrics:
-    description: Collect metrics of jobs and steps
+    description: Collect job metrics
+    required: false
+    default: 'false'
+  collect-step-metrics:
+    description: Collect step metrics
     required: false
     default: 'false'
   send-pull-request-labels:
     description: Send pull request labels as Datadog tags
     required: false
     default: 'false'
-
-  collect-job-metrics-for-only-default-branch:
-    description: No longer supported
-    required: false
-    deprecationMessage: Use collect-job-metrics instead
 
 runs:
   using: 'node16'
