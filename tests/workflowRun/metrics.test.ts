@@ -6,7 +6,6 @@ import {
   isLostCommunicationWithServerError,
 } from '../../src/workflowRun/metrics'
 import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite'
-import { exampleJobMetrics, exampleStepMetrics, exampleWorkflowRunMetrics } from './fixtures/metrics'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
 
 const exampleWorkflowDefinition: WorkflowDefinition = {
@@ -19,17 +18,17 @@ const exampleWorkflowDefinition: WorkflowDefinition = {
 
 test('computeWorkflowRunMetrics', () => {
   const series = computeWorkflowRunMetrics(exampleWorkflowRunEvent, exampleCompletedCheckSuite)
-  expect(series).toStrictEqual(exampleWorkflowRunMetrics)
+  expect(series).toMatchSnapshot()
 })
 
 test('computeJobMetrics', () => {
   const series = computeJobMetrics(exampleWorkflowRunEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
-  expect(series).toStrictEqual(exampleJobMetrics)
+  expect(series).toMatchSnapshot()
 })
 
 test('computeStepMetrics', () => {
   const series = computeStepMetrics(exampleWorkflowRunEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
-  expect(series).toStrictEqual(exampleStepMetrics)
+  expect(series).toMatchSnapshot()
 })
 
 describe('isLostCommunicationWithServerError', () => {
