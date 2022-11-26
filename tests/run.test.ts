@@ -1,14 +1,8 @@
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { run } from '../src/run'
-import {
-  exampleJobMetrics,
-  exampleStepMetrics,
-  exampleWorkflowRunMetrics,
-  exampleWorkflowRunSimpleMetrics,
-} from './workflowRun/fixtures/metrics'
 import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
-import { exampleRateLimitMetrics, exampleRateLimitResponse } from './rateLimit/fixtures'
+import { exampleRateLimitResponse } from './rateLimit/fixtures'
 import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite'
 import { examplePullRequestClosedEvent } from './pullRequest/fixtures/closed'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
@@ -56,11 +50,8 @@ test('workflow_run with collectJobMetrics', async () => {
     }
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toBeCalledWith({
-    body: {
-      series: [...exampleWorkflowRunMetrics, ...exampleJobMetrics, ...exampleStepMetrics, ...exampleRateLimitMetrics],
-    },
-  })
+  expect(metricsApiMock.submitMetrics).toBeCalledTimes(1)
+  expect(metricsApiMock.submitMetrics.mock.lastCall).toMatchSnapshot()
 })
 
 test('workflow_run', async () => {
@@ -82,11 +73,8 @@ test('workflow_run', async () => {
     }
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toBeCalledWith({
-    body: {
-      series: [...exampleWorkflowRunSimpleMetrics, ...exampleRateLimitMetrics],
-    },
-  })
+  expect(metricsApiMock.submitMetrics).toBeCalledTimes(1)
+  expect(metricsApiMock.submitMetrics.mock.lastCall).toMatchSnapshot()
 })
 
 test('pull_request_opened', async () => {
@@ -109,7 +97,7 @@ test('pull_request_opened', async () => {
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledTimes(1)
-  expect(metricsApiMock.submitMetrics.mock.calls[0]).toMatchSnapshot()
+  expect(metricsApiMock.submitMetrics.mock.lastCall).toMatchSnapshot()
 })
 
 test('pull_request_closed', async () => {
@@ -133,5 +121,5 @@ test('pull_request_closed', async () => {
   )
   expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
   expect(metricsApiMock.submitMetrics).toBeCalledTimes(1)
-  expect(metricsApiMock.submitMetrics.mock.calls[0]).toMatchSnapshot()
+  expect(metricsApiMock.submitMetrics.mock.lastCall).toMatchSnapshot()
 })
