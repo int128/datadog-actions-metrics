@@ -33,6 +33,11 @@ jobs:
 
       - name: smoke test
         uses: ./
+        # FIXME: do not merge into main
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics: true
+          collect-step-metrics: true
 
   generate:
     runs-on: ubuntu-latest
