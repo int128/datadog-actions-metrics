@@ -4,6 +4,7 @@ import {
   computeStepMetrics,
   computeWorkflowRunMetrics,
   isLostCommunicationWithServerError,
+  isReceivedShutdownSignalError,
 } from '../../src/workflowRun/metrics'
 import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite'
 import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
@@ -41,5 +42,18 @@ describe('isLostCommunicationWithServerError', () => {
   })
   test('not related error', () => {
     expect(isLostCommunicationWithServerError(`Process exit 1`)).toBeFalsy()
+  })
+})
+
+describe('isReceivedShutdownSignalError', () => {
+  test('matched', () => {
+    expect(
+      isReceivedShutdownSignalError(
+        `The runner has received a shutdown signal. This can happen when the runner service is stopped, or a manually started runner is canceled.`
+      )
+    ).toBeTruthy()
+  })
+  test('not related error', () => {
+    expect(isReceivedShutdownSignalError(`Process exit 1`)).toBeFalsy()
   })
 })

@@ -140,6 +140,8 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
 - `github.actions.job.lost_communication_with_server_error_total`
   - Count of "lost communication with the server" errors of self-hosted runners.
     See the issue [#444](https://github.com/int128/datadog-actions-metrics/issues/444) for details
+- `github.actions.job.received_shutdown_signal_error_total`
+  - Count of "The runner has received a shutdown signal" errors of self-hosted runners.
 
 It has the following tags:
 

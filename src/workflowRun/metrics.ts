@@ -158,6 +158,16 @@ export const computeJobMetrics = (
       })
     }
 
+    if (checkRun.annotations.nodes.some((a) => isReceivedShutdownSignalError(a.message))) {
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.job.received_shutdown_signal_error_total',
+        type: 'count',
+        points: [[completedAt, 1]],
+      })
+    }
+
     if (checkRun.steps.nodes.length > 0) {
       const firstStepStartedAt = Math.min(...checkRun.steps.nodes.map((s) => unixTime(s.startedAt)))
       const queued = firstStepStartedAt - startedAt
@@ -175,6 +185,9 @@ export const computeJobMetrics = (
 
 export const isLostCommunicationWithServerError = (message: string): boolean =>
   /^The self-hosted runner: .+? lost communication with the server./.test(message)
+
+export const isReceivedShutdownSignalError = (message: string): boolean =>
+  message.startsWith('The runner has received a shutdown signal.')
 
 export const computeStepMetrics = (
   e: WorkflowRunCompletedEvent,
