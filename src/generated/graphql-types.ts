@@ -20522,7 +20522,9 @@ export enum RepositoryLockReason {
   /** The repository is locked due to a move. */
   Moving = 'MOVING',
   /** The repository is locked due to a rename. */
-  Rename = 'RENAME'
+  Rename = 'RENAME',
+  /** The repository is locked due to a trade controls related reason. */
+  TradeRestriction = 'TRADE_RESTRICTION'
 }
 
 /** An Octoshift repository migration. */
