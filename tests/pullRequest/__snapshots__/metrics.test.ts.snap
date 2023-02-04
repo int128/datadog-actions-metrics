@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`computePullRequestClosedMetrics 1`] = `
-Array [
-  Object {
+[
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.total",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -25,16 +25,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.since_opened_seconds",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         345600,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -48,16 +48,16 @@ Array [
     ],
     "type": "gauge",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.commits",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -71,16 +71,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.changed_files",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -94,16 +94,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.additions",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -117,16 +117,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.deletions",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -144,17 +144,17 @@ Array [
 `;
 
 exports[`computePullRequestClosedMetricsWithQuery 1`] = `
-Array [
-  Object {
+[
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.total",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -168,16 +168,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.since_opened_seconds",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         345600,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -191,16 +191,16 @@ Array [
     ],
     "type": "gauge",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.commits",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -214,16 +214,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.changed_files",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -237,16 +237,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.additions",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -260,16 +260,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.deletions",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -283,16 +283,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.since_first_authored_seconds",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         346822,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -306,16 +306,16 @@ Array [
     ],
     "type": "gauge",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_closed.since_first_committed_seconds",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1558279233,
         346151,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -333,17 +333,17 @@ Array [
 `;
 
 exports[`computePullRequestOpenedMetrics 1`] = `
-Array [
-  Object {
+[
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_opened.total",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1557933633,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -356,16 +356,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_opened.commits",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1557933633,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -378,16 +378,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_opened.changed_files",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1557933633,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -400,16 +400,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_opened.additions",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1557933633,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",
@@ -422,16 +422,16 @@ Array [
     ],
     "type": "count",
   },
-  Object {
+  {
     "host": "github.com",
     "metric": "github.actions.pull_request_opened.deletions",
-    "points": Array [
-      Array [
+    "points": [
+      [
         1557933633,
         1,
       ],
     ],
-    "tags": Array [
+    "tags": [
       "repository_owner:Codertocat",
       "repository_name:Hello-World",
       "sender:Codertocat",

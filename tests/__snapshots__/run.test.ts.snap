@@ -1,21 +1,21 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`pull_request_closed 1`] = `
-Array [
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+[
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -29,16 +29,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.since_opened_seconds",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 345600,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -52,16 +52,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.commits",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -75,16 +75,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.changed_files",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -98,16 +98,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.additions",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -121,16 +121,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.deletions",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -144,16 +144,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.since_first_authored_seconds",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 346822,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -167,16 +167,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_closed.since_first_committed_seconds",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1558279233,
                 346151,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -194,100 +194,100 @@ Array [
       },
     },
   ],
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 3999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 5000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 6000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 4999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 7000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
@@ -302,21 +302,21 @@ Array [
 `;
 
 exports[`pull_request_opened 1`] = `
-Array [
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+[
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_opened.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1557933633,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -329,16 +329,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_opened.commits",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1557933633,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -351,16 +351,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_opened.changed_files",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1557933633,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -373,16 +373,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_opened.additions",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1557933633,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -395,16 +395,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.pull_request_opened.deletions",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1557933633,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "sender:Codertocat",
@@ -421,100 +421,100 @@ Array [
       },
     },
   ],
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 3999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 5000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 6000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 4999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 7000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
@@ -529,21 +529,21 @@ Array [
 `;
 
 exports[`workflow_run 1`] = `
-Array [
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+[
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -558,16 +558,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -582,16 +582,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 0,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -610,100 +610,100 @@ Array [
       },
     },
   ],
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 3999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 5000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 6000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 4999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 7000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
@@ -718,21 +718,21 @@ Array [
 `;
 
 exports[`workflow_run with collectJobMetrics 1`] = `
-Array [
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+[
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -747,16 +747,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -771,16 +771,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 0,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -795,16 +795,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.workflow_run.queued_duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579721588,
                 -179428,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -823,20 +823,20 @@ Array [
       },
     },
   ],
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.job.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -855,16 +855,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.job.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -883,16 +883,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.job.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 119,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -911,16 +911,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.job.queued_duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 0,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -943,20 +943,20 @@ Array [
       },
     },
   ],
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542161,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -977,16 +977,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542161,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1007,16 +1007,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542161,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1037,16 +1037,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542165,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1067,16 +1067,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542165,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1097,16 +1097,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542165,
                 4,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1127,16 +1127,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542165,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1157,16 +1157,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542165,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1187,16 +1187,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542165,
                 0,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1217,16 +1217,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542168,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1247,16 +1247,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542168,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1277,16 +1277,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542168,
                 3,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1307,16 +1307,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542172,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1337,16 +1337,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542172,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1367,16 +1367,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542172,
                 4,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1397,16 +1397,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542173,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1427,16 +1427,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542173,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1457,16 +1457,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542173,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1487,16 +1487,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542179,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1517,16 +1517,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542179,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1547,16 +1547,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542179,
                 6,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1577,16 +1577,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1607,16 +1607,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1637,16 +1637,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 100,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1667,16 +1667,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1697,16 +1697,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1727,16 +1727,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 0,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1757,16 +1757,16 @@ Array [
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1787,16 +1787,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.conclusion.success_total",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 1,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1817,16 +1817,16 @@ Array [
             ],
             "type": "count",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.step.duration_second",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1579542279,
                 0,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:octocat",
               "repository_name:Hello-World",
               "workflow_id:30433642",
@@ -1851,100 +1851,100 @@ Array [
       },
     },
   ],
-  Array [
-    Object {
-      "body": Object {
-        "series": Array [
-          Object {
+  [
+    {
+      "body": {
+        "series": [
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 3999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 5000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:core",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 6000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:search",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.remaining",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 4999,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
             ],
             "type": "gauge",
           },
-          Object {
+          {
             "host": "github.com",
             "metric": "github.actions.api_rate_limit.limit",
-            "points": Array [
-              Array [
+            "points": [
+              [
                 1445412480,
                 7000,
               ],
             ],
-            "tags": Array [
+            "tags": [
               "repository_owner:Codertocat",
               "repository_name:Hello-World",
               "resource:graphql",
