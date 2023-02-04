@@ -50,8 +50,8 @@ test('workflow_run with collectJobMetrics', async () => {
       sendPullRequestLabels: false,
     }
   )
-  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toBeCalledTimes(4)
+  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(4)
   expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
 })
 
@@ -74,8 +74,8 @@ test('workflow_run', async () => {
       sendPullRequestLabels: false,
     }
   )
-  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toBeCalledTimes(2)
+  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(2)
   expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
 })
 
@@ -98,8 +98,8 @@ test('pull_request_opened', async () => {
       sendPullRequestLabels: false,
     }
   )
-  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toBeCalledTimes(2)
+  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(2)
   expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
 })
 
@@ -123,7 +123,7 @@ test('pull_request_closed', async () => {
       sendPullRequestLabels: true,
     }
   )
-  expect(getOctokit).toBeCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toBeCalledTimes(2)
+  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(2)
   expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
 })
