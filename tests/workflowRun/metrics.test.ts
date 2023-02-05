@@ -7,7 +7,7 @@ import {
   isReceivedShutdownSignalError,
 } from '../../src/workflowRun/metrics'
 import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite'
-import { exampleWorkflowRunEvent } from './fixtures/workflowRunEvent'
+import { exampleWorkflowRunCompletedEvent } from '../fixtures'
 
 const exampleWorkflowDefinition: WorkflowDefinition = {
   jobs: {
@@ -18,17 +18,17 @@ const exampleWorkflowDefinition: WorkflowDefinition = {
 }
 
 test('computeWorkflowRunMetrics', () => {
-  const series = computeWorkflowRunMetrics(exampleWorkflowRunEvent, exampleCompletedCheckSuite)
+  const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite)
   expect(series).toMatchSnapshot()
 })
 
 test('computeJobMetrics', () => {
-  const series = computeJobMetrics(exampleWorkflowRunEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
+  const series = computeJobMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
   expect(series).toMatchSnapshot()
 })
 
 test('computeStepMetrics', () => {
-  const series = computeStepMetrics(exampleWorkflowRunEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
+  const series = computeStepMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
   expect(series).toMatchSnapshot()
 })
 

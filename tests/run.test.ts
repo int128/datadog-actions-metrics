@@ -1,12 +1,12 @@
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { run } from '../src/run'
-import { exampleWorkflowRunEvent } from './workflowRun/fixtures/workflowRunEvent'
+import { exampleWorkflowRunCompletedEvent } from './fixtures'
 import { exampleRateLimitResponse } from './rateLimit/fixtures'
 import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite'
-import { examplePullRequestClosedEvent } from './pullRequest/fixtures/closed'
+import { examplePullRequestClosedEvent } from './fixtures'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
-import { examplePullRequestOpenedEvent } from './pullRequest/fixtures/opened'
+import { examplePullRequestOpenedEvent } from './fixtures'
 import { exampleClosedPullRequestQuery } from './pullRequest/fixtures/closedPullRequest'
 
 jest.mock('@actions/core')
@@ -38,7 +38,7 @@ test('workflow_run with collectJobMetrics', async () => {
   await run(
     {
       eventName: 'workflow_run',
-      payload: exampleWorkflowRunEvent,
+      payload: exampleWorkflowRunCompletedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
@@ -62,7 +62,7 @@ test('workflow_run', async () => {
   await run(
     {
       eventName: 'workflow_run',
-      payload: exampleWorkflowRunEvent,
+      payload: exampleWorkflowRunCompletedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
