@@ -2344,10 +2344,22 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
+"@octokit/webhooks-examples@^6.10.0":
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-examples/-/webhooks-examples-6.10.0.tgz#0a35d32dc254f1cb1884b8cba7bd4eab93e3f68a"
+  integrity sha512-lU32J8NSoWOIiaEK2ot9R7mIHo7sxpPaQixpwit6f9xqaZCrQ+TpFH+4KP4AIN+caLnLMjooL8xssHX4ZQgcPA==
+  dependencies:
+    "@octokit/webhooks-types" "^6.0.0"
+
 "@octokit/webhooks-types@6.4.0":
   version "6.4.0"
   resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-6.4.0.tgz#896bfd930e61f479356cd7d436a238191539afd9"
   integrity sha512-epkcGuajnLfavJoa1oGby158Ki3vZrs3DYK9Yi1X+stM3KcEwOuaXRsONIRw6fGdtgYlkZ01IWcl5NKJb7+jmg==
+
+"@octokit/webhooks-types@^6.0.0":
+  version "6.10.0"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-6.10.0.tgz#b441780d26370c7682f4f964d4b36b5cb0c757f8"
+  integrity sha512-lDNv83BeEyxxukdQ0UttiUXawk9+6DkdjjFtm2GFED+24IQhTVaoSbwV9vWWKONyGLzRmCQqZmoEWkDhkEmPlw==
 
 "@peculiar/asn1-schema@^2.1.6":
   version "2.2.0"

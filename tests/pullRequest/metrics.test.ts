@@ -1,6 +1,6 @@
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from '../../src/pullRequest/metrics'
-import { examplePullRequestClosedEvent } from './fixtures/closed'
-import { examplePullRequestOpenedEvent } from './fixtures/opened'
+import { examplePullRequestClosedEvent } from '../fixtures'
+import { examplePullRequestOpenedEvent } from '../fixtures'
 import { exampleClosedPullRequest } from './fixtures/closedPullRequest'
 
 test('computePullRequestOpenedMetrics', () => {
