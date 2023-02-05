@@ -2351,12 +2351,7 @@
   dependencies:
     "@octokit/webhooks-types" "^6.0.0"
 
-"@octokit/webhooks-types@6.4.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-6.4.0.tgz#896bfd930e61f479356cd7d436a238191539afd9"
-  integrity sha512-epkcGuajnLfavJoa1oGby158Ki3vZrs3DYK9Yi1X+stM3KcEwOuaXRsONIRw6fGdtgYlkZ01IWcl5NKJb7+jmg==
-
-"@octokit/webhooks-types@^6.0.0":
+"@octokit/webhooks-types@6.10.0", "@octokit/webhooks-types@^6.0.0":
   version "6.10.0"
   resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-6.10.0.tgz#b441780d26370c7682f4f964d4b36b5cb0c757f8"
   integrity sha512-lDNv83BeEyxxukdQ0UttiUXawk9+6DkdjjFtm2GFED+24IQhTVaoSbwV9vWWKONyGLzRmCQqZmoEWkDhkEmPlw==
