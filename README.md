@@ -137,8 +137,6 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
   - e.g. `github.actions.job.conclusion.failure_total`
 - `github.actions.job.duration_second`
   - Time from a job is started to completed
-- `github.actions.job.queued_duration_second`
-  - Time from a job is started until the first step is started
 - `github.actions.job.lost_communication_with_server_error_total`
   - Count of "lost communication with the server" errors of self-hosted runners.
     See the issue [#444](https://github.com/int128/datadog-actions-metrics/issues/444) for details

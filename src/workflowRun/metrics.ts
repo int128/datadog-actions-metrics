@@ -168,18 +168,6 @@ export const computeJobMetrics = (
         points: [[completedAt, 1]],
       })
     }
-
-    if (checkRun.steps.nodes.length > 0) {
-      const firstStepStartedAt = Math.min(...checkRun.steps.nodes.map((s) => unixTime(s.startedAt)))
-      const queued = firstStepStartedAt - startedAt
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.queued_duration_second',
-        type: 'gauge',
-        points: [[completedAt, queued]],
-      })
-    }
   }
   return series
 }
