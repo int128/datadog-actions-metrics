@@ -83,17 +83,30 @@ export const computeWorkflowRunMetrics = (
   })
 
   if (checkSuite !== undefined) {
-    const firstJobStartedAt = Math.min(...checkSuite.node.checkRuns.nodes.map((j) => unixTime(j.startedAt)))
-    const queued = firstJobStartedAt - runStartedAt
-    series.push({
-      host: 'github.com',
-      tags,
-      metric: 'github.actions.workflow_run.queued_duration_second',
-      type: 'gauge',
-      points: [[updatedAt, queued]],
-    })
+    const queued = computeWorkflowRunQueuedTime(checkSuite, runStartedAt)
+    if (queued !== undefined) {
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.workflow_run.queued_duration_second',
+        type: 'gauge',
+        points: [[updatedAt, queued]],
+      })
+    }
   }
   return series
+}
+
+const computeWorkflowRunQueuedTime = (checkSuite: CompletedCheckSuite, workflowRunStartedAt: number) => {
+  // If a partial job is rerun manually, the checkSuite contains all attempts.
+  // It needs to filter the jobs which started after rerun.
+  const effectiveJobStartedAt = checkSuite.node.checkRuns.nodes
+    .map((checkRun) => unixTime(checkRun.startedAt))
+    .filter((jobStartedAt) => jobStartedAt > workflowRunStartedAt)
+  if (effectiveJobStartedAt.length > 0) {
+    const firstJobStartedAt = Math.min(...effectiveJobStartedAt)
+    return firstJobStartedAt - workflowRunStartedAt
+  }
 }
 
 export const computeJobMetrics = (
