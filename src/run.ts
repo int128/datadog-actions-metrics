@@ -1,6 +1,5 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { client, v1 } from '@datadog/datadog-api-client'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
@@ -10,6 +9,7 @@ import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
 import { computeWorkflowRunJobStepMetrics } from './workflowRun/metrics'
 import { computeScheduleMetrics } from './schedule/metrics'
+import { SubmitMetrics, createMetricsClient } from './client'
 
 type Inputs = {
   githubToken: string
@@ -129,39 +129,4 @@ const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
   const octokit = github.getOctokit(inputs.githubTokenForRateLimitMetrics)
   const rateLimit = await octokit.rest.rateLimit.get()
   return computeRateLimitMetrics(context, rateLimit)
-}
-
-type SubmitMetrics = (series: v1.Series[], description: string) => Promise<void>
-
-const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
-  if (inputs.datadogApiKey === undefined) {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    return async (series: v1.Series[], description: string) => {
-      core.startGroup(`Metrics payload (dry-run) (${description})`)
-      core.info(JSON.stringify(series, undefined, 2))
-      core.endGroup()
-    }
-  }
-
-  const configuration = client.createConfiguration({
-    authMethods: {
-      apiKeyAuth: inputs.datadogApiKey,
-    },
-  })
-  if (inputs.datadogSite) {
-    client.setServerVariables(configuration, {
-      site: inputs.datadogSite,
-    })
-  }
-  const metrics = new v1.MetricsApi(configuration)
-
-  return async (series: v1.Series[], description: string) => {
-    core.startGroup(`Metrics payload (${description})`)
-    core.info(JSON.stringify(series, undefined, 2))
-    core.endGroup()
-
-    core.info(`Sending ${series.length} metrics to Datadog`)
-    const accepted = await metrics.submitMetrics({ body: { series } })
-    core.info(`Sent ${JSON.stringify(accepted)}`)
-  }
 }
