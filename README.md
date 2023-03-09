@@ -120,6 +120,8 @@ It has the following tags:
 - `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
+- `pull_request_number`
+  - Pull request(s) which triggered the workflow
 - `conclusion`
 
 See also the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
@@ -154,6 +156,8 @@ It has the following tags:
 - `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
+- `pull_request_number`
+  - Pull request(s) which triggered the workflow
 - `job_name`
 - `job_id`
 - `conclusion`
@@ -184,6 +188,8 @@ It has the following tags:
 - `sender_type` = either `Bot`, `User` or `Organization`
 - `branch`
 - `default_branch` = `true` or `false`
+- `pull_request_number`
+  - Pull request(s) which triggered the workflow
 - `job_name`
 - `job_id`
 - `step_name`

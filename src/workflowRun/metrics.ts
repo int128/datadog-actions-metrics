@@ -15,6 +15,7 @@ const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `sender_type:${e.sender.type}`,
   `branch:${e.workflow_run.head_branch}`,
   `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
+  ...e.workflow_run.pull_requests.map((pull) => `pull_request_number:${pull.number}`),
 ]
 
 export type WorkflowRunJobStepMetrics = {
