@@ -104,8 +104,8 @@ This action sends the following metrics.
 - `github.actions.workflow_run.duration_second`
   - Time from a workflow is started until it is updated
 - `github.actions.workflow_run.queued_duration_second`
-  - Time from a workflow is created until the first job is started
-  - Available for the first workflow run only
+  - Time from a workflow is started until the first job is started
+  - This metric is suitable for monitoring only if it is ensured the first job runs on a self-hosted runner
 
 It has the following tags:
 

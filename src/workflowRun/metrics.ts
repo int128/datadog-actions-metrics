@@ -82,11 +82,9 @@ export const computeWorkflowRunMetrics = (
     points: [[updatedAt, duration]],
   })
 
-  // queued time is available only on the first run
-  if (e.workflow_run.run_attempt === 1 && checkSuite !== undefined) {
-    const createdAt = unixTime(e.workflow_run.created_at)
+  if (checkSuite !== undefined) {
     const firstJobStartedAt = Math.min(...checkSuite.node.checkRuns.nodes.map((j) => unixTime(j.startedAt)))
-    const queued = firstJobStartedAt - createdAt
+    const queued = firstJobStartedAt - runStartedAt
     series.push({
       host: 'github.com',
       tags,
