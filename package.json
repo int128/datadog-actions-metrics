@@ -23,7 +23,7 @@
     "@graphql-codegen/import-types-preset": "2.2.6",
     "@graphql-codegen/typescript": "3.0.2",
     "@graphql-codegen/typescript-operations": "3.0.2",
-    "@octokit/graphql-schema": "13.2.0",
+    "@octokit/graphql-schema": "13.7.0",
     "@octokit/webhooks-examples": "^6.10.0",
     "@tsconfig/node16": "1.0.3",
     "@types/jest": "29.4.0",
