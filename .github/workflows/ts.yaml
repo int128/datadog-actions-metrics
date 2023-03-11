@@ -1,32 +1,34 @@
 name: ts
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - src/**
-      - tests/**
-      - '*.json'
-      - .github/workflows/ts.yaml
   pull_request:
-    branches: [main]
     paths:
       - src/**
       - tests/**
       - '*.json'
+      - action.yaml
+      - .github/workflows/ts.yaml
+  push:
+    branches:
+      - main
+    paths:
+      - src/**
+      - tests/**
+      - '*.json'
+      - action.yaml
       - .github/workflows/ts.yaml
 
 jobs:
   test:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: 16
           cache: yarn
       - run: yarn
-      - run: yarn lint
       - run: yarn test
       - run: yarn build
       - run: yarn package
@@ -36,15 +38,15 @@ jobs:
 
   generate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+      - uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: 16
           cache: yarn
       - run: yarn
+      - run: yarn lint --fix
       - run: yarn format
       - run: yarn graphql-codegen
-      - uses: int128/update-generated-files-action@v2
+      - uses: int128/update-generated-files-action@35584f7a0a4c1dfc697c8acba5459fcf30fe3a5b # v2.31.0

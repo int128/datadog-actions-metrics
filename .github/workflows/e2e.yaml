@@ -20,7 +20,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Event
-        uses: actions/github-script@v6
+        uses: actions/github-script@v6.4.0
         with:
           script: |
             core.info(`eventName=${context.eventName}`)
@@ -29,7 +29,7 @@ jobs:
             core.info(`actor=${context.actor}`)
             core.info(`payload=${JSON.stringify(context.payload, undefined, 2)}`)
 
-      - uses: int128/datadog-actions-metrics@v1
+      - uses: int128/datadog-actions-metrics@v1.45.0
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: true
