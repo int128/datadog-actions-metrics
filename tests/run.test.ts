@@ -24,16 +24,12 @@ const getOctokit = github.getOctokit as jest.Mock
 getOctokit.mockReturnValue(octokitMock)
 
 jest.mock('@datadog/datadog-api-client')
-const metricsApiMock = {
-  submitMetrics: jest.fn<Promise<v1.IntakePayloadAccepted>, [v1.MetricsApiSubmitMetricsRequest]>(),
-}
-const metricsApiConstructor = v1.MetricsApi as jest.Mock
-metricsApiConstructor.mockReturnValue(metricsApiMock)
+const submitMetrics = jest.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
 
 test('workflow_run with collectJobMetrics', async () => {
   octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
-  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
     {
@@ -51,13 +47,13 @@ test('workflow_run with collectJobMetrics', async () => {
     }
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(4)
-  expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
+  expect(submitMetrics).toHaveBeenCalledTimes(4)
+  expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('workflow_run', async () => {
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
-  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
     {
@@ -75,13 +71,13 @@ test('workflow_run', async () => {
     }
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(2)
-  expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
+  expect(submitMetrics).toHaveBeenCalledTimes(2)
+  expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('pull_request_opened', async () => {
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
-  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
     {
@@ -99,14 +95,14 @@ test('pull_request_opened', async () => {
     }
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(2)
-  expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
+  expect(submitMetrics).toHaveBeenCalledTimes(2)
+  expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('pull_request_closed', async () => {
   octokitMock.graphql.mockResolvedValue(exampleClosedPullRequestQuery)
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
-  metricsApiMock.submitMetrics.mockResolvedValue({ status: 'ok' })
+  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
     {
@@ -124,6 +120,6 @@ test('pull_request_closed', async () => {
     }
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
-  expect(metricsApiMock.submitMetrics).toHaveBeenCalledTimes(2)
-  expect(metricsApiMock.submitMetrics.mock.calls).toMatchSnapshot()
+  expect(submitMetrics).toHaveBeenCalledTimes(2)
+  expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
