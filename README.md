@@ -201,13 +201,10 @@ It has the following tags:
 
 ### Enable job or step metrics
 
-Note that this action calls GitHub GraphQL API to get jobs and steps of a workflow run.
-It may cause the rate exceeding error if too many workflows are run.
-It may also increase the cost of custom metrics in Datadog.
-
 To send the metrics of jobs and steps:
 
 ```yaml
+    steps:
       - uses: int128/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
@@ -218,11 +215,24 @@ To send the metrics of jobs and steps:
 To send the metrics of jobs and steps on the default branch only:
 
 ```yaml
+    steps:
       - uses: int128/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
           collect-step-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+```
+
+This action calls GitHub GraphQL API to get jobs and steps of the current workflow run.
+Note that it may cause the rate exceeding error if too many workflows are run.
+
+If the job or step metrics is enabled, this action requires the following permissions:
+
+```yaml
+    permissions:
+      actions: read
+      checks: read
+      contents: read
 ```
 
 
@@ -249,7 +259,6 @@ It has the following tags:
 - `draft` = `true` or `false`
 - `base_ref`
 - `head_ref`
-
 
 ### Pull request (closed)
 
@@ -285,6 +294,15 @@ It has the following tags:
   - Label(s) of a pull request
   - Available if `send-pull-request-labels` is set
 
+### Permissions
+
+For pull_request event, this action requires the following permissions:
+
+```yaml
+    permissions:
+      pull-requests: read
+```
+
 
 ## Metrics for push event
 
@@ -319,6 +337,15 @@ It has the following tags:
 - `repository_name`
 
 It is useful for monitoring self-hosted runners.
+
+### Permissions
+
+For schedule event, this action requires the following permissions:
+
+```yaml
+    permissions:
+      actions: read
+```
 
 
 ## Metrics for all supported events

@@ -12,6 +12,10 @@ jobs:
     name: test / ${{ github.event_name }} / ${{ github.event.action }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      actions: read
+      checks: write
+      contents: read
     steps:
       - name: Event
         uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975 # v6.4.0
