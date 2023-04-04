@@ -15924,6 +15924,12 @@ export type PullRequest = Assignable & Closable & Comment & Labelable & Lockable
   viewerCanSubscribe: Scalars['Boolean'];
   /** Check if the current viewer can update this object. */
   viewerCanUpdate: Scalars['Boolean'];
+  /**
+   * Whether or not the viewer can update the head ref of this PR, by merging or rebasing the base ref.
+   * If the head ref is up to date or unable to be updated by this user, this will return false.
+   *
+   */
+  viewerCanUpdateBranch: Scalars['Boolean'];
   /** Reasons why the current viewer can not update this comment. */
   viewerCannotUpdateReasons: Array<CommentCannotUpdateReason>;
   /** Did the viewer author this comment. */
@@ -19462,6 +19468,7 @@ export type RepositoryCollaboratorsArgs = {
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   last?: InputMaybe<Scalars['Int']>;
+  login?: InputMaybe<Scalars['String']>;
   query?: InputMaybe<Scalars['String']>;
 };
 
