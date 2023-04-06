@@ -18,7 +18,7 @@ jobs:
       contents: read
     steps:
       - name: Event
-        uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975 # v6.4.0
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
         with:
           script: |
             core.info(`eventName=${context.eventName}`)
@@ -43,7 +43,7 @@ jobs:
           collect-job-metrics: true
 
       - if: always()
-        uses: actions/github-script@98814c53be79b1d30f795b907e553d8679345975 # v6.4.0
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
         with:
           script: |
             const details_url = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
