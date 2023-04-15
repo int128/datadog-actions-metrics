@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import { client, v1 } from '@datadog/datadog-api-client'
+import { HttpLibrary } from './http'
 
 type Inputs = {
   datadogApiKey?: string
@@ -19,6 +20,7 @@ export const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
   }
 
   const configuration = client.createConfiguration({
+    httpApi: new HttpLibrary(),
     authMethods: {
       apiKeyAuth: inputs.datadogApiKey,
     },

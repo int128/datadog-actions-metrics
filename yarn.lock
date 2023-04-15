@@ -27,6 +27,13 @@
   dependencies:
     tunnel "^0.0.6"
 
+"@actions/http-client@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@actions/http-client/-/http-client-2.1.0.tgz#b6d8c3934727d6a50d10d19f00a711a964599a9f"
+  integrity sha512-BonhODnXr3amchh4qkmjPMUO8mFi/zLaaCeCAJZqch8iQqyDnVIkySjB38VHAC8IJ+bnlgfOqlhpyCUZHlQsqw==
+  dependencies:
+    tunnel "^0.0.6"
+
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@ampproject/remapping/-/remapping-2.2.0.tgz#56c133824780de3174aed5ab6834f3026790154d"
