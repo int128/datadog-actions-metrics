@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import { client, v1 } from '@datadog/datadog-api-client'
+import { HttpLibrary } from './http'
 
 type Inputs = {
   datadogApiKey?: string
@@ -22,6 +23,7 @@ export const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
     authMethods: {
       apiKeyAuth: inputs.datadogApiKey,
     },
+    httpApi: createHttpLibraryIfHttpsProxy(),
   })
   if (inputs.datadogSite) {
     client.setServerVariables(configuration, {
@@ -38,5 +40,13 @@ export const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
     core.info(`Sending ${series.length} metrics to Datadog`)
     const accepted = await metrics.submitMetrics({ body: { series } })
     core.info(`Sent ${JSON.stringify(accepted)}`)
+  }
+}
+
+const createHttpLibraryIfHttpsProxy = () => {
+  const httpsProxy = process.env['https_proxy']
+  if (httpsProxy) {
+    core.info(`Using https_proxy: ${httpsProxy}`)
+    return new HttpLibrary()
   }
 }
