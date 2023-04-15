@@ -2601,7 +2601,7 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.3.0.tgz#2e8332cc7363f887d32ec5496b207d26ba8052bb"
   integrity sha512-hkc1DATxFLQo4VxPDpMH1gCkPpBbpOoJ/4nhuXw4n63/0R6bCpQECj4+K226UJ4JO/eJQz+1mC2I7JsWanAdQw==
 
-"@types/proxy@^1.0.1":
+"@types/proxy@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/proxy/-/proxy-1.0.1.tgz#f2d146b9046958a4b4a33ee69f00b18d733c1944"
   integrity sha512-vjRgU9Ke0+6sfVeAXQphHRGb+OgBNpah1fma4aP7Pto2rnlrPDjsq+vyvy7emw+Fc9ppEciQtRh9Gaaxzu1Gzw==
@@ -5726,7 +5726,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-proxy@^1.0.2:
+proxy@1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/proxy/-/proxy-1.0.2.tgz#e0cfbe11c0a7a8b238fd2d7134de4e2867578e7f"
   integrity sha512-KNac2ueWRpjbUh77OAFPZuNdfEqNynm9DD4xHT14CccGpW8wKZwEkN0yjlb7X9G9Z9F55N0Q+1z+WfgAhwYdzQ==
