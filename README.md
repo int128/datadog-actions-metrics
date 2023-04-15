@@ -380,6 +380,20 @@ Name | Default | Description
 `collect-job-metrics` | `false` | Collect job metrics
 `collect-step-metrics` | `false` | Collect step metrics
 
+### Proxy
+
+To connect to Datadog API via a HTTPS proxy, set `https_proxy` environment variable.
+For example,
+
+```yaml
+    steps:
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+        env:
+          https_proxy: http://proxy.example.com:8080
+```
+
 ### Breaking changes
 
 `collect-step-metrics` is explicitly required to send the step metrics.
