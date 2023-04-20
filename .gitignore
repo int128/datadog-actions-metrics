@@ -101,4 +101,4 @@ lib/
 /dist
 
 # Ignore intellij files
-.idea/*
+.idea/
