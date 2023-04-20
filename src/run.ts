@@ -1,6 +1,7 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
+import { DeploymentEvent, PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
+import { computeDeploymentMetrics } from "./deployment/metrics";
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
 import { queryCompletedCheckSuite } from './queries/completedCheckSuite'
@@ -37,6 +38,9 @@ const handleEvent = async (submitMetrics: SubmitMetrics, context: GitHubContext,
   }
   if (context.eventName === 'push') {
     return handlePush(submitMetrics, context.payload as PushEvent)
+  }
+  if (context.eventName === 'deployment') {
+    return handleDeployment(submitMetrics, context.payload as DeploymentEvent)
   }
   if (context.eventName === 'schedule') {
     return handleSchedule(submitMetrics, context, inputs)
@@ -111,6 +115,11 @@ const handlePullRequest = async (
 const handlePush = async (submitMetrics: SubmitMetrics, e: PushEvent) => {
   core.info(`Got push event: ${e.compare}`)
   return await submitMetrics(computePushMetrics(e, new Date()), 'push')
+}
+
+const handleDeployment = async (submitMetrics: SubmitMetrics, e: DeploymentEvent) => {
+  core.info(`Got deployment event: ${e.deployment.url}`)
+  return await submitMetrics(computeDeploymentMetrics(e, new Date()), 'deployment')
 }
 
 const handleSchedule = async (submitMetrics: SubmitMetrics, context: GitHubContext, inputs: Inputs) => {
