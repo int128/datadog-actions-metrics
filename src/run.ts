@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { DeploymentEvent, PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
-import { computeDeploymentMetrics } from "./deployment/metrics";
+import {DeploymentEvent, PullRequestEvent, PushEvent, WorkflowRunEvent} from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
+import { computePullRequestDeploymentMetrics } from './deployment/metrics'
 import { computePushMetrics } from './push/metrics'
 import { queryCompletedCheckSuite } from './queries/completedCheckSuite'
 import { queryClosedPullRequest } from './queries/closedPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
-import { GitHubContext } from './types'
+import {GitHubContext, PullRequestResponse} from './types'
 import { computeWorkflowRunJobStepMetrics } from './workflowRun/metrics'
 import { computeScheduleMetrics } from './schedule/metrics'
 import { SubmitMetrics, createMetricsClient } from './client'
@@ -36,11 +36,11 @@ const handleEvent = async (submitMetrics: SubmitMetrics, context: GitHubContext,
   if (context.eventName === 'pull_request') {
     return await handlePullRequest(submitMetrics, context.payload as PullRequestEvent, context, inputs)
   }
+  if (context.eventName === 'deployment') {
+    return await handleDeployment(submitMetrics, context.payload as DeploymentEvent, context, inputs)
+  }
   if (context.eventName === 'push') {
     return handlePush(submitMetrics, context.payload as PushEvent)
-  }
-  if (context.eventName === 'deployment') {
-    return handleDeployment(submitMetrics, context.payload as DeploymentEvent)
   }
   if (context.eventName === 'schedule') {
     return handleSchedule(submitMetrics, context, inputs)
@@ -112,14 +112,27 @@ const handlePullRequest = async (
   core.warning(`Not supported action ${e.action}`)
 }
 
+const handleDeployment = async (
+    submitMetrics: SubmitMetrics,
+    e: DeploymentEvent,
+    context: GitHubContext,
+    inputs: Inputs
+) => {
+  core.info(`Got a deployment event: ${e.deployment.url}`)
+
+  const octokit = github.getOctokit(inputs.githubToken)
+  const pullRequest = await octokit.rest.pulls.get({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    pull_number: 123
+  })
+
+  return await submitMetrics(computePullRequestDeploymentMetrics(e, pullRequest as PullRequestResponse), 'deployment')
+}
+
 const handlePush = async (submitMetrics: SubmitMetrics, e: PushEvent) => {
   core.info(`Got push event: ${e.compare}`)
   return await submitMetrics(computePushMetrics(e, new Date()), 'push')
-}
-
-const handleDeployment = async (submitMetrics: SubmitMetrics, e: DeploymentEvent) => {
-  core.info(`Got deployment event: ${e.deployment.url}`)
-  return await submitMetrics(computeDeploymentMetrics(e, new Date()), 'deployment')
 }
 
 const handleSchedule = async (submitMetrics: SubmitMetrics, context: GitHubContext, inputs: Inputs) => {

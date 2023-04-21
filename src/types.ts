@@ -9,3 +9,5 @@ export type Octokit = InstanceType<typeof GitHub>
 export type ListWorkflowRunsForRepoRateLimitResponse = Endpoints['GET /repos/{owner}/{repo}/actions/runs']['response']
 
 export type RateLimitResponse = Endpoints['GET /rate_limit']['response']
+
+export type PullRequestResponse = Endpoints['GET /repos/{owner}/{repo}/pulls/{pull_number}']['response']
