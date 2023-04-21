@@ -36,7 +36,7 @@ const handleEvent = async (submitMetrics: SubmitMetrics, context: GitHubContext,
   if (context.eventName === 'pull_request') {
     return await handlePullRequest(submitMetrics, context.payload as PullRequestEvent, context, inputs)
   }
-  if (context.eventName === 'deployment') {
+  if (context.eventName === 'pull_request') {
     return await handleDeployment(submitMetrics, context.payload as DeploymentEvent, context, inputs)
   }
   if (context.eventName === 'push') {
