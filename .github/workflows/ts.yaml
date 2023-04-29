@@ -52,4 +52,4 @@ jobs:
       - run: yarn lint --fix
       - run: yarn format
       - run: yarn graphql-codegen
-      - uses: int128/update-generated-files-action@b02fc021d63e35344fa545e052addaecc9605fd6 # v2.37.0
+      - uses: int128/update-generated-files-action@9cf17834a8b281b48b8523a3ba36d178ed71e0f4 # v2.38.0
