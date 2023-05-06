@@ -1,7 +1,7 @@
 import { client, v1 } from '@datadog/datadog-api-client'
+import { createProxy } from 'proxy'
 import { HttpLibrary } from '../src/http'
 import * as http from 'http'
-import proxy from 'proxy'
 
 describe('without proxy', () => {
   test('datadog-api-client works with HttpLibrary', async () => {
@@ -19,7 +19,7 @@ describe('with proxy', () => {
   let proxyServer: http.Server
   let proxyConnectURLs: string[]
   beforeAll(async () => {
-    proxyServer = proxy()
+    proxyServer = createProxy()
     proxyServer.on('connect', (req) => proxyConnectURLs.push(String(req.url)))
     await new Promise<void>((resolve) => proxyServer.listen(8091, () => resolve()))
     process.env['https_proxy'] = 'http://localhost:8091'
