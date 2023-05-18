@@ -5731,10 +5731,10 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.5"
 
-proxy@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/proxy/-/proxy-2.1.0.tgz#7f5eefbaa0ba86ce7a970106c19881516fbd33b1"
-  integrity sha512-kOepwHzK82z4qNTXR2i2vxBA0M85bTd1rHD9R+qEEEIdo8iVx6BMQEDz7GmjMHpEF+/i4fIo4c90I1OOTaPnaA==
+proxy@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/proxy/-/proxy-2.1.1.tgz#45f9b307508ffcae12bdc71678d44a4ab79cbf8b"
+  integrity sha512-nLgd7zdUAOpB3ZO/xCkU8gy74UER7P0aihU8DkUsDS5ZoFwVCX7u8dy+cv5tVK8UaB/yminU1GiLWE26TKPYpg==
   dependencies:
     args "^5.0.3"
     basic-auth-parser "0.0.2-1"
