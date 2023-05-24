@@ -1,17 +1,17 @@
 import * as Types from './graphql-types';
 
 export type ClosedPullRequestQueryVariables = Types.Exact<{
-  owner: Types.Scalars['String'];
-  name: Types.Scalars['String'];
-  number: Types.Scalars['Int'];
+  owner: Types.Scalars['String']['input'];
+  name: Types.Scalars['String']['input'];
+  number: Types.Scalars['Int']['input'];
 }>;
 
 
 export type ClosedPullRequestQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', pullRequest?: { __typename?: 'PullRequest', commits: { __typename?: 'PullRequestCommitConnection', nodes?: Array<{ __typename?: 'PullRequestCommit', commit: { __typename?: 'Commit', authoredDate: string, committedDate: string } } | null> | null } } | null } | null };
 
 export type CompletedCheckSuiteQueryVariables = Types.Exact<{
-  node_id: Types.Scalars['ID'];
-  workflow_path: Types.Scalars['String'];
+  node_id: Types.Scalars['ID']['input'];
+  workflow_path: Types.Scalars['String']['input'];
 }>;
 
 
