@@ -9838,6 +9838,8 @@ export type Migration = {
   sourceUrl: Scalars['URI']['output'];
   /** The migration state. */
   state: MigrationState;
+  /** The number of warnings encountered for this migration. To review the warnings, check the [Migration Log](https://docs.github.com/en/migrations/using-github-enterprise-importer/completing-your-migration-with-github-enterprise-importer/accessing-your-migration-logs-for-github-enterprise-importer). */
+  warningsCount: Scalars['Int']['output'];
 };
 
 /** A GitHub Enterprise Importer (GEI) migration source. */
@@ -21012,6 +21014,8 @@ export type RepositoryMigration = Migration & Node & {
   sourceUrl: Scalars['URI']['output'];
   /** The migration state. */
   state: MigrationState;
+  /** The number of warnings encountered for this migration. To review the warnings, check the [Migration Log](https://docs.github.com/en/migrations/using-github-enterprise-importer/completing-your-migration-with-github-enterprise-importer/accessing-your-migration-logs-for-github-enterprise-importer). */
+  warningsCount: Scalars['Int']['output'];
 };
 
 /** The connection type for RepositoryMigration. */
