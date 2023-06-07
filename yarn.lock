@@ -2135,10 +2135,10 @@
   dependencies:
     "@octokit/openapi-types" "^11.2.0"
 
-"@octokit/webhooks-examples@7.0.2":
-  version "7.0.2"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks-examples/-/webhooks-examples-7.0.2.tgz#6a82691c4779a6d3e6ccf740002feec938a3726c"
-  integrity sha512-MYzVkSDWG7nhoHavGih/j2aeG4KhD993NgKePRgNYzLfDqoVZ7GXBBYN4fDmiGWZyqUCiOYqZ8Cg9AE3iJCgGA==
+"@octokit/webhooks-examples@7.0.3":
+  version "7.0.3"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-examples/-/webhooks-examples-7.0.3.tgz#44c2aba58c07491e8a88550de9b88701fa43572b"
+  integrity sha512-RJjiKeekL8T6SGbnxA8N+FIvi0PjPwuWsHRmQaDk1NDP5QUbIhzujHbATVRkTjsNXYTo73SX9M6zLzurqxSbnA==
   dependencies:
     "@octokit/webhooks-types" "^7.0.0"
 
