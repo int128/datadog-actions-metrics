@@ -97,5 +97,3 @@ Thumbs.db
 # Ignore built ts files
 lib/
 
-# Only release tag contains dist directory
-/dist
