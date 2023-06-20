@@ -4697,7 +4697,9 @@ export enum DependencyGraphEcosystem {
   /** Ruby gems hosted at RubyGems.org */
   Rubygems = 'RUBYGEMS',
   /** Rust crates */
-  Rust = 'RUST'
+  Rust = 'RUST',
+  /** Swift packages */
+  Swift = 'SWIFT'
 }
 
 /** A repository deploy key. */
