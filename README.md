@@ -1,32 +1,52 @@
-# datadog-actions-metrics [![ts](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/ts.yaml) [![e2e](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml/badge.svg)](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml)
+# datadog-actions-metrics [![ts](https://github.com/Bandwidth/datadog-actions-metrics/actions/workflows/ts.yaml/badge.svg)](https://github.com/Bandwidth/datadog-actions-metrics/actions/workflows/ts.yaml) [![e2e](https://github.com/Bandwidth/datadog-actions-metrics/actions/workflows/e2e.yaml/badge.svg)](https://github.com/Bandwidth/datadog-actions-metrics/actions/workflows/e2e.yaml)
 
 This is an action to send metrics of GitHub Actions to Datadog on an event.
-It is inspired from [yuya-takeyama/github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
 
+Forked from https://github.com/int128/datadog-actions-metrics
 
 ## Purpose
 
 ### Improve the reliability and experience of CI/CD pipeline
 
-To collect the metrics when a workflow is completed:
+Below the action you can use to collect the metrics when a workflow is completed - it will send the metrics for all the workflows you have: 
 
 ```yaml
+---
+# ================================================================================== #
+# DataDog Metrics
+# The goal of this workflow is collect the github actions metrics and send to DataDog
+# the metrics are send using the API KEY. 
+# ================================================================================== #
+
+name: CI - GHA DataDog Metrics
 on:
   workflow_run:
-    workflows:
+    workflows: 
+      - '**'
+    branches:
       - '**'
     types:
       - completed
+
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  pull-requests: read
 
 jobs:
   send:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - name: Send GHA metrics to DataDog
+        uses: Bandwidth/datadog-actions-metrics@v1.0.0
         with:
-          # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY_PRODUCTION }}
+          collect-job-metrics: true
+          collect-step-metrics: true
+...
+
 ```
 
 Here is an example of screenshot in Datadog.
@@ -60,23 +80,40 @@ It helps the continuous process improvement of your team.
 To collect the metrics when a pull request is opened or closed:
 
 ```yaml
+---
+# ================================================================================== #
+# DataDog Metrics
+# The goal of this workflow is collect the Pull request metrics and send to Datadog.
+# the metrics are send using the API KEY. 
+# ================================================================================== #
+
+name: CI - PR DataDog Metrics
 on:
   pull_request:
     types:
       - opened
       - closed
 
+permissions:
+  actions: read
+  checks: read
+  contents: read
+  pull-requests: read
+
 jobs:
   send:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - name: Send PR count to DataDog
+        uses: Bandwidth/datadog-actions-metrics@v1.0.0
         with:
-          # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-```
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY_PRODUCTION }}
+          collect-job-metrics: true
+          collect-step-metrics: true
+...
 
+```
 
 ## Overview
 
@@ -124,8 +161,6 @@ It has the following tags:
   - Pull request(s) which triggered the workflow
 - `conclusion`
 
-See also the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
-
 
 ### Job
 
@@ -139,7 +174,7 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
   - Time from a job is started to completed
 - `github.actions.job.lost_communication_with_server_error_total`
   - Count of "lost communication with the server" errors of self-hosted runners.
-    See the issue [#444](https://github.com/int128/datadog-actions-metrics/issues/444) for details
+    See the issue [#444](https://github.com/Bandwidth/datadog-actions-metrics/issues/444) for details
 - `github.actions.job.received_shutdown_signal_error_total`
   - Count of "The runner has received a shutdown signal" errors of self-hosted runners.
 
@@ -205,7 +240,7 @@ To send the metrics of jobs and steps:
 
 ```yaml
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - uses: Bandwidth/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: true
@@ -216,7 +251,7 @@ To send the metrics of jobs and steps on the default branch only:
 
 ```yaml
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - uses: Bandwidth/datadog-actions-metrics@v1
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
@@ -387,7 +422,7 @@ For example,
 
 ```yaml
     steps:
-      - uses: int128/datadog-actions-metrics@v1
+      - uses: Bandwidth/datadog-actions-metrics@v1.0.0
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
         env:
@@ -402,7 +437,4 @@ For example,
 Use `collect-job-metrics` instead.
 
 
-## Contribution
-
-This is an open source software.
-Feel free to open issues and pull requests.
+... 
