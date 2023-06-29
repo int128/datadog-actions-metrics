@@ -16,7 +16,7 @@
     "@actions/github": "5.1.1",
     "@actions/http-client": "2.1.0",
     "@datadog/datadog-api-client": "1.14.0",
-    "@octokit/webhooks-types": "7.0.3",
+    "@octokit/webhooks-types": "7.1.0",
     "graphql": "16.7.1"
   },
   "devDependencies": {
@@ -25,7 +25,7 @@
     "@graphql-codegen/typescript": "4.0.1",
     "@graphql-codegen/typescript-operations": "4.0.1",
     "@octokit/graphql-schema": "14.17.0",
-    "@octokit/webhooks-examples": "7.0.3",
+    "@octokit/webhooks-examples": "7.1.0",
     "@tsconfig/node16": "1.0.4",
     "@types/jest": "29.5.2",
     "@types/js-yaml": "4.0.5",
