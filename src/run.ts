@@ -82,7 +82,7 @@ const handlePullRequest = async (
   submitMetrics: SubmitMetrics,
   e: PullRequestEvent,
   context: GitHubContext,
-  inputs: Inputs
+  inputs: Inputs,
 ) => {
   core.info(`Got pull request ${e.action} event: ${e.pull_request.html_url}`)
 

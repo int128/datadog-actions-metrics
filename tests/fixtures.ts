@@ -17,7 +17,7 @@ const getExamplesByEventName = <E extends WebhookEventName>(eventName: E) => {
 
 const isTypeOfEventName = <TName extends WebhookEventName>(
   definition: WebhookDefinition,
-  eventName: TName
+  eventName: TName,
 ): definition is WebhookDefinition<TName> => definition.name === eventName
 
 export const examplePullRequestClosedEvent: PullRequestClosedEvent = (() => {
