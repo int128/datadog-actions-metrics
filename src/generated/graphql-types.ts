@@ -13739,6 +13739,7 @@ export type OrganizationMannequinsArgs = {
   before?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
+  login?: InputMaybe<Scalars['String']['input']>;
   orderBy?: InputMaybe<MannequinOrder>;
 };
 
