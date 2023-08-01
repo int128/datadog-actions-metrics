@@ -1,6 +1,8 @@
 import * as core from '@actions/core'
 import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
+import { Meter } from '@opentelemetry/api'
+
 import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
 import { CompletedCheckSuite } from '../queries/completedCheckSuite'
 
@@ -24,12 +26,19 @@ export type WorkflowRunJobStepMetrics = {
   stepMetrics: v1.Series[]
 }
 
+export type WorkflowRunJobStepMetrics2 = {
+  workflowRunMetrics: v1.Series[]
+  jobMetrics: v1.Series[]
+  stepMetrics: v1.Series[]
+}
+
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
+  meter: Meter,
   checkSuite?: CompletedCheckSuite
-): WorkflowRunJobStepMetrics => {
+) => {
   if (checkSuite === undefined) {
-    return { workflowRunMetrics: computeWorkflowRunMetrics(e), jobMetrics: [], stepMetrics: [] }
+    return { workflowRunMetrics: computeWorkflowRunMetrics(e, meter), jobMetrics: [], stepMetrics: [] }
   }
 
   let workflowDefinition
@@ -43,58 +52,74 @@ export const computeWorkflowRunJobStepMetrics = (
   }
 
   return {
-    workflowRunMetrics: computeWorkflowRunMetrics(e, checkSuite),
-    jobMetrics: computeJobMetrics(e, checkSuite, workflowDefinition),
-    stepMetrics: computeStepMetrics(e, checkSuite, workflowDefinition),
+    workflowRunMetrics: computeWorkflowRunMetrics(e, meter, checkSuite),
+    // jobMetrics: computeJobMetrics(e, checkSuite, workflowDefinition),
+    // stepMetrics: computeStepMetrics(e, checkSuite, workflowDefinition),
   }
 }
 
 export const computeWorkflowRunMetrics = (
   e: WorkflowRunCompletedEvent,
+  meter: Meter,
   checkSuite?: CompletedCheckSuite
-): v1.Series[] => {
-  const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
+) => {
+  // const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
-  const series: v1.Series[] = [
-    {
-      host: 'github.com',
-      tags,
-      metric: 'github.actions.workflow_run.total',
-      type: 'count',
-      points: [[updatedAt, 1]],
-    },
-    {
-      host: 'github.com',
-      tags,
-      metric: `github.actions.workflow_run.conclusion.${e.workflow_run.conclusion}_total`,
-      type: 'count',
-      points: [[updatedAt, 1]],
-    },
-  ]
+
+  // const series: v1.Series[] = [
+  //   {
+  //     host: 'github.com',
+  //     tags,
+  //     metric: 'github.actions.workflow_run.total',
+  //     type: 'count',
+  //     points: [[updatedAt, 1]],
+  //   },
+  //   {
+  //     host: 'github.com',
+  //     tags,
+  //     metric: `github.actions.workflow_run.conclusion.${e.workflow_run.conclusion}_total`,
+  //     type: 'count',
+  //     points: [[updatedAt, 1]],
+  //   },
+  // ]
+
+  const runCount = meter.createCounter('run-count')
+  runCount.add(1)
 
   const runStartedAt = unixTime(e.workflow_run.run_started_at)
   const duration = updatedAt - runStartedAt
-  series.push({
-    host: 'github.com',
-    tags,
-    metric: 'github.actions.workflow_run.duration_second',
-    type: 'gauge',
-    points: [[updatedAt, duration]],
+  // series.push({
+  //   host: 'github.com',
+  //   tags,
+  //   metric: 'github.actions.workflow_run.duration_second',
+  //   type: 'gauge',
+  //   points: [[updatedAt, duration]],
+  // })
+
+  const durationGauge = meter.createObservableGauge('github.actions.workflow_run.duration_second', { unit: 'seconds' })
+  durationGauge.addCallback((result) => {
+    result.observe(duration)
   })
 
   if (checkSuite !== undefined) {
-    const queued = computeWorkflowRunQueuedTime(checkSuite, runStartedAt)
-    if (queued !== undefined) {
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.workflow_run.queued_duration_second',
-        type: 'gauge',
-        points: [[updatedAt, queued]],
+    const queuedTime = computeWorkflowRunQueuedTime(checkSuite, runStartedAt)
+    if (queuedTime !== undefined) {
+      const queuedTimeGauge = meter.createObservableGauge('github.actions.workflow_run.queued_duration_second', {
+        unit: 'seconds',
       })
+      queuedTimeGauge.addCallback((result) => {
+        result.observe(queuedTime)
+      })
+      // series.push({
+      //   host: 'github.com',
+      //   tags,
+      //   metric: 'github.actions.workflow_run.queued_duration_second',
+      //   type: 'gauge',
+      //   points: [[updatedAt, queued]],
+      // })
     }
   }
-  return series
+  // return series
 }
 
 const computeWorkflowRunQueuedTime = (checkSuite: CompletedCheckSuite, workflowRunStartedAt: number) => {
