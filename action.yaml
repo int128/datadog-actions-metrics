@@ -11,13 +11,6 @@ inputs:
     default: ${{ github.token }}
     required: true
 
-  datadog-api-key:
-    description: Datadog API key (dry-run if not set)
-    required: false
-  datadog-site:
-    description: Datadog Site name if different than datadoghq.com.
-    required: false
-
   collect-job-metrics:
     description: Collect job metrics
     required: false
@@ -28,6 +21,15 @@ inputs:
     default: 'false'
   send-pull-request-labels:
     description: Send pull request labels as Datadog tags
+    required: false
+    default: 'false'
+
+  gcp-project-id:
+    description: GCP Project ID
+    required: false
+    default: ''
+  use-console-exporter:
+    description: Override exporter and export only to ocnsole
     required: false
     default: 'false'
 
