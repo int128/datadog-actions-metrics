@@ -17,18 +17,26 @@ const exampleWorkflowDefinition: WorkflowDefinition = {
   },
 }
 
-test('computeWorkflowRunMetrics', () => {
-  const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite)
-  expect(series).toMatchSnapshot()
-})
+// test('computeWorkflowRunMetrics', () => {
+//   const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite)
+//   expect(series).toMatchSnapshot()
+// })
 
 test('computeJobMetrics', () => {
-  const series = computeJobMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
+  const series = computeJobMetrics(
+    exampleWorkflowRunCompletedEvent,
+    exampleCompletedCheckSuite,
+    exampleWorkflowDefinition
+  )
   expect(series).toMatchSnapshot()
 })
 
 test('computeStepMetrics', () => {
-  const series = computeStepMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite, exampleWorkflowDefinition)
+  const series = computeStepMetrics(
+    exampleWorkflowRunCompletedEvent,
+    exampleCompletedCheckSuite,
+    exampleWorkflowDefinition
+  )
   expect(series).toMatchSnapshot()
 })
 

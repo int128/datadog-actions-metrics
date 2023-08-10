@@ -40,7 +40,6 @@ test('workflow_run with collectJobMetrics', async () => {
     {
       githubToken: 'GITHUB_TOKEN',
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
-      datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: true,
       collectStepMetrics: true,
       sendPullRequestLabels: false,
@@ -64,7 +63,6 @@ test('workflow_run', async () => {
     {
       githubToken: 'GITHUB_TOKEN',
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
-      datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: false,
       collectStepMetrics: false,
       sendPullRequestLabels: false,
@@ -88,7 +86,7 @@ test('pull_request_opened', async () => {
     {
       githubToken: 'GITHUB_TOKEN',
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
-      datadogApiKey: 'DATADOG_API_KEY',
+      // datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: false,
       collectStepMetrics: false,
       sendPullRequestLabels: false,
@@ -113,7 +111,6 @@ test('pull_request_closed', async () => {
     {
       githubToken: 'GITHUB_TOKEN',
       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
-      datadogApiKey: 'DATADOG_API_KEY',
       collectJobMetrics: false,
       collectStepMetrics: false,
       sendPullRequestLabels: true,
