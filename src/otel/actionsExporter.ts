@@ -24,6 +24,8 @@ export class ActionsConsoleMetricExporter implements PushMetricExporter {
   }
 
   export(metrics: ResourceMetrics, resultCallback: (result: ExportResult) => void): void {
+    console.log('ActionsConsoleMetricExporter.export')
+
     if (this._shutdown) {
       // If the exporter is shutting down, by spec, we need to return FAILED as export result
       setImmediate(resultCallback, { code: ExportResultCode.FAILED })
@@ -47,6 +49,8 @@ export class ActionsConsoleMetricExporter implements PushMetricExporter {
   }
 
   private static _sendMetrics(metrics: ResourceMetrics, done: (result: ExportResult) => void): void {
+    console.log('ActionsConsoleMetricExporter._sendMetrics')
+
     for (const scopeMetrics of metrics.scopeMetrics) {
       for (const metric of scopeMetrics.metrics) {
         core.info(

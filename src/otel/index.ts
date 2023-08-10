@@ -29,6 +29,8 @@ export const createExporter = (inputs: ActionInputs): PushMetricExporter => {
 
 export const setupOtel = (inputs: ActionInputs) => {
   core.info('Setting up telemetry...')
+  console.log('Setting up telemetry...')
+
   const resource = new Resource({
     'service.name': 'example-metric-service',
     'service.namespace': 'samples',

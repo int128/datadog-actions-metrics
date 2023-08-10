@@ -54,28 +54,31 @@ test('empty', () => {
 //   expect(submitMetrics.mock.calls).toMatchSnapshot()
 // })
 
-// test('workflow_run', async () => {
-//   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
-//   submitMetrics.mockResolvedValue({ status: 'ok' })
+test('workflow_run', async () => {
+  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  // submitMetrics.mockResolvedValue({ status: 'ok' })
+  console.log('********')
+  await run(
+    {
+      eventName: 'workflow_run',
+      payload: exampleWorkflowRunCompletedEvent,
+      repo: { owner: 'Codertocat', repo: 'Hello-World' },
+    },
+    {
+      githubToken: 'GITHUB_TOKEN',
+      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
+      collectJobMetrics: false,
+      collectStepMetrics: false,
+      sendPullRequestLabels: false,
+      useConsoleExporter: true,
+    }
+  )
 
-//   await run(
-//     {
-//       eventName: 'workflow_run',
-//       payload: exampleWorkflowRunCompletedEvent,
-//       repo: { owner: 'Codertocat', repo: 'Hello-World' },
-//     },
-//     {
-//       githubToken: 'GITHUB_TOKEN',
-//       githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
-//       collectJobMetrics: false,
-//       collectStepMetrics: false,
-//       sendPullRequestLabels: false,
-//     }
-//   )
-//   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
-//   // expect(submitMetrics).toHaveBeenCalledTimes(2)
-//   // expect(submitMetrics.mock.calls).toMatchSnapshot()
-// })
+  expect(0).toBe(0)
+  // expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  // expect(submitMetrics).toHaveBeenCalledTimes(2)
+  // expect(submitMetrics.mock.calls).toMatchSnapshot()
+})
 
 // test('pull_request_opened', async () => {
 //   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)

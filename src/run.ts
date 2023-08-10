@@ -25,6 +25,7 @@ export const run = async (context: GitHubContext, inputs: ActionInputs): Promise
   // await submitMetrics(rateLimit, 'rate limit')
 
   core.info('Shutting down telemetry')
+  await meterProvider.forceFlush()
   await meterProvider.shutdown()
 }
 
