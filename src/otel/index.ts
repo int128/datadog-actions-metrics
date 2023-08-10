@@ -10,7 +10,7 @@ import { ActionInputs } from '../types'
 
 // only support GCP exporter for now
 export const createExporter = (inputs: ActionInputs): PushMetricExporter => {
-  if (inputs.useConsoleExporter) {
+  if (inputs.useConsoleExporter || !inputs.gcpProjectId) {
     return new ConsoleMetricExporter()
   }
 
