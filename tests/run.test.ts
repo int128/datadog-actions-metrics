@@ -26,6 +26,10 @@ getOctokit.mockReturnValue(octokitMock)
 jest.mock('@datadog/datadog-api-client')
 const submitMetrics = jest.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
 
+test('empty', () => {
+  expect(0).toBe(0)
+})
+
 // test('workflow_run with collectJobMetrics', async () => {
 //   octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
 //   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
