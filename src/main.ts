@@ -13,6 +13,7 @@ const main = async (): Promise<void> => {
     sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),
 
     gcpProjectId: core.getInput('gcp-project-id') || undefined,
+    useConsoleExporter: core.getBooleanInput('use-console-exporter'),
   })
 }
 
