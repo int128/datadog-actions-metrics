@@ -11,6 +11,7 @@ import { ActionInputs } from '../types'
 // only support GCP exporter for now
 export const createExporter = (inputs: ActionInputs): PushMetricExporter => {
   if (inputs.useConsoleExporter || !inputs.gcpProjectId) {
+    console.log('Using Console exporter')
     return new ConsoleMetricExporter()
   }
 
@@ -24,6 +25,7 @@ export const createExporter = (inputs: ActionInputs): PushMetricExporter => {
 }
 
 export const setupOtel = (inputs: ActionInputs) => {
+  console.log('Setting up telemetry...')
   const resource = new Resource({
     'service.name': 'example-metric-service',
     'service.namespace': 'samples',
