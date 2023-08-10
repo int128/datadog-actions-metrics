@@ -1,5 +1,5 @@
 name: release
-
+# release v0.1.2-alpha
 on:
   pull_request:
     paths:
