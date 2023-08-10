@@ -1,5 +1,5 @@
-name: datadog-actions-metrics
-description: submit metrics of GitHub Actions to Datadog
+name: actions-metrics-otlp
+description: capture github actions metrics
 
 inputs:
   github-token:
