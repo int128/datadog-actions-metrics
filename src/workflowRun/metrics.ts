@@ -37,18 +37,6 @@ const getCommonAttributes = (e: WorkflowRunCompletedEvent): Attributes => ({
   'branch.is_default': e.workflow_run.head_branch === e.repository.default_branch,
 })
 
-export type WorkflowRunJobStepMetrics = {
-  workflowRunMetrics: v1.Series[]
-  jobMetrics: v1.Series[]
-  stepMetrics: v1.Series[]
-}
-
-export type WorkflowRunJobStepMetrics2 = {
-  workflowRunMetrics: v1.Series[]
-  jobMetrics: v1.Series[]
-  stepMetrics: v1.Series[]
-}
-
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
   meter: Meter,
@@ -70,7 +58,7 @@ export const computeWorkflowRunJobStepMetrics = (
 
   return {
     workflowRunMetrics: computeWorkflowRunMetrics(e, meter, checkSuite),
-    // jobMetrics: computeJobMetrics(e, checkSuite, workflowDefinition),
+    jobMetrics: computeJobMetrics(e, meter, checkSuite, workflowDefinition),
     // stepMetrics: computeStepMetrics(e, checkSuite, workflowDefinition),
   }
 }
@@ -89,24 +77,12 @@ export const computeWorkflowRunMetrics = (
   const runStartedAt = unixTime(e.workflow_run.run_started_at)
   const duration = updatedAt - runStartedAt
 
-  // TODO: Gauge or Histogram?
-  // const durationGauge = meter.createObservableGauge('github.actions.workflow_run.duration_second', { unit: 'seconds' })
-  // durationGauge.addCallback((result) => {
-  //   result.observe(duration, attributes)
-  // })
   const durationHistogram = meter.createHistogram('github.actions.workflow_run.duration', { unit: 'seconds' })
   durationHistogram.record(duration, { ...attributes, conclusion: e.workflow_run.conclusion })
 
   if (checkSuite !== undefined) {
     const queuedTime = computeWorkflowRunQueuedTime(checkSuite, runStartedAt)
     if (queuedTime !== undefined) {
-      // const queuedTimeGauge = meter.createObservableGauge('github.actions.workflow_run.queued_duration_second', {
-      //   unit: 'seconds',
-      // })
-      // queuedTimeGauge.addCallback((result) => {
-      //   result.observe(queuedTime, attributes)
-      // })
-
       const queuedTimeHistogram = meter.createHistogram('github.actions.workflow_run.queued_duration', {
         unit: 'seconds',
       })
@@ -129,77 +105,50 @@ const computeWorkflowRunQueuedTime = (checkSuite: CompletedCheckSuite, workflowR
 
 export const computeJobMetrics = (
   e: WorkflowRunCompletedEvent,
+  meter: Meter,
   checkSuite: CompletedCheckSuite,
   workflowDefinition?: WorkflowDefinition
-): v1.Series[] => {
-  const series: v1.Series[] = []
+) => {
+  const baseAttributes = getCommonAttributes(e)
 
   for (const checkRun of checkSuite.node.checkRuns.nodes) {
-    // lower case for backward compatibility
-    const conclusion = String(checkRun.conclusion).toLowerCase()
-    const status = String(checkRun.status).toLowerCase()
-
     const completedAt = unixTime(checkRun.completedAt)
-    const tags = [
-      ...computeCommonTags(e),
-      `job_id:${String(checkRun.databaseId)}`,
-      `job_name:${checkRun.name}`,
-      `conclusion:${conclusion}`,
-      `status:${status}`,
-    ]
     const runsOn = inferRunner(checkRun.name, workflowDefinition)
-    if (runsOn !== undefined) {
-      tags.push(`runs_on:${runsOn}`)
+
+    const attributes: Attributes = {
+      ...baseAttributes,
+
+      'job.id': checkRun.databaseId,
+      'job.name': checkRun.name,
+
+      // lower case for backward compatibility
+      'job.conclusion': String(checkRun.conclusion).toLowerCase(),
+      'job.status': String(checkRun.status).toLowerCase(),
+
+      ...(runsOn ? { runs_on: runsOn } : {}),
     }
 
-    series.push(
-      {
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.total',
-        type: 'count',
-        points: [[completedAt, 1]],
-      },
-      {
-        host: 'github.com',
-        tags,
-        metric: `github.actions.job.conclusion.${conclusion}_total`,
-        type: 'count',
-        points: [[completedAt, 1]],
-      }
-    )
+    const jobRunCount = meter.createCounter(`github.actions.job.total`)
+    jobRunCount.add(1, attributes)
 
     const startedAt = unixTime(checkRun.startedAt)
     const duration = completedAt - startedAt
-    series.push({
-      host: 'github.com',
-      tags,
-      metric: 'github.actions.job.duration_second',
-      type: 'gauge',
-      points: [[completedAt, duration]],
-    })
 
+    const durationHistogram = meter.createHistogram('github.actions.job.duration', { unit: 'seconds' })
+    durationHistogram.record(duration, attributes)
+
+    // TODO: Do these need to be separate counters?
+    // Would it be better to capture as attributes?
     if (checkRun.annotations.nodes.some((a) => isLostCommunicationWithServerError(a.message))) {
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.lost_communication_with_server_error_total',
-        type: 'count',
-        points: [[completedAt, 1]],
-      })
+      const errorCount = meter.createCounter(`github.actions.job.lost_communication_with_server_error.total`)
+      errorCount.add(1, attributes)
     }
 
     if (checkRun.annotations.nodes.some((a) => isReceivedShutdownSignalError(a.message))) {
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.received_shutdown_signal_error_total',
-        type: 'count',
-        points: [[completedAt, 1]],
-      })
+      const errorCount = meter.createCounter(`github.actions.job.received_shutdown_signal_error.total`)
+      errorCount.add(1, attributes)
     }
   }
-  return series
 }
 
 export const isLostCommunicationWithServerError = (message: string): boolean =>
