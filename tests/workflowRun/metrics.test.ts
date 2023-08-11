@@ -8,6 +8,33 @@ import {
 } from '../../src/workflowRun/metrics'
 import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite'
 import { exampleWorkflowRunCompletedEvent } from '../fixtures'
+import { setupOtel } from '../../src/otel'
+import { ActionInputs } from '../../src/types'
+import { ActionsConsoleMetricExporter } from '../../src/otel/actionsExporter'
+
+const setupTestMeter = (actionInputs: Partial<ActionInputs> = {}) => {
+  const meterProvider = setupOtel({
+    githubToken: 'STUBTOKEN',
+    githubTokenForRateLimitMetrics: 'STUBTOKEN',
+    collectJobMetrics: false,
+    collectStepMetrics: false,
+    sendPullRequestLabels: false,
+    useConsoleExporter: true,
+    ...actionInputs,
+  })
+  const meter = meterProvider.getMeter('test')
+  return { meter, meterProvider }
+}
+
+beforeAll(() => {
+  // this ensures timestamps in snapshots remain static
+  jest.useFakeTimers({ now: new Date('2023-08-11T00:00:00') })
+})
+
+afterAll(() => {
+  jest.restoreAllMocks()
+  jest.useRealTimers()
+})
 
 const exampleWorkflowDefinition: WorkflowDefinition = {
   jobs: {
@@ -17,27 +44,43 @@ const exampleWorkflowDefinition: WorkflowDefinition = {
   },
 }
 
-// test('computeWorkflowRunMetrics', () => {
-//   const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, exampleCompletedCheckSuite)
-//   expect(series).toMatchSnapshot()
-// })
+test('computeWorkflowRunMetrics', async () => {
+  const exporterSpy = jest.spyOn(ActionsConsoleMetricExporter.prototype, 'export')
 
-test('computeJobMetrics', () => {
-  const series = computeJobMetrics(
-    exampleWorkflowRunCompletedEvent,
-    exampleCompletedCheckSuite,
-    exampleWorkflowDefinition
-  )
-  expect(series).toMatchSnapshot()
+  const { meter, meterProvider } = setupTestMeter()
+
+  computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, meter, exampleCompletedCheckSuite)
+
+  await meterProvider.forceFlush()
+  await meterProvider.shutdown()
+
+  expect(exporterSpy.mock.calls).toMatchSnapshot()
 })
 
-test('computeStepMetrics', () => {
-  const series = computeStepMetrics(
-    exampleWorkflowRunCompletedEvent,
-    exampleCompletedCheckSuite,
-    exampleWorkflowDefinition
-  )
-  expect(series).toMatchSnapshot()
+test('computeJobMetrics', async () => {
+  const exporterSpy = jest.spyOn(ActionsConsoleMetricExporter.prototype, 'export')
+
+  const { meter, meterProvider } = setupTestMeter()
+
+  computeJobMetrics(exampleWorkflowRunCompletedEvent, meter, exampleCompletedCheckSuite, exampleWorkflowDefinition)
+
+  await meterProvider.forceFlush()
+  await meterProvider.shutdown()
+
+  expect(exporterSpy.mock.calls).toMatchSnapshot()
+})
+
+test('computeStepMetrics', async () => {
+  const exporterSpy = jest.spyOn(ActionsConsoleMetricExporter.prototype, 'export')
+
+  const { meter, meterProvider } = setupTestMeter()
+
+  computeStepMetrics(exampleWorkflowRunCompletedEvent, meter, exampleCompletedCheckSuite, exampleWorkflowDefinition)
+
+  await meterProvider.forceFlush()
+  await meterProvider.shutdown()
+
+  expect(exporterSpy.mock.calls).toMatchSnapshot()
 })
 
 describe('isLostCommunicationWithServerError', () => {
