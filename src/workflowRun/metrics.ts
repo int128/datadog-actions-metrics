@@ -1,24 +1,38 @@
 import * as core from '@actions/core'
 import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
-import { Meter } from '@opentelemetry/api'
+import { Attributes, Meter } from '@opentelemetry/api'
 
 import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
 import { CompletedCheckSuite } from '../queries/completedCheckSuite'
 
-const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
-  `repository_owner:${e.workflow_run.repository.owner.login}`,
-  `repository_name:${e.workflow_run.repository.name}`,
-  `workflow_id:${e.workflow_run.id}`,
-  `workflow_name:${e.workflow_run.name}`,
-  `run_attempt:${e.workflow_run.run_attempt}`,
-  `event:${e.workflow_run.event}`,
-  `sender:${e.sender.login}`,
-  `sender_type:${e.sender.type}`,
-  `branch:${e.workflow_run.head_branch}`,
-  `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
-  ...e.workflow_run.pull_requests.map((pull) => `pull_request_number:${pull.number}`),
-]
+// const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
+//   `repository_owner:${e.workflow_run.repository.owner.login}`,
+//   `repository_name:${e.workflow_run.repository.name}`,
+//   `workflow_id:${e.workflow_run.id}`,
+//   `workflow_name:${e.workflow_run.name}`,
+//   `run_attempt:${e.workflow_run.run_attempt}`,
+//   `event:${e.workflow_run.event}`,
+//   `sender:${e.sender.login}`,
+//   `sender_type:${e.sender.type}`,
+//   `branch:${e.workflow_run.head_branch}`,
+//   `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
+//   ...e.workflow_run.pull_requests.map((pull) => `pull_request_number:${pull.number}`),
+// ]
+
+const getCommonAttributes = (e: WorkflowRunCompletedEvent): Attributes => ({
+  repository_owner: e.workflow_run.repository.owner.login,
+  repository_name: e.workflow_run.repository.name,
+  workflow_id: e.workflow_run.id,
+  workflow_name: e.workflow_run.name,
+  run_attempt: e.workflow_run.run_attempt,
+  event: e.workflow_run.event,
+  sender: e.sender.login,
+  sender_type: e.sender.type,
+  branch: e.workflow_run.head_branch,
+  default_branch: e.workflow_run.head_branch === e.repository.default_branch,
+  pull_requests: e.workflow_run.pull_requests.map((pull) => pull.number),
+})
 
 export type WorkflowRunJobStepMetrics = {
   workflowRunMetrics: v1.Series[]
@@ -63,63 +77,39 @@ export const computeWorkflowRunMetrics = (
   meter: Meter,
   checkSuite?: CompletedCheckSuite
 ) => {
-  // const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
+  const attributes = getCommonAttributes(e)
   const updatedAt = unixTime(e.workflow_run.updated_at)
 
-  // const series: v1.Series[] = [
-  //   {
-  //     host: 'github.com',
-  //     tags,
-  //     metric: 'github.actions.workflow_run.total',
-  //     type: 'count',
-  //     points: [[updatedAt, 1]],
-  //   },
-  //   {
-  //     host: 'github.com',
-  //     tags,
-  //     metric: `github.actions.workflow_run.conclusion.${e.workflow_run.conclusion}_total`,
-  //     type: 'count',
-  //     points: [[updatedAt, 1]],
-  //   },
-  // ]
-
-  const runCount = meter.createCounter('run-count')
-  runCount.add(1)
+  const conclusionCount = meter.createCounter(`github.actions.workflow_run.total`)
+  conclusionCount.add(1, { ...attributes, conclusion: e.workflow_run.conclusion })
 
   const runStartedAt = unixTime(e.workflow_run.run_started_at)
   const duration = updatedAt - runStartedAt
-  // series.push({
-  //   host: 'github.com',
-  //   tags,
-  //   metric: 'github.actions.workflow_run.duration_second',
-  //   type: 'gauge',
-  //   points: [[updatedAt, duration]],
-  // })
 
-  const durationGauge = meter.createObservableGauge('github.actions.workflow_run.duration_second', { unit: 'seconds' })
-  durationGauge.addCallback((result) => {
-    result.observe(duration)
-  })
+  // TODO: Gauge or Histogram?
+  // const durationGauge = meter.createObservableGauge('github.actions.workflow_run.duration_second', { unit: 'seconds' })
+  // durationGauge.addCallback((result) => {
+  //   result.observe(duration, attributes)
+  // })
+  const durationHistogram = meter.createHistogram('github.actions.workflow_run.duration', { unit: 'seconds' })
+  durationHistogram.record(duration, { ...attributes, conclusion: e.workflow_run.conclusion })
 
   if (checkSuite !== undefined) {
     const queuedTime = computeWorkflowRunQueuedTime(checkSuite, runStartedAt)
     if (queuedTime !== undefined) {
-      const queuedTimeGauge = meter.createObservableGauge('github.actions.workflow_run.queued_duration_second', {
+      // const queuedTimeGauge = meter.createObservableGauge('github.actions.workflow_run.queued_duration_second', {
+      //   unit: 'seconds',
+      // })
+      // queuedTimeGauge.addCallback((result) => {
+      //   result.observe(queuedTime, attributes)
+      // })
+
+      const queuedTimeHistogram = meter.createHistogram('github.actions.workflow_run.queued_duration', {
         unit: 'seconds',
       })
-      queuedTimeGauge.addCallback((result) => {
-        result.observe(queuedTime)
-      })
-      // series.push({
-      //   host: 'github.com',
-      //   tags,
-      //   metric: 'github.actions.workflow_run.queued_duration_second',
-      //   type: 'gauge',
-      //   points: [[updatedAt, queued]],
-      // })
+      queuedTimeHistogram.record(queuedTime, { ...attributes, conclusion: e.workflow_run.conclusion })
     }
   }
-  // return series
 }
 
 const computeWorkflowRunQueuedTime = (checkSuite: CompletedCheckSuite, workflowRunStartedAt: number) => {
@@ -140,6 +130,7 @@ export const computeJobMetrics = (
   workflowDefinition?: WorkflowDefinition
 ): v1.Series[] => {
   const series: v1.Series[] = []
+
   for (const checkRun of checkSuite.node.checkRuns.nodes) {
     // lower case for backward compatibility
     const conclusion = String(checkRun.conclusion).toLowerCase()
@@ -147,7 +138,7 @@ export const computeJobMetrics = (
 
     const completedAt = unixTime(checkRun.completedAt)
     const tags = [
-      ...computeCommonTags(e),
+      // ...computeCommonTags(e),
       `job_id:${String(checkRun.databaseId)}`,
       `job_name:${checkRun.name}`,
       `conclusion:${conclusion}`,
@@ -229,7 +220,7 @@ export const computeStepMetrics = (
       const status = String(s.status).toLowerCase()
       const completedAt = unixTime(s.completedAt)
       const tags = [
-        ...computeCommonTags(e),
+        // ...computeCommonTags(e),
         `job_id:${String(checkRun.databaseId)}`,
         `job_name:${checkRun.name}`,
         `step_name:${s.name}`,

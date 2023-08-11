@@ -25,7 +25,8 @@
     "@opentelemetry/resources": "^1.15.0",
     "@opentelemetry/sdk-metrics": "^1.15.0",
     "@opentelemetry/semantic-conventions": "^1.15.2",
-    "graphql": "16.7.1"
+    "graphql": "16.7.1",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "4.0.1",
@@ -37,6 +38,7 @@
     "@tsconfig/node16": "1.0.4",
     "@types/jest": "29.5.2",
     "@types/js-yaml": "4.0.5",
+    "@types/lodash": "^4.14.197",
     "@types/node": "16.18.38",
     "@types/proxy": "1.0.1",
     "@typescript-eslint/eslint-plugin": "5.61.0",

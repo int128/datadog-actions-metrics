@@ -10,7 +10,7 @@ import {
 } from '@opentelemetry/sdk-metrics'
 import { DEFAULT_AGGREGATION_TEMPORALITY_SELECTOR } from '@opentelemetry/sdk-metrics/build/src/export/AggregationSelector'
 
-interface ConsoleMetricExporterOptions {
+interface ActionsMetricExporterOptions {
   temporalitySelector?: AggregationTemporalitySelector
 }
 
@@ -19,7 +19,7 @@ export class ActionsConsoleMetricExporter implements PushMetricExporter {
   protected _shutdown = false
   protected _temporalitySelector: AggregationTemporalitySelector
 
-  constructor(options?: ConsoleMetricExporterOptions) {
+  constructor(options?: ActionsMetricExporterOptions) {
     this._temporalitySelector = options?.temporalitySelector ?? DEFAULT_AGGREGATION_TEMPORALITY_SELECTOR
   }
 
@@ -53,13 +53,14 @@ export class ActionsConsoleMetricExporter implements PushMetricExporter {
 
     for (const scopeMetrics of metrics.scopeMetrics) {
       for (const metric of scopeMetrics.metrics) {
-        core.info(
-          util.inspect({
-            descriptor: metric.descriptor,
-            dataPointType: metric.dataPointType,
-            dataPoints: metric.dataPoints,
-          })
-        )
+        // core.info(
+        //   util.inspect({
+        //     descriptor: metric.descriptor,
+        //     dataPointType: metric.dataPointType,
+        //     dataPoints: metric.dataPoints,
+        //   })
+        // )
+        core.info(JSON.stringify(metric, null, 2))
       }
     }
 
