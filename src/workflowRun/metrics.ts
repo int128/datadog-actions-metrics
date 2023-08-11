@@ -6,32 +6,35 @@ import { Attributes, Meter } from '@opentelemetry/api'
 import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
 import { CompletedCheckSuite } from '../queries/completedCheckSuite'
 
-// const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
-//   `repository_owner:${e.workflow_run.repository.owner.login}`,
-//   `repository_name:${e.workflow_run.repository.name}`,
-//   `workflow_id:${e.workflow_run.id}`,
-//   `workflow_name:${e.workflow_run.name}`,
-//   `run_attempt:${e.workflow_run.run_attempt}`,
-//   `event:${e.workflow_run.event}`,
-//   `sender:${e.sender.login}`,
-//   `sender_type:${e.sender.type}`,
-//   `branch:${e.workflow_run.head_branch}`,
-//   `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
-//   ...e.workflow_run.pull_requests.map((pull) => `pull_request_number:${pull.number}`),
-// ]
+const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
+  `repository_owner:${e.workflow_run.repository.owner.login}`,
+  `repository_name:${e.workflow_run.repository.name}`,
+  `workflow_id:${e.workflow_run.id}`,
+  `workflow_name:${e.workflow_run.name}`,
+  `run_attempt:${e.workflow_run.run_attempt}`,
+  `event:${e.workflow_run.event}`,
+  `sender:${e.sender.login}`,
+  `sender_type:${e.sender.type}`,
+  `branch:${e.workflow_run.head_branch}`,
+  `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
+  ...e.workflow_run.pull_requests.map((pull) => `pull_request_number:${pull.number}`),
+]
 
 const getCommonAttributes = (e: WorkflowRunCompletedEvent): Attributes => ({
-  repository_owner: e.workflow_run.repository.owner.login,
-  repository_name: e.workflow_run.repository.name,
-  workflow_id: e.workflow_run.id,
-  workflow_name: e.workflow_run.name,
-  run_attempt: e.workflow_run.run_attempt,
-  event: e.workflow_run.event,
-  sender: e.sender.login,
-  sender_type: e.sender.type,
-  branch: e.workflow_run.head_branch,
-  default_branch: e.workflow_run.head_branch === e.repository.default_branch,
-  pull_requests: e.workflow_run.pull_requests.map((pull) => pull.number),
+  'repository.owner': e.workflow_run.repository.owner.login,
+  'repository.name': e.workflow_run.repository.name,
+
+  'workflow_run.id': e.workflow_run.id,
+  'workflow_run.name': e.workflow_run.name,
+  'workflow_run.run_attempt': e.workflow_run.run_attempt,
+  'workflow_run.event': e.workflow_run.event,
+  'workflow_run.pull_requests': e.workflow_run.pull_requests.map((pull) => pull.number),
+
+  'event.sender': e.sender.login,
+  'event.sender_type': e.sender.type,
+
+  'branch.name': e.workflow_run.head_branch,
+  'branch.is_default': e.workflow_run.head_branch === e.repository.default_branch,
 })
 
 export type WorkflowRunJobStepMetrics = {
@@ -138,7 +141,7 @@ export const computeJobMetrics = (
 
     const completedAt = unixTime(checkRun.completedAt)
     const tags = [
-      // ...computeCommonTags(e),
+      ...computeCommonTags(e),
       `job_id:${String(checkRun.databaseId)}`,
       `job_name:${checkRun.name}`,
       `conclusion:${conclusion}`,
@@ -220,7 +223,7 @@ export const computeStepMetrics = (
       const status = String(s.status).toLowerCase()
       const completedAt = unixTime(s.completedAt)
       const tags = [
-        // ...computeCommonTags(e),
+        ...computeCommonTags(e),
         `job_id:${String(checkRun.databaseId)}`,
         `job_name:${checkRun.name}`,
         `step_name:${s.name}`,
