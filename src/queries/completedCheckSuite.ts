@@ -1,3 +1,4 @@
+import assert from 'assert'
 import { CompletedCheckSuiteQuery, CompletedCheckSuiteQueryVariables } from '../generated/graphql'
 import { CheckAnnotation, CheckRun, CheckStep } from '../generated/graphql-types'
 import { Octokit } from '../types'
@@ -95,9 +96,8 @@ export const queryCompletedCheckSuite = async (
 }
 
 const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
-  if (r.node?.__typename !== 'CheckSuite') {
-    throw new Error(`invalid __typename ${String(r.node?.__typename)} !== CheckSuite`)
-  }
+  assert(r.node != null)
+  assert.strictEqual(r.node.__typename, 'CheckSuite')
 
   const checkRuns: CompletedCheckRun[] = []
   for (const checkRun of r.node.checkRuns?.nodes ?? []) {
@@ -147,16 +147,13 @@ const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['nod
 }
 
 const extractCommit = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['commit'] => {
-  if (r.node?.__typename !== 'CheckSuite') {
-    throw new Error(`invalid __typename ${String(r.node?.__typename)} !== CheckSuite`)
-  }
-  if (r.node.commit.file?.object?.__typename !== 'Blob') {
-    throw new Error(`invalid __typename ${String(r.node.commit.file?.object?.__typename)} !== Blob`)
-  }
-  const { text } = r.node.commit.file.object
-  if (text == null) {
-    throw new Error(`invalid text ${String(text)}`)
-  }
+  assert(r.node != null)
+  assert.strictEqual(r.node.__typename, 'CheckSuite')
+  assert(r.node.commit.file != null)
+  assert(r.node.commit.file.object != null)
+  assert.strictEqual(r.node.commit.file.object.__typename, 'Blob')
+  const text = r.node.commit.file.object.text
+  assert(text != null)
   return {
     file: {
       object: {

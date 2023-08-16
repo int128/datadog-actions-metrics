@@ -1,3 +1,4 @@
+import assert from 'assert'
 import * as yaml from 'js-yaml'
 
 export type WorkflowDefinition = {
@@ -10,15 +11,16 @@ export type WorkflowDefinition = {
 }
 
 export const parseWorkflowFile = (s: string): WorkflowDefinition => {
-  const parsed = yaml.load(s)
-  if (typeof parsed !== 'object' || parsed === null) {
-    throw new Error(`workflow is not valid object: ${typeof parsed}`)
-  }
-  const workflow = parsed as WorkflowDefinition
-  if (typeof workflow.jobs !== 'object') {
-    throw new Error(`workflow does not have valid "jobs" field: ${JSON.stringify(workflow)}`)
-  }
+  const workflow = yaml.load(s)
+  assertWorkflowDefinition(workflow)
   return workflow
+}
+
+function assertWorkflowDefinition(x: unknown): asserts x is WorkflowDefinition {
+  assert(typeof x === 'object')
+  assert(x !== null)
+  assert('jobs' in x)
+  assert(typeof x.jobs === 'object')
 }
 
 export const inferRunner = (jobName: string, workflowDefinition?: WorkflowDefinition): string | undefined => {
