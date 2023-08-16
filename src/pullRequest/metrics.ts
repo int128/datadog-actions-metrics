@@ -1,6 +1,6 @@
 import { v1 } from '@datadog/datadog-api-client'
 import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent } from '@octokit/webhooks-types'
-import { ClosedPullRequest } from '../queries/closedPullRequest'
+import { PullRequestFirstCommit } from '../queries/getPullRequest'
 
 const computeCommonTags = (e: PullRequestEvent): string[] => {
   const tags = [
@@ -65,8 +65,8 @@ type ClosedMetricsOptions = {
 
 export const computePullRequestClosedMetrics = (
   e: PullRequestClosedEvent,
-  pr: ClosedPullRequest | undefined,
-  options: ClosedMetricsOptions
+  pullRequestFirstCommit: PullRequestFirstCommit | undefined,
+  options: ClosedMetricsOptions,
 ): v1.Series[] => {
   const tags = computeCommonTags(e)
   tags.push(`merged:${String(e.pull_request.merged)}`)
@@ -116,22 +116,22 @@ export const computePullRequestClosedMetrics = (
     },
   ]
 
-  if (pr !== undefined) {
+  if (pullRequestFirstCommit !== undefined) {
     series.push(
       {
         host: 'github.com',
         tags,
         metric: 'github.actions.pull_request_closed.since_first_authored_seconds',
         type: 'gauge',
-        points: [[t, t - unixTime(pr.firstCommit.authoredDate)]],
+        points: [[t, t - unixTime(pullRequestFirstCommit.authoredDate)]],
       },
       {
         host: 'github.com',
         tags,
         metric: 'github.actions.pull_request_closed.since_first_committed_seconds',
         type: 'gauge',
-        points: [[t, t - unixTime(pr.firstCommit.committedDate)]],
-      }
+        points: [[t, t - unixTime(pullRequestFirstCommit.committedDate)]],
+      },
     )
   }
 

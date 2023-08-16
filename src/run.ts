@@ -3,8 +3,8 @@ import * as github from '@actions/github'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
-import { queryCompletedCheckSuite } from './queries/completedCheckSuite'
-import { queryClosedPullRequest } from './queries/closedPullRequest'
+import { getCompletedCheckSuite } from './queries/getCheckSuite'
+import { getPullRequestFirstCommit } from './queries/getPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
 import { computeWorkflowRunJobStepMetrics } from './workflowRun/metrics'
@@ -52,7 +52,7 @@ const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEve
     if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
       const octokit = github.getOctokit(inputs.githubToken)
       try {
-        checkSuite = await queryCompletedCheckSuite(octokit, {
+        checkSuite = await getCompletedCheckSuite(octokit, {
           node_id: e.workflow_run.check_suite_node_id,
           workflow_path: e.workflow.path,
         })
@@ -92,9 +92,9 @@ const handlePullRequest = async (
 
   if (e.action === 'closed') {
     const octokit = github.getOctokit(inputs.githubToken)
-    let closedPullRequest
+    let pullRequestFirstCommit
     try {
-      closedPullRequest = await queryClosedPullRequest(octokit, {
+      pullRequestFirstCommit = await getPullRequestFirstCommit(octokit, {
         owner: context.repo.owner,
         name: context.repo.repo,
         number: e.pull_request.number,
@@ -102,7 +102,7 @@ const handlePullRequest = async (
     } catch (error) {
       core.warning(`Could not get the pull request: ${String(error)}`)
     }
-    return await submitMetrics(computePullRequestClosedMetrics(e, closedPullRequest, inputs), 'pull request')
+    return await submitMetrics(computePullRequestClosedMetrics(e, pullRequestFirstCommit, inputs), 'pull request')
   }
 
   core.warning(`Not supported action ${e.action}`)

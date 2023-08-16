@@ -7,7 +7,7 @@ import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedChec
 import { examplePullRequestClosedEvent } from './fixtures'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
 import { examplePullRequestOpenedEvent } from './fixtures'
-import { exampleClosedPullRequestQuery } from './pullRequest/fixtures/closedPullRequest'
+import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest'
 
 jest.mock('@actions/core')
 
@@ -100,7 +100,7 @@ test('pull_request_opened', async () => {
 })
 
 test('pull_request_closed', async () => {
-  octokitMock.graphql.mockResolvedValue(exampleClosedPullRequestQuery)
+  octokitMock.graphql.mockResolvedValue(exampleGetPullRequestQuery)
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   submitMetrics.mockResolvedValue({ status: 'ok' })
 
