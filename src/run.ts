@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './pullRequest/metrics'
 import { computePushMetrics } from './push/metrics'
-import { queryCompletedCheckSuite } from './queries/completedCheckSuite'
+import { getCompletedCheckSuite } from './queries/getCheckSuite'
 import { queryClosedPullRequest } from './queries/closedPullRequest'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
@@ -52,7 +52,7 @@ const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEve
     if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
       const octokit = github.getOctokit(inputs.githubToken)
       try {
-        checkSuite = await queryCompletedCheckSuite(octokit, {
+        checkSuite = await getCompletedCheckSuite(octokit, {
           node_id: e.workflow_run.check_suite_node_id,
           workflow_path: e.workflow.path,
         })

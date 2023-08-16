@@ -1,6 +1,6 @@
-import { CompletedCheckSuite } from '../../../src/queries/completedCheckSuite'
+import { CompletedCheckSuite } from '../../../src/queries/getCheckSuite'
 import { CheckConclusionState, CheckStatusState } from '../../../src/generated/graphql-types'
-import { CompletedCheckSuiteQuery } from '../../../src/generated/graphql'
+import { GetCheckSuiteQuery } from '../../../src/generated/graphql'
 
 const exampleWorkflowText = `
 on:
@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v2
 `
 
-export const exampleCompletedCheckSuite: CompletedCheckSuiteQuery & CompletedCheckSuite = {
+export const exampleCompletedCheckSuite: GetCheckSuiteQuery & CompletedCheckSuite = {
   // https://docs.github.com/en/rest/reference/actions#list-jobs-for-a-workflow-run
   node: {
     __typename: 'CheckSuite',

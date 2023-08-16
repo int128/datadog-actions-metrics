@@ -1,10 +1,10 @@
 import assert from 'assert'
-import { CompletedCheckSuiteQuery, CompletedCheckSuiteQueryVariables } from '../generated/graphql'
+import { GetCheckSuiteQuery, GetCheckSuiteQueryVariables } from '../generated/graphql'
 import { CheckAnnotation, CheckRun, CheckStep } from '../generated/graphql-types'
 import { Octokit } from '../types'
 
 const query = /* GraphQL */ `
-  query completedCheckSuite($node_id: ID!, $workflow_path: String!) {
+  query getCheckSuite($node_id: ID!, $workflow_path: String!) {
     node(id: $node_id) {
       __typename
       ... on CheckSuite {
@@ -81,11 +81,11 @@ type CompletedCheckRun = Pick<CheckRun, 'databaseId' | 'name' | 'status'> &
 type CompletedStep = Pick<CheckStep, 'number' | 'name' | 'status'> &
   NonNullablePick<CheckStep, 'startedAt' | 'completedAt' | 'conclusion'>
 
-export const queryCompletedCheckSuite = async (
+export const getCompletedCheckSuite = async (
   o: Octokit,
-  v: CompletedCheckSuiteQueryVariables
-): Promise<CompletedCheckSuite | undefined> => {
-  const r = await o.graphql<CompletedCheckSuiteQuery>(query, v)
+  v: GetCheckSuiteQueryVariables,
+): Promise<CompletedCheckSuite> => {
+  const r = await o.graphql<GetCheckSuiteQuery>(query, v)
   return {
     node: {
       __typename: 'CheckSuite',
@@ -95,7 +95,7 @@ export const queryCompletedCheckSuite = async (
   }
 }
 
-const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
+const extractCheckRuns = (r: GetCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
   assert(r.node != null)
   assert.strictEqual(r.node.__typename, 'CheckSuite')
 
@@ -146,7 +146,7 @@ const extractCheckRuns = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['nod
   return { nodes: checkRuns }
 }
 
-const extractCommit = (r: CompletedCheckSuiteQuery): CompletedCheckSuite['node']['commit'] => {
+const extractCommit = (r: GetCheckSuiteQuery): CompletedCheckSuite['node']['commit'] => {
   assert(r.node != null)
   assert.strictEqual(r.node.__typename, 'CheckSuite')
   assert(r.node.commit.file != null)
