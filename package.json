@@ -27,7 +27,7 @@
     "@octokit/graphql-schema": "14.27.1",
     "@octokit/webhooks-examples": "7.1.0",
     "@tsconfig/node16": "16.1.1",
-    "@types/jest": "29.5.3",
+    "@types/jest": "29.5.4",
     "@types/js-yaml": "4.0.5",
     "@types/node": "16.18.42",
     "@types/proxy": "1.0.1",
