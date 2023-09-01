@@ -29,7 +29,7 @@
     "@tsconfig/node16": "16.1.1",
     "@types/jest": "29.5.4",
     "@types/js-yaml": "4.0.5",
-    "@types/node": "16.18.46",
+    "@types/node": "16.18.47",
     "@types/proxy": "1.0.1",
     "@typescript-eslint/eslint-plugin": "6.5.0",
     "@typescript-eslint/parser": "6.5.0",
