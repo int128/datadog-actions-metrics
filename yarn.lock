@@ -2300,10 +2300,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.2.tgz#1f2b42c4be7156ff4a6f914b2fb03d05fa84e38d"
   integrity sha512-zjQ69G564OCIWIOHSXyQEEDpdpGl+G348RAKY0XXy9Z5kU9Vzv1GMNnkar/ZJ8dzXB3COzD9Mo9NtRZ4xfgUww==
 
-"@types/node@16.18.55":
-  version "16.18.55"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.55.tgz#3d9ac633ed401238c13ccaeed54297bd653412a3"
-  integrity sha512-Y1zz/LIuJek01+hlPNzzXQhmq/Z2BCP96j18MSXC0S0jSu/IG4FFxmBs7W4/lI2vPJ7foVfEB0hUVtnOjnCiTg==
+"@types/node@16.18.56":
+  version "16.18.56"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.56.tgz#a832bc19d7bd1ed6c830325b02f1688a89dd8216"
+  integrity sha512-QghPNEY/qYeP5YuCPIE1bVMFiPBSjFCCoX5cjmNtFIdbKeuzboupgjz05mA4C6SXHyRLLTlQ3pbRIfnLqwaekA==
 
 "@types/pako@^1.0.3":
   version "1.0.3"
