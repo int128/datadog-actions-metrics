@@ -28,7 +28,7 @@
     "@octokit/webhooks-examples": "7.1.0",
     "@tsconfig/node16": "16.1.1",
     "@types/jest": "29.5.5",
-    "@types/js-yaml": "4.0.6",
+    "@types/js-yaml": "4.0.7",
     "@types/node": "16.18.58",
     "@types/proxy": "1.0.2",
     "@typescript-eslint/eslint-plugin": "6.7.5",
