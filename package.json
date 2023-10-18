@@ -30,7 +30,7 @@
     "@types/jest": "29.5.6",
     "@types/js-yaml": "4.0.8",
     "@types/node": "16.18.58",
-    "@types/proxy": "1.0.2",
+    "@types/proxy": "1.0.3",
     "@typescript-eslint/eslint-plugin": "6.8.0",
     "@typescript-eslint/parser": "6.8.0",
     "@vercel/ncc": "0.38.0",
