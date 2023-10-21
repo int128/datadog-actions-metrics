@@ -2053,10 +2053,10 @@
     is-plain-object "^5.0.0"
     universal-user-agent "^6.0.0"
 
-"@octokit/graphql-schema@14.27.1":
-  version "14.27.1"
-  resolved "https://registry.yarnpkg.com/@octokit/graphql-schema/-/graphql-schema-14.27.1.tgz#d1193765625216a37634b1e9dd6fe46e534b3ad2"
-  integrity sha512-erzbThLnXL5qUGGT05ziZ8TYspXQ68k56VR70luit50VPVtG0NXJ5tpYYVaainY42Kl02NRUycXUdfdNZL3BTg==
+"@octokit/graphql-schema@14.38.0":
+  version "14.38.0"
+  resolved "https://registry.yarnpkg.com/@octokit/graphql-schema/-/graphql-schema-14.38.0.tgz#7f4990d9ef3564a52b0eb849c1a536fbd7e5469c"
+  integrity sha512-IhMaTPvk9Z1HItrUrMdA8IWKrI8PnBBgladqKMqmoqeTyPpVwAuBjlNYl0I+kTnQWUc49XiMCng7pYUvGbFjyw==
   dependencies:
     graphql "^16.0.0"
     graphql-tag "^2.10.3"
@@ -2116,17 +2116,17 @@
   dependencies:
     "@octokit/openapi-types" "^19.0.0"
 
-"@octokit/webhooks-examples@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks-examples/-/webhooks-examples-7.1.0.tgz#6759b5ee684fb249061c52bbb79b3b6e4feec107"
-  integrity sha512-hsg07rmN1HyBBOhWXTSvxppkH/PmRE+hwNEmKKXL9mu50AZ43tZ7ht1RSxiwHwY6g1eOUkcz0MwxMWSITvIVJA==
+"@octokit/webhooks-examples@7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-examples/-/webhooks-examples-7.3.1.tgz#ebd806a376070ed5b5ea634f15637a7d26c3ac45"
+  integrity sha512-o17qU9L0fYfrkiMuJRjD4M+ot115Z8n2lLjoJLg3q6Cpe8D0Qd6XHuNUEAsqFNpoZsv61tMGeBgMLy2gFRjwDg==
   dependencies:
     "@octokit/webhooks-types" "^7.0.0"
 
-"@octokit/webhooks-types@7.1.0":
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-7.1.0.tgz#d533dea253416e02dd6c2bfab25e533295bd5d3f"
-  integrity sha512-y92CpG4kFFtBBjni8LHoV12IegJ+KFxLgKRengrVjKmGE5XMeCuGvlfRe75lTRrgXaG6XIWJlFpIDTlkoJsU8w==
+"@octokit/webhooks-types@7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@octokit/webhooks-types/-/webhooks-types-7.3.1.tgz#bbf259ba1a4d623cbc300096e84d6f07f3095688"
+  integrity sha512-u6355ZsZnHwmxen30SrqnYb1pXieBFkYgkNzt+Ed4Ao5tupN1OErHfzwiV6hq6duGkDAYASbq7/uVJQ69PjLEg==
 
 "@octokit/webhooks-types@^7.0.0":
   version "7.0.2"
