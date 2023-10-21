@@ -25,4 +25,4 @@ jobs:
       - run: yarn
       - run: yarn build
       - run: yarn package
-      - uses: int128/release-typescript-action@0ae845d68f0934d12cb3d0fc2168780a5ba8160d # v1.25.0
+      - uses: int128/release-typescript-action@94c45715849473c37ebdc66190c9ec4c9543e46b # v1.27.0
