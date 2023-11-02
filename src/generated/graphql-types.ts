@@ -21684,8 +21684,6 @@ export enum RepositoryRuleType {
   Creation = 'CREATION',
   /** Only allow users with bypass permissions to delete matching refs. */
   Deletion = 'DELETION',
-  /** File path pattern */
-  FilePathPattern = 'FILE_PATH_PATTERN',
   /** Branch is read-only. Users cannot push to the branch. */
   LockBranch = 'LOCK_BRANCH',
   /** Max ref updates */
