@@ -2310,10 +2310,10 @@
   resolved "https://registry.yarnpkg.com/@types/pako/-/pako-1.0.3.tgz#2e61c2b02020b5f44e2e5e946dfac74f4ec33c58"
   integrity sha512-EDxOsHAD5dqjbjEUM1xwa7rpKPFb8ECBE5irONTQU7/OsO3thI5YrNEWSPNMvYmvFM0l/OLQJ6Mgw7PEdXSjhg==
 
-"@types/proxy@1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@types/proxy/-/proxy-1.0.3.tgz#8ee7a7c89943be0fff9fa5683bbffd236084ff17"
-  integrity sha512-g3IXDXnwmE+xp5AbrIM+10Z5ryVUKUKyEgq2ItXCZNs9d19YX5gaB6z5YTbE+Qdv4HFSL01pguJ6npS3yQZfsw==
+"@types/proxy@1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@types/proxy/-/proxy-1.0.4.tgz#ec6a5ff2fa547593b66a3ed148f5efd683b9baa5"
+  integrity sha512-KnYy7hpp3wXQ2U0ExvCMF9BvWZ6h2aI0XWb8g705mn26Zmn2HO/eLRi6UuhHELA6MNJtYtiZYWv38gobJN0xXQ==
   dependencies:
     "@types/node" "*"
 
