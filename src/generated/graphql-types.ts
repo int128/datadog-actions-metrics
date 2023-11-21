@@ -9619,6 +9619,18 @@ export type MarketplaceListingEdge = {
   node?: Maybe<MarketplaceListing>;
 };
 
+/** Represents a member feature request notification */
+export type MemberFeatureRequestNotification = Node & {
+  __typename?: 'MemberFeatureRequestNotification';
+  /** Represents member feature request body containing organization name and the number of feature requests */
+  body: Scalars['String']['output'];
+  id: Scalars['ID']['output'];
+  /** Represents member feature request notification title */
+  title: Scalars['String']['output'];
+  /** Identifies the date and time when the object was last updated. */
+  updatedAt: Scalars['DateTime']['output'];
+};
+
 /** Entities that have members who can set status messages. */
 export type MemberStatusable = {
   /** Get the status messages members of this entity have set that are either public or visible only to the organization. */
