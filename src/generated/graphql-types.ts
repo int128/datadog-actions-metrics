@@ -3996,7 +3996,7 @@ export type CreateTeamDiscussionInput = {
   /** A unique identifier for the client performing the mutation. */
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   /**
-   * If true, restricts the visibility of this discussion to team members and organization admins. If false or not specified, allows any organization member to view this discussion.
+   * If true, restricts the visibility of this discussion to team members and organization owners. If false or not specified, allows any organization member to view this discussion.
    *
    * **Upcoming Change on 2024-07-01 UTC**
    * **Description:** `private` will be removed. Follow the guide at https://github.blog/changelog/2023-02-08-sunset-notice-team-discussions/ to find a suitable replacement.
@@ -6296,7 +6296,7 @@ export enum EnterpriseMembersCanCreateRepositoriesSettingValue {
   All = 'ALL',
   /** Members will not be able to create public or private repositories. */
   Disabled = 'DISABLED',
-  /** Organization administrators choose whether to allow members to create repositories. */
+  /** Organization owners choose whether to allow members to create repositories. */
   NoPolicy = 'NO_POLICY',
   /** Members will be able to create only private repositories. */
   Private = 'PRIVATE',
@@ -10440,7 +10440,7 @@ export type Mutation = {
   createCommitOnBranch?: Maybe<CreateCommitOnBranchPayload>;
   /** Create a discussion. */
   createDiscussion?: Maybe<CreateDiscussionPayload>;
-  /** Creates an organization as part of an enterprise account. */
+  /** Creates an organization as part of an enterprise account. A personal access token used to create an organization is implicitly permitted to update the organization it created, if the organization is part of an enterprise that has SAML enabled or uses Enterprise Managed Users. If the organization is not part of such an enterprise, and instead has SAML enabled for it individually, the token will then require SAML authorization to continue working against that organization. */
   createEnterpriseOrganization?: Maybe<CreateEnterpriseOrganizationPayload>;
   /** Creates an environment or simply returns it if already exists. */
   createEnvironment?: Maybe<CreateEnvironmentPayload>;
@@ -10700,7 +10700,7 @@ export type Mutation = {
   updateEnterpriseMembersCanDeleteRepositoriesSetting?: Maybe<UpdateEnterpriseMembersCanDeleteRepositoriesSettingPayload>;
   /** Sets whether members can invite collaborators are enabled for an enterprise. */
   updateEnterpriseMembersCanInviteCollaboratorsSetting?: Maybe<UpdateEnterpriseMembersCanInviteCollaboratorsSettingPayload>;
-  /** Sets whether or not an organization admin can make purchases. */
+  /** Sets whether or not an organization owner can make purchases. */
   updateEnterpriseMembersCanMakePurchasesSetting?: Maybe<UpdateEnterpriseMembersCanMakePurchasesSettingPayload>;
   /** Sets the members can update protected branches setting for an enterprise. */
   updateEnterpriseMembersCanUpdateProtectedBranchesSetting?: Maybe<UpdateEnterpriseMembersCanUpdateProtectedBranchesSettingPayload>;
@@ -10736,6 +10736,8 @@ export type Mutation = {
   updateOrganizationAllowPrivateRepositoryForkingSetting?: Maybe<UpdateOrganizationAllowPrivateRepositoryForkingSettingPayload>;
   /** Sets whether contributors are required to sign off on web-based commits for repositories in an organization. */
   updateOrganizationWebCommitSignoffSetting?: Maybe<UpdateOrganizationWebCommitSignoffSettingPayload>;
+  /** Toggle the setting for your GitHub Sponsors profile that allows other GitHub accounts to sponsor you on GitHub while paying for the sponsorship on Patreon. Only applicable when you have a GitHub Sponsors profile and have connected your GitHub account with Patreon. */
+  updatePatreonSponsorability?: Maybe<UpdatePatreonSponsorabilityPayload>;
   /** Updates an existing project. */
   updateProject?: Maybe<UpdateProjectPayload>;
   /** Updates an existing project card. */
@@ -11946,6 +11948,12 @@ export type MutationUpdateOrganizationAllowPrivateRepositoryForkingSettingArgs =
 /** The root query for implementing GraphQL mutations. */
 export type MutationUpdateOrganizationWebCommitSignoffSettingArgs = {
   input: UpdateOrganizationWebCommitSignoffSettingInput;
+};
+
+
+/** The root query for implementing GraphQL mutations. */
+export type MutationUpdatePatreonSponsorabilityArgs = {
+  input: UpdatePatreonSponsorabilityInput;
 };
 
 
@@ -13196,7 +13204,7 @@ export type OrgRemoveMemberAuditEntry = AuditEntry & Node & OrganizationAuditEnt
 
 /** The type of membership a user has with an Organization. */
 export enum OrgRemoveMemberAuditEntryMembershipType {
-  /** Organization administrators have full access and can change several settings, including the names of repositories that belong to the Organization and Owners team membership. In addition, organization admins can delete the organization and all of its repositories. */
+  /** Organization owners have full access and can change several settings, including the names of repositories that belong to the Organization and Owners team membership. In addition, organization owners can delete the organization and all of its repositories. */
   Admin = 'ADMIN',
   /** A billing manager is a user who manages the billing settings for the Organization, such as updating payment information. */
   BillingManager = 'BILLING_MANAGER',
@@ -16719,12 +16727,12 @@ export type ProjectV2Workflow = Node & {
   createdAt: Scalars['DateTime']['output'];
   /** Identifies the primary key from the database. */
   databaseId?: Maybe<Scalars['Int']['output']>;
-  /** The workflows' enabled state. */
+  /** Whether the workflow is enabled. */
   enabled: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
-  /** The workflows' name. */
+  /** The name of the workflow. */
   name: Scalars['String']['output'];
-  /** The workflows' number. */
+  /** The number of the workflow. */
   number: Scalars['Int']['output'];
   /** The project that contains this workflow. */
   project: ProjectV2;
@@ -16764,13 +16772,13 @@ export type ProjectV2WorkflowOrder = {
 
 /** Properties by which project workflows can be ordered. */
 export enum ProjectV2WorkflowsOrderField {
-  /** The workflows' date and time of creation */
+  /** The date and time of the workflow creation */
   CreatedAt = 'CREATED_AT',
-  /** The workflows' name */
+  /** The name of the workflow */
   Name = 'NAME',
-  /** The workflows' number */
+  /** The number of the workflow */
   Number = 'NUMBER',
-  /** The workflows' date and time of update */
+  /** The date and time of the workflow update */
   UpdatedAt = 'UPDATED_AT'
 }
 
@@ -21820,7 +21828,7 @@ export type RepositoryRulesetBypassActor = Node & {
   /** The mode for the bypass actor */
   bypassMode?: Maybe<RepositoryRulesetBypassActorBypassMode>;
   id: Scalars['ID']['output'];
-  /** This actor represents the ability for an organization admin to bypass */
+  /** This actor represents the ability for an organization owner to bypass */
   organizationAdmin: Scalars['Boolean']['output'];
   /** If the actor is a repository role, the repository role's ID that can bypass */
   repositoryRoleDatabaseId?: Maybe<Scalars['Int']['output']>;
@@ -21866,7 +21874,7 @@ export type RepositoryRulesetBypassActorInput = {
   actorId?: InputMaybe<Scalars['ID']['input']>;
   /** The bypass mode for this actor. */
   bypassMode: RepositoryRulesetBypassActorBypassMode;
-  /** For org admin bupasses, true */
+  /** For organization owner bypasses, true */
   organizationAdmin?: InputMaybe<Scalars['Boolean']['input']>;
   /** For role bypasses, the role database ID */
   repositoryRoleDatabaseId?: InputMaybe<Scalars['Int']['input']>;
@@ -25267,7 +25275,7 @@ export type TeamDiscussion = Comment & Deletable & Node & Reactable & Subscribab
    */
   isPinned: Scalars['Boolean']['output'];
   /**
-   * Whether or not the discussion is only visible to team members and org admins.
+   * Whether or not the discussion is only visible to team members and organization owners.
    * @deprecated The Team Discussions feature is deprecated in favor of Organization Discussions. Follow the guide at https://github.blog/changelog/2023-02-08-sunset-notice-team-discussions/ to find a suitable replacement. Removal on 2024-07-01 UTC.
    */
   isPrivate: Scalars['Boolean']['output'];
@@ -27180,6 +27188,25 @@ export type UpdateParameters = {
 export type UpdateParametersInput = {
   /** Branch can pull changes from its upstream repository */
   updateAllowsFetchAndMerge: Scalars['Boolean']['input'];
+};
+
+/** Autogenerated input type of UpdatePatreonSponsorability */
+export type UpdatePatreonSponsorabilityInput = {
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: InputMaybe<Scalars['String']['input']>;
+  /** Whether Patreon tiers should be shown on the GitHub Sponsors profile page, allowing potential sponsors to make their payment through Patreon instead of GitHub. */
+  enablePatreonSponsorships: Scalars['Boolean']['input'];
+  /** The username of the organization with the GitHub Sponsors profile, if any. Defaults to the GitHub Sponsors profile for the authenticated user if omitted. */
+  sponsorableLogin?: InputMaybe<Scalars['String']['input']>;
+};
+
+/** Autogenerated return type of UpdatePatreonSponsorability */
+export type UpdatePatreonSponsorabilityPayload = {
+  __typename?: 'UpdatePatreonSponsorabilityPayload';
+  /** A unique identifier for the client performing the mutation. */
+  clientMutationId?: Maybe<Scalars['String']['output']>;
+  /** The GitHub Sponsors profile. */
+  sponsorsListing?: Maybe<SponsorsListing>;
 };
 
 /** Autogenerated input type of UpdateProjectCard */
