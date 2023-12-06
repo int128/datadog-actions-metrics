@@ -1146,7 +1146,7 @@ export type BranchProtectionRule = Node & {
   dismissesStaleReviews: Scalars['Boolean']['output'];
   /** The Node ID of this object */
   id: Scalars['ID']['output'];
-  /** Can admins overwrite branch protection. */
+  /** Can admins override branch protection. */
   isAdminEnforced: Scalars['Boolean']['output'];
   /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
   lockAllowsFetchAndMerge: Scalars['Boolean']['output'];
@@ -3354,7 +3354,7 @@ export type CreateBranchProtectionRuleInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   /** Will new commits pushed to matching branches dismiss pull request review approvals. */
   dismissesStaleReviews?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Can admins overwrite branch protection. */
+  /** Can admins override branch protection. */
   isAdminEnforced?: InputMaybe<Scalars['Boolean']['input']>;
   /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
   lockAllowsFetchAndMerge?: InputMaybe<Scalars['Boolean']['input']>;
@@ -10881,7 +10881,7 @@ export type Mutation = {
   updateProjectCard?: Maybe<UpdateProjectCardPayload>;
   /** Updates an existing project column. */
   updateProjectColumn?: Maybe<UpdateProjectColumnPayload>;
-  /** Updates an existing project (beta). */
+  /** Updates an existing project. */
   updateProjectV2?: Maybe<UpdateProjectV2Payload>;
   /** Update the collaborators on a team or a project */
   updateProjectV2Collaborators?: Maybe<UpdateProjectV2CollaboratorsPayload>;
@@ -16577,7 +16577,7 @@ export enum ProjectV2OrderField {
   UpdatedAt = 'UPDATED_AT'
 }
 
-/** Represents an owner of a project (beta). */
+/** Represents an owner of a project. */
 export type ProjectV2Owner = {
   /** The Node ID of the ProjectV2Owner object */
   id: Scalars['ID']['output'];
@@ -16588,13 +16588,13 @@ export type ProjectV2Owner = {
 };
 
 
-/** Represents an owner of a project (beta). */
+/** Represents an owner of a project. */
 export type ProjectV2OwnerProjectV2Args = {
   number: Scalars['Int']['input'];
 };
 
 
-/** Represents an owner of a project (beta). */
+/** Represents an owner of a project. */
 export type ProjectV2OwnerProjectsV2Args = {
   after?: InputMaybe<Scalars['String']['input']>;
   before?: InputMaybe<Scalars['String']['input']>;
@@ -19013,7 +19013,7 @@ export enum RefOrderField {
   TagCommitDate = 'TAG_COMMIT_DATE'
 }
 
-/** A ref update rules for a viewer. */
+/** Branch protection rules that are enforced on the viewer. */
 export type RefUpdateRule = {
   __typename?: 'RefUpdateRule';
   /** Can this branch be deleted. */
@@ -26799,7 +26799,7 @@ export type UpdateBranchProtectionRuleInput = {
   clientMutationId?: InputMaybe<Scalars['String']['input']>;
   /** Will new commits pushed to matching branches dismiss pull request review approvals. */
   dismissesStaleReviews?: InputMaybe<Scalars['Boolean']['input']>;
-  /** Can admins overwrite branch protection. */
+  /** Can admins override branch protection. */
   isAdminEnforced?: InputMaybe<Scalars['Boolean']['input']>;
   /** Whether users can pull changes from upstream when the branch is locked. Set to `true` to allow fork syncing. Set to `false` to prevent fork syncing. */
   lockAllowsFetchAndMerge?: InputMaybe<Scalars['Boolean']['input']>;
