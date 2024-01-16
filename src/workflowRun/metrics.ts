@@ -1,8 +1,7 @@
-import * as core from '@actions/core'
 import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
-import { inferRunner, parseWorkflowFile, WorkflowDefinition } from './parse'
 import { CompletedCheckSuite } from '../queries/getCheckSuite'
+import { WorkflowJobs } from '../types'
 
 const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,
@@ -26,33 +25,21 @@ export type WorkflowRunJobStepMetrics = {
 
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
-  checkSuite?: CompletedCheckSuite
+  checkSuite?: CompletedCheckSuite,
+  workflowJobs?: WorkflowJobs,
 ): WorkflowRunJobStepMetrics => {
-  if (checkSuite === undefined) {
+  if (workflowJobs === undefined) {
     return { workflowRunMetrics: computeWorkflowRunMetrics(e), jobMetrics: [], stepMetrics: [] }
   }
 
-  let workflowDefinition
-  try {
-    workflowDefinition = parseWorkflowFile(checkSuite.node.commit.file.object.text)
-  } catch (error) {
-    core.warning(`Invalid workflow file: ${String(error)}`)
-  }
-  if (workflowDefinition) {
-    core.info(`Found ${Object.keys(workflowDefinition.jobs).length} job(s) in the workflow file`)
-  }
-
   return {
-    workflowRunMetrics: computeWorkflowRunMetrics(e, checkSuite),
-    jobMetrics: computeJobMetrics(e, checkSuite, workflowDefinition),
-    stepMetrics: computeStepMetrics(e, checkSuite, workflowDefinition),
+    workflowRunMetrics: computeWorkflowRunMetrics(e),
+    jobMetrics: computeJobMetrics(e, workflowJobs, checkSuite),
+    stepMetrics: computeStepMetrics(e, workflowJobs),
   }
 }
 
-export const computeWorkflowRunMetrics = (
-  e: WorkflowRunCompletedEvent,
-  checkSuite?: CompletedCheckSuite
-): v1.Series[] => {
+export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent): v1.Series[] => {
   const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
   const series: v1.Series[] = [
@@ -81,57 +68,32 @@ export const computeWorkflowRunMetrics = (
     type: 'gauge',
     points: [[updatedAt, duration]],
   })
-
-  if (checkSuite !== undefined) {
-    const queued = computeWorkflowRunQueuedTime(checkSuite, runStartedAt)
-    if (queued !== undefined) {
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.workflow_run.queued_duration_second',
-        type: 'gauge',
-        points: [[updatedAt, queued]],
-      })
-    }
-  }
   return series
 }
 
-const computeWorkflowRunQueuedTime = (checkSuite: CompletedCheckSuite, workflowRunStartedAt: number) => {
-  // If a partial job is rerun manually, the checkSuite contains all attempts.
-  // It needs to filter the jobs which started after rerun.
-  const effectiveJobStartedAt = checkSuite.node.checkRuns.nodes
-    .map((checkRun) => unixTime(checkRun.startedAt))
-    .filter((jobStartedAt) => jobStartedAt > workflowRunStartedAt)
-  if (effectiveJobStartedAt.length > 0) {
-    const firstJobStartedAt = Math.min(...effectiveJobStartedAt)
-    return firstJobStartedAt - workflowRunStartedAt
-  }
-}
+const joinRunsOn = (labels: string[]): string => labels.sort().join(',')
 
 export const computeJobMetrics = (
   e: WorkflowRunCompletedEvent,
-  checkSuite: CompletedCheckSuite,
-  workflowDefinition?: WorkflowDefinition
+  workflowJobs: WorkflowJobs,
+  checkSuite?: CompletedCheckSuite,
 ): v1.Series[] => {
   const series: v1.Series[] = []
-  for (const checkRun of checkSuite.node.checkRuns.nodes) {
-    // lower case for backward compatibility
-    const conclusion = String(checkRun.conclusion).toLowerCase()
-    const status = String(checkRun.status).toLowerCase()
-
-    const completedAt = unixTime(checkRun.completedAt)
+  for (const job of workflowJobs.jobs) {
+    if (job.completed_at == null) {
+      continue
+    }
+    const createdAt = unixTime(job.created_at)
+    const startedAt = unixTime(job.started_at)
+    const completedAt = unixTime(job.completed_at)
     const tags = [
       ...computeCommonTags(e),
-      `job_id:${String(checkRun.databaseId)}`,
-      `job_name:${checkRun.name}`,
-      `conclusion:${conclusion}`,
-      `status:${status}`,
+      `job_id:${String(job.id)}`,
+      `job_name:${job.name}`,
+      `conclusion:${job.conclusion}`,
+      `status:${job.status}`,
+      `runs_on:${joinRunsOn(job.labels)}`,
     ]
-    const runsOn = inferRunner(checkRun.name, workflowDefinition)
-    if (runsOn !== undefined) {
-      tags.push(`runs_on:${runsOn}`)
-    }
 
     series.push(
       {
@@ -144,13 +106,21 @@ export const computeJobMetrics = (
       {
         host: 'github.com',
         tags,
-        metric: `github.actions.job.conclusion.${conclusion}_total`,
+        metric: `github.actions.job.conclusion.${job.conclusion}_total`,
         type: 'count',
         points: [[completedAt, 1]],
-      }
+      },
     )
 
-    const startedAt = unixTime(checkRun.startedAt)
+    const queuedDuration = startedAt - createdAt
+    series.push({
+      host: 'github.com',
+      tags,
+      metric: 'github.actions.job.queued_duration_second',
+      type: 'gauge',
+      points: [[completedAt, queuedDuration]],
+    })
+
     const duration = completedAt - startedAt
     series.push({
       host: 'github.com',
@@ -160,24 +130,29 @@ export const computeJobMetrics = (
       points: [[completedAt, duration]],
     })
 
-    if (checkRun.annotations.nodes.some((a) => isLostCommunicationWithServerError(a.message))) {
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.lost_communication_with_server_error_total',
-        type: 'count',
-        points: [[completedAt, 1]],
-      })
-    }
+    if (checkSuite) {
+      const checkRun = checkSuite.node.checkRuns.nodes.find((checkRun) => checkRun.databaseId === job.run_id)
+      if (checkRun) {
+        if (checkRun.annotations.nodes.some((a) => isLostCommunicationWithServerError(a.message))) {
+          series.push({
+            host: 'github.com',
+            tags,
+            metric: 'github.actions.job.lost_communication_with_server_error_total',
+            type: 'count',
+            points: [[completedAt, 1]],
+          })
+        }
 
-    if (checkRun.annotations.nodes.some((a) => isReceivedShutdownSignalError(a.message))) {
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.received_shutdown_signal_error_total',
-        type: 'count',
-        points: [[completedAt, 1]],
-      })
+        if (checkRun.annotations.nodes.some((a) => isReceivedShutdownSignalError(a.message))) {
+          series.push({
+            host: 'github.com',
+            tags,
+            metric: 'github.actions.job.received_shutdown_signal_error_total',
+            type: 'count',
+            points: [[completedAt, 1]],
+          })
+        }
+      }
     }
   }
   return series
@@ -189,32 +164,29 @@ export const isLostCommunicationWithServerError = (message: string): boolean =>
 export const isReceivedShutdownSignalError = (message: string): boolean =>
   message.startsWith('The runner has received a shutdown signal.')
 
-export const computeStepMetrics = (
-  e: WorkflowRunCompletedEvent,
-  checkSuite: CompletedCheckSuite,
-  workflowDefinition?: WorkflowDefinition
-): v1.Series[] => {
+export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: WorkflowJobs): v1.Series[] => {
   const series: v1.Series[] = []
-  for (const checkRun of checkSuite.node.checkRuns.nodes) {
-    const runsOn = inferRunner(checkRun.name, workflowDefinition)
+  for (const job of workflowJobs.jobs) {
+    const jobTags = [
+      ...computeCommonTags(e),
+      `job_id:${String(job.id)}`,
+      `job_name:${job.name}`,
+      `runs_on:${joinRunsOn(job.labels)}`,
+    ]
 
-    for (const s of checkRun.steps.nodes) {
-      // lower case for backward compatibility
-      const conclusion = String(s.conclusion).toLowerCase()
-      const status = String(s.status).toLowerCase()
-      const completedAt = unixTime(s.completedAt)
-      const tags = [
-        ...computeCommonTags(e),
-        `job_id:${String(checkRun.databaseId)}`,
-        `job_name:${checkRun.name}`,
-        `step_name:${s.name}`,
-        `step_number:${s.number}`,
-        `conclusion:${conclusion}`,
-        `status:${status}`,
-      ]
-      if (runsOn !== undefined) {
-        tags.push(`runs_on:${runsOn}`)
+    for (const step of job.steps ?? []) {
+      if (step.started_at == null || step.completed_at == null) {
+        continue
       }
+      const startedAt = unixTime(step.started_at)
+      const completedAt = unixTime(step.completed_at)
+      const tags = [
+        ...jobTags,
+        `step_name:${step.name}`,
+        `step_number:${step.number}`,
+        `conclusion:${step.conclusion}`,
+        `status:${step.status}`,
+      ]
 
       series.push(
         {
@@ -227,13 +199,12 @@ export const computeStepMetrics = (
         {
           host: 'github.com',
           tags,
-          metric: `github.actions.step.conclusion.${conclusion}_total`,
+          metric: `github.actions.step.conclusion.${step.conclusion}_total`,
           type: 'count',
           points: [[completedAt, 1]],
-        }
+        },
       )
 
-      const startedAt = unixTime(s.startedAt)
       const duration = completedAt - startedAt
       series.push({
         host: 'github.com',

@@ -8,6 +8,7 @@ import { examplePullRequestClosedEvent } from './fixtures'
 import { WebhookPayload } from '@actions/github/lib/interfaces'
 import { examplePullRequestOpenedEvent } from './fixtures'
 import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest'
+import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs'
 
 jest.mock('@actions/core')
 
@@ -15,6 +16,9 @@ jest.mock('@actions/github')
 const octokitMock = {
   graphql: jest.fn(),
   rest: {
+    actions: {
+      listJobsForWorkflowRunAttempt: jest.fn(),
+    },
     rateLimit: {
       get: jest.fn(),
     },
@@ -27,6 +31,7 @@ jest.mock('@datadog/datadog-api-client')
 const submitMetrics = jest.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
 
 test('workflow_run with collectJobMetrics', async () => {
+  octokitMock.rest.actions.listJobsForWorkflowRunAttempt.mockResolvedValue({ data: exampleWorkflowJobs })
   octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   submitMetrics.mockResolvedValue({ status: 'ok' })
