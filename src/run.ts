@@ -50,6 +50,7 @@ const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEve
   if (e.action === 'completed') {
     let checkSuite
     if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
+      core.info(`Finding the check suite ${e.workflow_run.check_suite_node_id}`)
       const octokit = github.getOctokit(inputs.githubToken)
       try {
         checkSuite = await getCompletedCheckSuite(octokit, {
@@ -61,7 +62,7 @@ const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEve
       }
     }
     if (checkSuite) {
-      core.info(`Found check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
+      core.info(`Found the check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
     }
 
     const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite)
@@ -91,6 +92,7 @@ const handlePullRequest = async (
   }
 
   if (e.action === 'closed') {
+    core.info(`Finding the first commit of the pull request #${e.pull_request.number}`)
     const octokit = github.getOctokit(inputs.githubToken)
     let pullRequestFirstCommit
     try {
