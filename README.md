@@ -103,9 +103,6 @@ This action sends the following metrics.
   - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
 - `github.actions.workflow_run.duration_second`
   - Time from a workflow is started until it is updated
-- `github.actions.workflow_run.queued_duration_second`
-  - Time from a workflow is started until the first job is started
-  - This metric is suitable for monitoring only if it is ensured the first job runs on a self-hosted runner
 
 It has the following tags:
 
@@ -135,6 +132,8 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
 - `github.actions.job.conclusion.{CONCLUSION}_total`
   - e.g. `github.actions.job.conclusion.success_total`
   - e.g. `github.actions.job.conclusion.failure_total`
+- `github.actions.job.queued_duration_second`
+  - Time from a job is created to started
 - `github.actions.job.duration_second`
   - Time from a job is started to completed
 - `github.actions.job.lost_communication_with_server_error_total`
