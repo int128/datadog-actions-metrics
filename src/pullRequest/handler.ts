@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { SubmitMetrics } from '../client'
+import { MetricsClient } from '../client'
 import { PullRequestEvent } from '@octokit/webhooks-types'
 import { GitHubContext } from '../types'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './metrics'
@@ -12,7 +12,7 @@ type Inputs = {
 }
 
 export const handlePullRequest = async (
-  submitMetrics: SubmitMetrics,
+  metricsClient: MetricsClient,
   e: PullRequestEvent,
   context: GitHubContext,
   inputs: Inputs,
@@ -20,7 +20,7 @@ export const handlePullRequest = async (
   core.info(`Got pull request ${e.action} event: ${e.pull_request.html_url}`)
 
   if (e.action === 'opened') {
-    return await submitMetrics(computePullRequestOpenedMetrics(e), 'pull request')
+    return await metricsClient.submitMetrics(computePullRequestOpenedMetrics(e), 'pull request')
   }
 
   if (e.action === 'closed') {
@@ -36,7 +36,10 @@ export const handlePullRequest = async (
     } catch (error) {
       core.warning(`Could not get the pull request: ${String(error)}`)
     }
-    return await submitMetrics(computePullRequestClosedMetrics(e, pullRequestFirstCommit, inputs), 'pull request')
+    return await metricsClient.submitMetrics(
+      computePullRequestClosedMetrics(e, pullRequestFirstCommit, inputs),
+      'pull request',
+    )
   }
 
   core.warning(`Not supported action ${e.action}`)

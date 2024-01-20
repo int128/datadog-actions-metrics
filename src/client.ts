@@ -7,16 +7,36 @@ type Inputs = {
   datadogSite?: string
 }
 
-export type SubmitMetrics = (series: v1.Series[], description: string) => Promise<void>
+export type MetricsClient = {
+  submitMetrics: (series: v1.Series[], description: string) => Promise<void>
+}
 
-export const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
+class DryRunMetricsClient implements MetricsClient {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async submitMetrics(series: v1.Series[], description: string): Promise<void> {
+    core.startGroup(`Metrics payload (dry-run) (${description})`)
+    core.info(JSON.stringify(series, undefined, 2))
+    core.endGroup()
+  }
+}
+
+class RealMetricsClient implements MetricsClient {
+  constructor(private readonly metricsApi: v1.MetricsApi) {}
+
+  async submitMetrics(series: v1.Series[], description: string): Promise<void> {
+    core.startGroup(`Metrics payload (${description})`)
+    core.info(JSON.stringify(series, undefined, 2))
+    core.endGroup()
+
+    core.info(`Sending ${series.length} metrics to Datadog`)
+    const accepted = await this.metricsApi.submitMetrics({ body: { series } })
+    core.info(`Sent ${JSON.stringify(accepted)}`)
+  }
+}
+
+export const createMetricsClient = (inputs: Inputs): MetricsClient => {
   if (inputs.datadogApiKey === undefined) {
-    // eslint-disable-next-line @typescript-eslint/require-await
-    return async (series: v1.Series[], description: string) => {
-      core.startGroup(`Metrics payload (dry-run) (${description})`)
-      core.info(JSON.stringify(series, undefined, 2))
-      core.endGroup()
-    }
+    return new DryRunMetricsClient()
   }
 
   const configuration = client.createConfiguration({
@@ -30,17 +50,7 @@ export const createMetricsClient = (inputs: Inputs): SubmitMetrics => {
       site: inputs.datadogSite,
     })
   }
-  const metrics = new v1.MetricsApi(configuration)
-
-  return async (series: v1.Series[], description: string) => {
-    core.startGroup(`Metrics payload (${description})`)
-    core.info(JSON.stringify(series, undefined, 2))
-    core.endGroup()
-
-    core.info(`Sending ${series.length} metrics to Datadog`)
-    const accepted = await metrics.submitMetrics({ body: { series } })
-    core.info(`Sent ${JSON.stringify(accepted)}`)
-  }
+  return new RealMetricsClient(new v1.MetricsApi(configuration))
 }
 
 const createHttpLibraryIfHttpsProxy = () => {
