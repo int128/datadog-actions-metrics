@@ -135,6 +135,7 @@ export const computeJobMetrics = (
       host: 'github.com',
       tags,
       metric: 'github.actions.job.queued_duration_second.distribution',
+      type: 'distribution',
       points: [[completedAt, queuedDuration]],
     })
 
