@@ -3,10 +3,23 @@ import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 import { CompletedCheckSuite } from '../queries/getCheckSuite'
 import { WorkflowJobs } from '../types'
 
-const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
+const getCommonMetricsTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,
   `repository_name:${e.workflow_run.repository.name}`,
   `workflow_id:${e.workflow_run.id}`,
+  `workflow_name:${e.workflow_run.name}`,
+  `run_attempt:${e.workflow_run.run_attempt}`,
+  `event:${e.workflow_run.event}`,
+  `sender:${e.sender.login}`,
+  `sender_type:${e.sender.type}`,
+  `branch:${e.workflow_run.head_branch}`,
+  `default_branch:${(e.workflow_run.head_branch === e.repository.default_branch).toString()}`,
+  ...e.workflow_run.pull_requests.map((pull) => `pull_request_number:${pull.number}`),
+]
+
+const getCommonDistibutionPointsTags = (e: WorkflowRunCompletedEvent): string[] => [
+  `repository_owner:${e.workflow_run.repository.owner.login}`,
+  `repository_name:${e.workflow_run.repository.name}`,
   `workflow_name:${e.workflow_run.name}`,
   `run_attempt:${e.workflow_run.run_attempt}`,
   `event:${e.workflow_run.event}`,
@@ -50,7 +63,7 @@ export const computeWorkflowRunJobStepMetrics = (
 }
 
 export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent): v1.Series[] => {
-  const tags = [...computeCommonTags(e), `conclusion:${e.workflow_run.conclusion}`]
+  const tags = [...getCommonMetricsTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
   const series: v1.Series[] = [
     {
@@ -98,8 +111,15 @@ export const computeJobMetrics = (
     const startedAt = unixTime(job.started_at)
     const completedAt = unixTime(job.completed_at)
     const tags = [
-      ...computeCommonTags(e),
+      ...getCommonMetricsTags(e),
       `job_id:${String(job.id)}`,
+      `job_name:${job.name}`,
+      `conclusion:${job.conclusion}`,
+      `status:${job.status}`,
+      `runs_on:${joinRunsOn(job.labels)}`,
+    ]
+    const distributionPointsTags = [
+      ...getCommonDistibutionPointsTags(e),
       `job_name:${job.name}`,
       `conclusion:${job.conclusion}`,
       `status:${job.status}`,
@@ -132,8 +152,10 @@ export const computeJobMetrics = (
       points: [[completedAt, queuedDuration]],
     })
     distributionPointsSeries.push({
+      host: 'github.com',
+      tags: distributionPointsTags,
       metric: 'github.actions.job.queued_duration_second.distribution',
-      points: [[completedAt, queuedDuration]],
+      points: [[completedAt, [queuedDuration]]],
     })
 
     const duration = completedAt - startedAt
@@ -183,7 +205,7 @@ export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: W
   const series: v1.Series[] = []
   for (const job of workflowJobs.jobs) {
     const jobTags = [
-      ...computeCommonTags(e),
+      ...getCommonMetricsTags(e),
       `job_id:${String(job.id)}`,
       `job_name:${job.name}`,
       `runs_on:${joinRunsOn(job.labels)}`,
