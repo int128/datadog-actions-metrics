@@ -3,7 +3,6 @@
 This is an action to send metrics of GitHub Actions to Datadog on an event.
 It is inspired from [yuya-takeyama/github-actions-metrics-to-datadog-action](https://github.com/yuya-takeyama/github-actions-metrics-to-datadog-action).
 
-
 ## Purpose
 
 ### Improve the reliability and experience of CI/CD pipeline
@@ -43,14 +42,12 @@ For reliability, you can monitor the following metrics:
 - Success rate of the main branch
 - Rate limit of built-in `GITHUB_TOKEN`
 
-
 ### Improve the reliability and experience of self-hosted runners
 
 For the self-hosted runners, you can monitor the following metrics for reliability and experience:
 
 - Count of the [lost communication with the server](https://github.com/actions-runner-controller/actions-runner-controller/issues/466) errors
 - Queued time of job (time to pick a job by a runner)
-
 
 ### Improve your team development process
 
@@ -77,7 +74,6 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-
 ## Overview
 
 This action handles the following events:
@@ -88,7 +84,6 @@ This action handles the following events:
 - schedule event
 
 It ignores other events.
-
 
 ## Metrics for workflow_run event
 
@@ -122,7 +117,6 @@ It has the following tags:
 - `conclusion`
 
 See also the actual metrics in the [E2E test](https://github.com/int128/datadog-actions-metrics/actions/workflows/e2e.yaml).
-
 
 ### Job
 
@@ -163,7 +157,6 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
-
 ### Step
 
 This action sends the following metrics if `collect-step-metrics` is enabled.
@@ -197,29 +190,28 @@ It has the following tags:
   - Runner label inferred from the workflow file if available
   - e.g. `ubuntu-latest`
 
-
 ### Enable job or step metrics
 
 To send the metrics of jobs and steps:
 
 ```yaml
-    steps:
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          collect-job-metrics: true
-          collect-step-metrics: true
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+      collect-job-metrics: true
+      collect-step-metrics: true
 ```
 
 To send the metrics of jobs and steps on the default branch only:
 
 ```yaml
-    steps:
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-          collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
-          collect-step-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+      collect-job-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
+      collect-step-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
 ```
 
 This action calls GitHub GraphQL API to get jobs and steps of the current workflow run.
@@ -228,12 +220,11 @@ Note that it may cause the rate exceeding error if too many workflows are run.
 If the job or step metrics is enabled, this action requires the following permissions:
 
 ```yaml
-    permissions:
-      actions: read
-      checks: read
-      contents: read
+permissions:
+  actions: read
+  checks: read
+  contents: read
 ```
-
 
 ## Metrics for pull_request event
 
@@ -298,10 +289,9 @@ It has the following tags:
 For pull_request event, this action requires the following permissions:
 
 ```yaml
-    permissions:
-      pull-requests: read
+permissions:
+  pull-requests: read
 ```
-
 
 ## Metrics for push event
 
@@ -320,7 +310,6 @@ It has the following tags:
 - `deleted` = `true` or `false`
 - `forced` = `true` or `false`
 - `default_branch` = `true` or `false`
-
 
 ## Metrics for schedule event
 
@@ -342,10 +331,9 @@ It is useful for monitoring self-hosted runners.
 For schedule event, this action requires the following permissions:
 
 ```yaml
-    permissions:
-      actions: read
+permissions:
+  actions: read
 ```
-
 
 ## Metrics for all supported events
 
@@ -364,20 +352,19 @@ It has the following tags:
 
 This does not affect the rate limit of GitHub API because it just calls [`/rate_limit` endpoint](https://docs.github.com/en/rest/reference/rate-limit).
 
-
 ## Specification
 
 You can set the following inputs:
 
-Name | Default | Description
------|---------|------------
-`github-token` | `github.token` | GitHub token to get jobs and steps if needed
-`github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics
-`datadog-api-key` | - | Datadog API key. If not set, this action does not send metrics actually
-`datadog-site` | - | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com`
-`send-pull-request-labels` | `false` | Send pull request labels as Datadog tags
-`collect-job-metrics` | `false` | Collect job metrics
-`collect-step-metrics` | `false` | Collect step metrics
+| Name                              | Default        | Description                                                                     |
+| --------------------------------- | -------------- | ------------------------------------------------------------------------------- |
+| `github-token`                    | `github.token` | GitHub token to get jobs and steps if needed                                    |
+| `github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics                                             |
+| `datadog-api-key`                 | -              | Datadog API key. If not set, this action does not send metrics actually         |
+| `datadog-site`                    | -              | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com` |
+| `send-pull-request-labels`        | `false`        | Send pull request labels as Datadog tags                                        |
+| `collect-job-metrics`             | `false`        | Collect job metrics                                                             |
+| `collect-step-metrics`            | `false`        | Collect step metrics                                                            |
 
 ### Proxy
 
@@ -385,12 +372,12 @@ To connect to Datadog API via a HTTPS proxy, set `https_proxy` environment varia
 For example,
 
 ```yaml
-    steps:
-      - uses: int128/datadog-actions-metrics@v1
-        with:
-          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
-        env:
-          https_proxy: http://proxy.example.com:8080
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+    env:
+      https_proxy: http://proxy.example.com:8080
 ```
 
 ### Breaking changes
@@ -399,7 +386,6 @@ For example,
 
 `collect-job-metrics-for-only-default-branch` is no longer supported.
 Use `collect-job-metrics` instead.
-
 
 ## Contribution
 
