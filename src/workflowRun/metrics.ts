@@ -19,7 +19,10 @@ const computeCommonTags = (e: WorkflowRunCompletedEvent): string[] => [
 
 export type WorkflowRunJobStepMetrics = {
   workflowRunMetrics: v1.Series[]
-  jobMetrics: v1.Series[]
+  jobMetrics: {
+    series: v1.Series[]
+    distributionPointsSeries: v1.DistributionPointsSeries[]
+  }
   stepMetrics: v1.Series[]
 }
 
@@ -29,7 +32,14 @@ export const computeWorkflowRunJobStepMetrics = (
   workflowJobs?: WorkflowJobs,
 ): WorkflowRunJobStepMetrics => {
   if (workflowJobs === undefined) {
-    return { workflowRunMetrics: computeWorkflowRunMetrics(e), jobMetrics: [], stepMetrics: [] }
+    return {
+      workflowRunMetrics: computeWorkflowRunMetrics(e),
+      jobMetrics: {
+        series: [],
+        distributionPointsSeries: [],
+      },
+      stepMetrics: [],
+    }
   }
 
   return {
@@ -77,8 +87,9 @@ export const computeJobMetrics = (
   e: WorkflowRunCompletedEvent,
   workflowJobs: WorkflowJobs,
   checkSuite?: CompletedCheckSuite,
-): v1.Series[] => {
+) => {
   const series: v1.Series[] = []
+  const distributionPointsSeries: v1.DistributionPointsSeries[] = []
   for (const job of workflowJobs.jobs) {
     if (job.completed_at == null) {
       continue
@@ -120,6 +131,12 @@ export const computeJobMetrics = (
       type: 'gauge',
       points: [[completedAt, queuedDuration]],
     })
+    distributionPointsSeries.push({
+      host: 'github.com',
+      tags,
+      metric: 'github.actions.job.queued_duration_second.distribution',
+      points: [[completedAt, queuedDuration]],
+    })
 
     const duration = completedAt - startedAt
     series.push({
@@ -155,7 +172,7 @@ export const computeJobMetrics = (
       }
     }
   }
-  return series
+  return { series, distributionPointsSeries }
 }
 
 export const isLostCommunicationWithServerError = (message: string): boolean =>

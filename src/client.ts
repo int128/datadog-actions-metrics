@@ -9,12 +9,20 @@ type Inputs = {
 
 export type MetricsClient = {
   submitMetrics: (series: v1.Series[], description: string) => Promise<void>
+  submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void>
 }
 
 class DryRunMetricsClient implements MetricsClient {
   // eslint-disable-next-line @typescript-eslint/require-await
   async submitMetrics(series: v1.Series[], description: string): Promise<void> {
     core.startGroup(`Metrics payload (dry-run) (${description})`)
+    core.info(JSON.stringify(series, undefined, 2))
+    core.endGroup()
+  }
+
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void> {
+    core.startGroup(`Distribution points payload (dry-run) (${description})`)
     core.info(JSON.stringify(series, undefined, 2))
     core.endGroup()
   }
@@ -30,6 +38,16 @@ class RealMetricsClient implements MetricsClient {
 
     core.info(`Sending ${series.length} metrics to Datadog`)
     const accepted = await this.metricsApi.submitMetrics({ body: { series } })
+    core.info(`Sent ${JSON.stringify(accepted)}`)
+  }
+
+  async submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void> {
+    core.startGroup(`Distribution points payload (${description})`)
+    core.info(JSON.stringify(series, undefined, 2))
+    core.endGroup()
+
+    core.info(`Sending ${series.length} distribution points to Datadog`)
+    const accepted = await this.metricsApi.submitDistributionPoints({ body: { series } })
     core.info(`Sent ${JSON.stringify(accepted)}`)
   }
 }

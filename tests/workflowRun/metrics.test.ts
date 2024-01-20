@@ -15,8 +15,9 @@ test('computeWorkflowRunMetrics', () => {
 })
 
 test('computeJobMetrics', () => {
-  const series = computeJobMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs, exampleCompletedCheckSuite)
-  expect(series).toMatchSnapshot()
+  const metrics = computeJobMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs, exampleCompletedCheckSuite)
+  expect(metrics.series).toMatchSnapshot()
+  expect(metrics.distributionPointsSeries).toMatchSnapshot()
 })
 
 test('computeStepMetrics', () => {

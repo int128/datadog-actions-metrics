@@ -117,6 +117,38 @@ exports[`computeJobMetrics 1`] = `
 ]
 `;
 
+exports[`computeJobMetrics 2`] = `
+[
+  {
+    "host": "github.com",
+    "metric": "github.actions.job.queued_duration_second.distribution",
+    "points": [
+      [
+        1579542279,
+        29,
+      ],
+    ],
+    "tags": [
+      "repository_owner:octo-org",
+      "repository_name:octo-repo",
+      "workflow_id:1589141559",
+      "workflow_name:Manually triggered workflow",
+      "run_attempt:1",
+      "event:workflow_dispatch",
+      "sender:Codertocat",
+      "sender_type:User",
+      "branch:main",
+      "default_branch:true",
+      "job_id:399444496",
+      "job_name:build",
+      "conclusion:success",
+      "status:completed",
+      "runs_on:bar,foo,self-hosted",
+    ],
+  },
+]
+`;
+
 exports[`computeStepMetrics 1`] = `
 [
   {
