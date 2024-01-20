@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computeRateLimitMetrics } from './rateLimit/metrics'
 import { GitHubContext } from './types'
-import { SubmitMetrics, createMetricsClient } from './client'
+import { MetricsClient, createMetricsClient } from './client'
 import { handleWorkflowRun } from './workflowRun/handler'
 import { handlePullRequest } from './pullRequest/handler'
 import { handlePush } from './push/handler'
@@ -20,24 +20,26 @@ type Inputs = {
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
-  const submitMetrics = createMetricsClient(inputs)
-  await handleEvent(submitMetrics, context, inputs)
+  const metricsClient = createMetricsClient(inputs)
+
+  await handleEvent(metricsClient, context, inputs)
+
   const rateLimit = await getRateLimitMetrics(context, inputs)
-  await submitMetrics(rateLimit, 'rate limit')
+  await metricsClient.submitMetrics(rateLimit, 'rate limit')
 }
 
-const handleEvent = async (submitMetrics: SubmitMetrics, context: GitHubContext, inputs: Inputs) => {
+const handleEvent = async (metricsClient: MetricsClient, context: GitHubContext, inputs: Inputs) => {
   if (context.eventName === 'workflow_run') {
-    return await handleWorkflowRun(submitMetrics, context.payload as WorkflowRunEvent, inputs)
+    return await handleWorkflowRun(metricsClient, context.payload as WorkflowRunEvent, inputs)
   }
   if (context.eventName === 'pull_request') {
-    return await handlePullRequest(submitMetrics, context.payload as PullRequestEvent, context, inputs)
+    return await handlePullRequest(metricsClient, context.payload as PullRequestEvent, context, inputs)
   }
   if (context.eventName === 'push') {
-    return handlePush(submitMetrics, context.payload as PushEvent)
+    return handlePush(metricsClient, context.payload as PushEvent)
   }
   if (context.eventName === 'schedule') {
-    return handleSchedule(submitMetrics, context, inputs)
+    return handleSchedule(metricsClient, context, inputs)
   }
   core.warning(`Not supported event ${context.eventName}`)
 }

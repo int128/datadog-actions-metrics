@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { getCompletedCheckSuite } from '../queries/getCheckSuite'
 import { computeWorkflowRunJobStepMetrics } from './metrics'
-import { SubmitMetrics } from '../client'
+import { MetricsClient } from '../client'
 import { WorkflowRunCompletedEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 
 type Inputs = {
@@ -11,16 +11,16 @@ type Inputs = {
   collectStepMetrics: boolean
 }
 
-export const handleWorkflowRun = async (submitMetrics: SubmitMetrics, e: WorkflowRunEvent, inputs: Inputs) => {
+export const handleWorkflowRun = async (metricsClient: MetricsClient, e: WorkflowRunEvent, inputs: Inputs) => {
   core.info(`Got workflow run ${e.action} event: ${e.workflow_run.html_url}`)
   if (e.action === 'completed') {
-    return await handleWorkflowRunCompleted(submitMetrics, e, inputs)
+    return await handleWorkflowRunCompleted(metricsClient, e, inputs)
   }
   core.warning(`Not supported action ${e.action}`)
 }
 
 const handleWorkflowRunCompleted = async (
-  submitMetrics: SubmitMetrics,
+  metricsClient: MetricsClient,
   e: WorkflowRunCompletedEvent,
   inputs: Inputs,
 ) => {
@@ -60,11 +60,11 @@ const handleWorkflowRunCompleted = async (
 
   const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite, workflowJobs?.data)
 
-  await submitMetrics(metrics.workflowRunMetrics, 'workflow run')
+  await metricsClient.submitMetrics(metrics.workflowRunMetrics, 'workflow run')
   if (inputs.collectJobMetrics) {
-    await submitMetrics(metrics.jobMetrics, 'job')
+    await metricsClient.submitMetrics(metrics.jobMetrics, 'job')
   }
   if (inputs.collectStepMetrics) {
-    await submitMetrics(metrics.stepMetrics, 'step')
+    await metricsClient.submitMetrics(metrics.stepMetrics, 'step')
   }
 }
