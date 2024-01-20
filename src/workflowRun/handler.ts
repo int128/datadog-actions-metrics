@@ -62,7 +62,8 @@ const handleWorkflowRunCompleted = async (
 
   await metricsClient.submitMetrics(metrics.workflowRunMetrics, 'workflow run')
   if (inputs.collectJobMetrics) {
-    await metricsClient.submitMetrics(metrics.jobMetrics, 'job')
+    await metricsClient.submitMetrics(metrics.jobMetrics.series, 'job')
+    await metricsClient.submitDistributionPoints(metrics.jobMetrics.distributionPointsSeries, 'job')
   }
   if (inputs.collectStepMetrics) {
     await metricsClient.submitMetrics(metrics.stepMetrics, 'step')

@@ -127,7 +127,9 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
   - e.g. `github.actions.job.conclusion.success_total`
   - e.g. `github.actions.job.conclusion.failure_total`
 - `github.actions.job.queued_duration_second`
-  - Time from a job is created to started
+  - Time from a job is created to started (gauge)
+- `github.actions.job.queued_duration_second.distribution`
+  - Time from a job is created to started (distribution)
 - `github.actions.job.duration_second`
   - Time from a job is started to completed
 - `github.actions.job.lost_communication_with_server_error_total`
