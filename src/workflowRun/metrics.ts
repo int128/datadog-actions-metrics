@@ -113,13 +113,16 @@ export const computeJobMetrics = (
     )
 
     const queuedDuration = startedAt - createdAt
-    series.push({
-      host: 'github.com',
-      tags,
-      metric: 'github.actions.job.queued_duration_second',
-      type: 'gauge',
-      points: [[completedAt, queuedDuration]],
-    })
+    if (queuedDuration > 0) {
+      // queuedDuration may be negative when the job is rerun
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.job.queued_duration_second',
+        type: 'gauge',
+        points: [[completedAt, queuedDuration]],
+      })
+    }
 
     const duration = completedAt - startedAt
     series.push({
