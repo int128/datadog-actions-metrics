@@ -33,10 +33,10 @@ export type CompletedCheckSuite = {
 }
 
 type CompletedCheckRun = Pick<CheckRun, 'databaseId'> & {
-    annotations: {
-      nodes: Pick<CheckAnnotation, 'message'>[]
-    }
+  annotations: {
+    nodes: Pick<CheckAnnotation, 'message'>[]
   }
+}
 
 export const getCompletedCheckSuite = async (
   o: Octokit,
@@ -51,7 +51,7 @@ export const getCompletedCheckSuite = async (
   }
 }
 
-const extractCheckRuns = (r: GetCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
+export const extractCheckRuns = (r: GetCheckSuiteQuery): CompletedCheckSuite['node']['checkRuns'] => {
   assert(r.node != null)
   assert.strictEqual(r.node.__typename, 'CheckSuite')
 
@@ -68,6 +68,13 @@ const extractCheckRuns = (r: GetCheckSuiteQuery): CompletedCheckSuite['node']['c
       }
       annotations.push(annotation)
     }
+
+    checkRuns.push({
+      ...checkRun,
+      annotations: {
+        nodes: annotations,
+      },
+    })
   }
   return { nodes: checkRuns }
 }
