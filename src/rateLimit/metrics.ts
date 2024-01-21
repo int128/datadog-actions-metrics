@@ -8,7 +8,7 @@ type Context = {
   }
 }
 
-export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): v1.Series[] => {
+export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse) => {
   const t = unixTime(r.headers.date) ?? Math.floor(Date.now() / 1000)
   const tags = [`repository_owner:${e.repo.owner}`, `repository_name:${e.repo.repo}`]
 
@@ -58,11 +58,11 @@ export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): v1.Se
         metric: 'github.actions.api_rate_limit.limit',
         type: 'gauge',
         points: [[t, r.data.resources.graphql.limit]],
-      }
+      },
     )
   }
 
-  return series
+  return { series }
 }
 
 const unixTime = (s: string | undefined): number | undefined => {

@@ -5,5 +5,5 @@ import { computePushMetrics } from './metrics'
 
 export const handlePush = async (metricsClient: MetricsClient, e: PushEvent) => {
   core.info(`Got push event: ${e.compare}`)
-  return await metricsClient.submitMetrics(computePushMetrics(e, new Date()), 'push')
+  return await metricsClient.submit(computePushMetrics(e, new Date()), 'push')
 }

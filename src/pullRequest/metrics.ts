@@ -17,10 +17,10 @@ const computeCommonTags = (e: PullRequestEvent): string[] => {
   return tags
 }
 
-export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): v1.Series[] => {
+export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent) => {
   const tags = computeCommonTags(e)
   const t = unixTime(e.pull_request.created_at)
-  return [
+  const series: v1.Series[] = [
     {
       host: 'github.com',
       tags,
@@ -57,6 +57,7 @@ export const computePullRequestOpenedMetrics = (e: PullRequestOpenedEvent): v1.S
       points: [[t, e.pull_request.deletions]],
     },
   ]
+  return { series }
 }
 
 type ClosedMetricsOptions = {
@@ -67,7 +68,7 @@ export const computePullRequestClosedMetrics = (
   e: PullRequestClosedEvent,
   pullRequestFirstCommit: PullRequestFirstCommit | undefined,
   options: ClosedMetricsOptions,
-): v1.Series[] => {
+) => {
   const tags = computeCommonTags(e)
   tags.push(`merged:${String(e.pull_request.merged)}`)
   const t = unixTime(e.pull_request.closed_at)
@@ -149,7 +150,7 @@ export const computePullRequestClosedMetrics = (
     }
   }
 
-  return series
+  return { series }
 }
 
 const unixTime = (s: string): number => Date.parse(s) / 1000

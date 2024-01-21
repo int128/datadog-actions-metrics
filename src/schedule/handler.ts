@@ -17,5 +17,5 @@ export const handleSchedule = async (metricsClient: MetricsClient, context: GitH
     status: 'queued',
     per_page: 100,
   })
-  return await metricsClient.submitMetrics(computeScheduleMetrics(context, queuedWorkflowRuns, new Date()), 'schedule')
+  return await metricsClient.submit(computeScheduleMetrics(context, queuedWorkflowRuns, new Date()), 'schedule')
 }
