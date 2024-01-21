@@ -7,7 +7,7 @@ It is inspired from [yuya-takeyama/github-actions-metrics-to-datadog-action](htt
 
 ### Improve the reliability and experience of CI/CD pipeline
 
-To collect the metrics when a workflow is completed:
+To collect the metrics when a workflow run is completed:
 
 ```yaml
 on:
@@ -28,33 +28,37 @@ jobs:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
 
-Here is an example of screenshot in Datadog.
-
-![image](https://user-images.githubusercontent.com/321266/126857281-f0257fec-3079-4cff-98ab-07070e306391.png)
-
-For developer experience, you can analyze the following metrics:
+For the developer experience, you can analyze the following metrics:
 
 - Time to test an application
-- Time to deploy an application
+- Time to build and deploy an application
 
-For reliability, you can monitor the following metrics:
+For the reliability, you can monitor the following metrics:
 
-- Success rate of the main branch
+- Success rate of the default branch
 - Rate limit of built-in `GITHUB_TOKEN`
+
+Here is an example of screenshot in Datadog.
+
+<img width="1342" alt="image" src="https://github.com/int128/datadog-actions-metrics/assets/321266/99e813d7-8f42-4896-aba5-c66fe6b84a53">
 
 ### Improve the reliability and experience of self-hosted runners
 
 For the self-hosted runners, you can monitor the following metrics for reliability and experience:
 
+- Queued time of a job
 - Count of the [lost communication with the server](https://github.com/actions-runner-controller/actions-runner-controller/issues/466) errors
-- Queued time of job (time to pick a job by a runner)
+
+Here is an example of screenshot in Datadog.
+
+<img width="562" alt="image" src="https://github.com/int128/datadog-actions-metrics/assets/321266/0baba537-a5f2-4a66-98b6-e3f372f5871d">
 
 ### Improve your team development process
 
 You can analyze your development activity such as number of merged pull requests.
 It helps the continuous process improvement of your team.
 
-To collect the metrics when a pull request is opened or closed:
+To collect the metrics when a pull request is opened, closed or merged into main:
 
 ```yaml
 on:
@@ -62,6 +66,9 @@ on:
     types:
       - opened
       - closed
+  push:
+    branches:
+      - main
 
 jobs:
   send:
@@ -76,14 +83,14 @@ jobs:
 
 ## Overview
 
-This action handles the following events:
+This action can handle the following events:
 
 - workflow_run event
 - pull_request event
 - push event
 - schedule event
 
-It ignores other events.
+Other events are ignored.
 
 ## Metrics for workflow_run event
 
@@ -216,8 +223,8 @@ steps:
       collect-step-metrics: ${{ github.event.workflow_run.head_branch == github.event.repository.default_branch }}
 ```
 
-This action calls GitHub GraphQL API to get jobs and steps of the current workflow run.
-Note that it may cause the rate exceeding error if too many workflows are run.
+This action calls GitHub REST API and GraphQL API to get jobs and steps of the current workflow run.
+Note that it may cause the rate exceeding error when too many workflows are run.
 
 If the job or step metrics is enabled, this action requires the following permissions:
 
@@ -381,13 +388,6 @@ steps:
     env:
       https_proxy: http://proxy.example.com:8080
 ```
-
-### Breaking changes
-
-`collect-step-metrics` is explicitly required to send the step metrics.
-
-`collect-job-metrics-for-only-default-branch` is no longer supported.
-Use `collect-job-metrics` instead.
 
 ## Contribution
 
