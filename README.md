@@ -103,10 +103,10 @@ This action sends the following metrics.
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
   - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
-- `github.actions.workflow_run.duration_second` (gauge)
-  - Time from a workflow run is started until it is updated
-- `github.actions.workflow_run.duration_second.distribution` (distribution)
-  - Time from a workflow run is started until it is updated
+- `github.actions.workflow_run.duration_second`
+  - Time from a workflow run is started until it is updated (gauge)
+- `github.actions.workflow_run.duration_second.distribution`
+  - Time from a workflow run is started until it is updated (distribution)
 
 It has the following tags:
 
@@ -140,7 +140,9 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
 - `github.actions.job.queued_duration_second.distribution`
   - Time from a job is created to started (distribution)
 - `github.actions.job.duration_second`
-  - Time from a job is started to completed
+  - Time from a job is started to completed (gauge)
+- `github.actions.job.duration_second.distribution`
+  - Time from a job is started to completed (distribution)
 - `github.actions.job.lost_communication_with_server_error_total`
   - Count of "lost communication with the server" errors of self-hosted runners.
     See the issue [#444](https://github.com/int128/datadog-actions-metrics/issues/444) for details
