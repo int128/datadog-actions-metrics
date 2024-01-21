@@ -182,6 +182,12 @@ export const computeJobMetrics = (
       type: 'gauge',
       points: [[completedAt, duration]],
     })
+    distributionPointsSeries.push({
+      host: 'github.com',
+      tags: distributionPointsTags,
+      metric: 'github.actions.job.duration_second.distribution',
+      points: [[completedAt, [duration]]],
+    })
 
     if (checkSuite) {
       const checkRun = checkSuite.node.checkRuns.nodes.find((checkRun) => checkRun.databaseId === job.run_id)

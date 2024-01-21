@@ -146,6 +146,33 @@ exports[`computeJobMetrics 2`] = `
       "runs_on:bar,foo,self-hosted",
     ],
   },
+  {
+    "host": "github.com",
+    "metric": "github.actions.job.duration_second.distribution",
+    "points": [
+      [
+        1579542279,
+        [
+          119,
+        ],
+      ],
+    ],
+    "tags": [
+      "repository_owner:octo-org",
+      "repository_name:octo-repo",
+      "workflow_name:Manually triggered workflow",
+      "run_attempt:1",
+      "event:workflow_dispatch",
+      "sender:Codertocat",
+      "sender_type:User",
+      "branch:main",
+      "default_branch:true",
+      "job_name:build",
+      "conclusion:success",
+      "status:completed",
+      "runs_on:bar,foo,self-hosted",
+    ],
+  },
 ]
 `;
 
