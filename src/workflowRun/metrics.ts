@@ -31,7 +31,10 @@ const getCommonDistibutionPointsTags = (e: WorkflowRunCompletedEvent): string[] 
 ]
 
 export type WorkflowRunJobStepMetrics = {
-  workflowRunMetrics: v1.Series[]
+  workflowRunMetrics: {
+    series: v1.Series[]
+    distributionPointsSeries: v1.DistributionPointsSeries[]
+  }
   jobMetrics: {
     series: v1.Series[]
     distributionPointsSeries: v1.DistributionPointsSeries[]
@@ -62,10 +65,14 @@ export const computeWorkflowRunJobStepMetrics = (
   }
 }
 
-export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent): v1.Series[] => {
+export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent) => {
+  const series: v1.Series[] = []
+  const distributionPointsSeries: v1.DistributionPointsSeries[] = []
   const tags = [...getCommonMetricsTags(e), `conclusion:${e.workflow_run.conclusion}`]
+  const distributionPointsTags = [...getCommonDistibutionPointsTags(e), `conclusion:${e.workflow_run.conclusion}`]
   const updatedAt = unixTime(e.workflow_run.updated_at)
-  const series: v1.Series[] = [
+
+  series.push(
     {
       host: 'github.com',
       tags,
@@ -80,7 +87,7 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent): v1.Seri
       type: 'count',
       points: [[updatedAt, 1]],
     },
-  ]
+  )
 
   const runStartedAt = unixTime(e.workflow_run.run_started_at)
   const duration = updatedAt - runStartedAt
@@ -91,7 +98,13 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent): v1.Seri
     type: 'gauge',
     points: [[updatedAt, duration]],
   })
-  return series
+  distributionPointsSeries.push({
+    host: 'github.com',
+    tags: distributionPointsTags,
+    metric: 'github.actions.workflow_run.duration_second.distribution',
+    points: [[updatedAt, [duration]]],
+  })
+  return { series, distributionPointsSeries }
 }
 
 const joinRunsOn = (labels: string[]): string => labels.sort().join(',')
