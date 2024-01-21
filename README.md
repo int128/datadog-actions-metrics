@@ -103,8 +103,10 @@ This action sends the following metrics.
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
   - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
-- `github.actions.workflow_run.duration_second`
-  - Time from a workflow is started until it is updated
+- `github.actions.workflow_run.duration_second` (gauge)
+  - Time from a workflow run is started until it is updated
+- `github.actions.workflow_run.duration_second.distribution` (distribution)
+  - Time from a workflow run is started until it is updated
 
 It has the following tags:
 
