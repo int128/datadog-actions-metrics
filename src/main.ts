@@ -8,6 +8,7 @@ const main = async (): Promise<void> => {
     githubTokenForRateLimitMetrics: core.getInput('github-token-rate-limit-metrics', { required: true }),
     datadogApiKey: core.getInput('datadog-api-key') || undefined,
     datadogSite: core.getInput('datadog-site') || undefined,
+    datadogTags: core.getMultilineInput('datadog-tags'),
     collectJobMetrics: core.getBooleanInput('collect-job-metrics'),
     collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
     sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),

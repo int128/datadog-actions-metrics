@@ -14,6 +14,7 @@ type Inputs = {
   githubTokenForRateLimitMetrics: string
   datadogApiKey?: string
   datadogSite?: string
+  datadogTags: string[]
   collectJobMetrics: boolean
   collectStepMetrics: boolean
   sendPullRequestLabels: boolean

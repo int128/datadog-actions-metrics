@@ -375,6 +375,7 @@ You can set the following inputs:
 | `github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics                                             |
 | `datadog-api-key`                 | -              | Datadog API key. If not set, this action does not send metrics actually         |
 | `datadog-site`                    | -              | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com` |
+| `datadog-tags`                    | -              | Additional tags in the form of `key:value` in a multiline string                |
 | `send-pull-request-labels`        | `false`        | Send pull request labels as Datadog tags                                        |
 | `collect-job-metrics`             | `false`        | Collect job metrics                                                             |
 | `collect-step-metrics`            | `false`        | Collect step metrics                                                            |
