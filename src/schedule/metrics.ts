@@ -4,11 +4,11 @@ import { GitHubContext, ListWorkflowRunsForRepoRateLimitResponse } from '../type
 export const computeScheduleMetrics = (
   context: GitHubContext,
   queuedWorkflowRuns: ListWorkflowRunsForRepoRateLimitResponse,
-  now: Date
-): v1.Series[] => {
+  now: Date,
+) => {
   const tags = [`repository_owner:${context.repo.owner}`, `repository_name:${context.repo.repo}`]
   const t = now.getTime() / 1000
-  return [
+  const series: v1.Series[] = [
     {
       host: 'github.com',
       tags,
@@ -17,4 +17,5 @@ export const computeScheduleMetrics = (
       points: [[t, queuedWorkflowRuns.data.total_count]],
     },
   ]
+  return { series }
 }

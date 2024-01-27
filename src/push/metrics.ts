@@ -1,7 +1,7 @@
 import { v1 } from '@datadog/datadog-api-client'
 import { PushEvent } from '@octokit/webhooks-types'
 
-export const computePushMetrics = (e: PushEvent, now: Date): v1.Series[] => {
+export const computePushMetrics = (e: PushEvent, now: Date) => {
   const tags = [
     `repository_owner:${e.repository.owner.login}`,
     `repository_name:${e.repository.name}`,
@@ -14,7 +14,7 @@ export const computePushMetrics = (e: PushEvent, now: Date): v1.Series[] => {
     `default_branch:${(e.ref === `refs/heads/${e.repository.default_branch}`).toString()}`,
   ]
   const t = now.getTime() / 1000
-  return [
+  const series: v1.Series[] = [
     {
       host: 'github.com',
       tags,
@@ -23,4 +23,5 @@ export const computePushMetrics = (e: PushEvent, now: Date): v1.Series[] => {
       points: [[t, 1]],
     },
   ]
+  return { series }
 }

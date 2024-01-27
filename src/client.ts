@@ -7,23 +7,23 @@ type Inputs = {
   datadogSite?: string
 }
 
+type Metrics = {
+  series: v1.Series[]
+  distributionPointsSeries?: v1.DistributionPointsSeries[]
+}
+
 export type MetricsClient = {
-  submitMetrics: (series: v1.Series[], description: string) => Promise<void>
-  submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void>
+  submit: (metrics: Metrics, description: string) => Promise<void>
 }
 
 class DryRunMetricsClient implements MetricsClient {
   // eslint-disable-next-line @typescript-eslint/require-await
-  async submitMetrics(series: v1.Series[], description: string): Promise<void> {
+  async submit(metrics: Metrics, description: string): Promise<void> {
     core.startGroup(`Metrics payload (dry-run) (${description})`)
-    core.info(JSON.stringify(series, undefined, 2))
+    core.info(JSON.stringify(metrics.series, undefined, 2))
     core.endGroup()
-  }
-
-  // eslint-disable-next-line @typescript-eslint/require-await
-  async submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void> {
     core.startGroup(`Distribution points payload (dry-run) (${description})`)
-    core.info(JSON.stringify(series, undefined, 2))
+    core.info(JSON.stringify(metrics.distributionPointsSeries, undefined, 2))
     core.endGroup()
   }
 }
@@ -31,24 +31,26 @@ class DryRunMetricsClient implements MetricsClient {
 class RealMetricsClient implements MetricsClient {
   constructor(private readonly metricsApi: v1.MetricsApi) {}
 
-  async submitMetrics(series: v1.Series[], description: string): Promise<void> {
+  async submit(metrics: Metrics, description: string): Promise<void> {
     core.startGroup(`Metrics payload (${description})`)
-    core.info(JSON.stringify(series, undefined, 2))
+    core.info(JSON.stringify(metrics.series, undefined, 2))
     core.endGroup()
+    if (metrics.series.length > 0) {
+      core.info(`Sending ${metrics.series.length} metrics to Datadog`)
+      const accepted = await this.metricsApi.submitMetrics({ body: { series: metrics.series } })
+      core.info(`Sent ${JSON.stringify(accepted)}`)
+    }
 
-    core.info(`Sending ${series.length} metrics to Datadog`)
-    const accepted = await this.metricsApi.submitMetrics({ body: { series } })
-    core.info(`Sent ${JSON.stringify(accepted)}`)
-  }
-
-  async submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void> {
     core.startGroup(`Distribution points payload (${description})`)
-    core.info(JSON.stringify(series, undefined, 2))
+    core.info(JSON.stringify(metrics.distributionPointsSeries, undefined, 2))
     core.endGroup()
-
-    core.info(`Sending ${series.length} distribution points to Datadog`)
-    const accepted = await this.metricsApi.submitDistributionPoints({ body: { series } })
-    core.info(`Sent ${JSON.stringify(accepted)}`)
+    if (metrics.distributionPointsSeries && metrics.distributionPointsSeries.length > 0) {
+      core.info(`Sending ${metrics.distributionPointsSeries.length} distribution points to Datadog`)
+      const accepted = await this.metricsApi.submitDistributionPoints({
+        body: { series: metrics.distributionPointsSeries },
+      })
+      core.info(`Sent ${JSON.stringify(accepted)}`)
+    }
   }
 }
 

@@ -20,7 +20,7 @@ export const handlePullRequest = async (
   core.info(`Got pull request ${e.action} event: ${e.pull_request.html_url}`)
 
   if (e.action === 'opened') {
-    return await metricsClient.submitMetrics(computePullRequestOpenedMetrics(e), 'pull request')
+    return await metricsClient.submit(computePullRequestOpenedMetrics(e), 'pull request')
   }
 
   if (e.action === 'closed') {
@@ -36,7 +36,7 @@ export const handlePullRequest = async (
     } catch (error) {
       core.warning(`Could not get the pull request: ${String(error)}`)
     }
-    return await metricsClient.submitMetrics(
+    return await metricsClient.submit(
       computePullRequestClosedMetrics(e, pullRequestFirstCommit, inputs),
       'pull request',
     )

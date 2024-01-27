@@ -25,7 +25,7 @@ export const run = async (context: GitHubContext, inputs: Inputs): Promise<void>
   await handleEvent(metricsClient, context, inputs)
 
   const rateLimit = await getRateLimitMetrics(context, inputs)
-  await metricsClient.submitMetrics(rateLimit, 'rate limit')
+  await metricsClient.submit(rateLimit, 'rate limit')
 }
 
 const handleEvent = async (metricsClient: MetricsClient, context: GitHubContext, inputs: Inputs) => {

@@ -60,13 +60,11 @@ const handleWorkflowRunCompleted = async (
 
   const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite, workflowJobs?.data)
 
-  await metricsClient.submitMetrics(metrics.workflowRunMetrics.series, 'workflow run')
-  await metricsClient.submitDistributionPoints(metrics.workflowRunMetrics.distributionPointsSeries, 'workflow run')
+  await metricsClient.submit(metrics.workflowRunMetrics, 'workflow run')
   if (inputs.collectJobMetrics) {
-    await metricsClient.submitMetrics(metrics.jobMetrics.series, 'job')
-    await metricsClient.submitDistributionPoints(metrics.jobMetrics.distributionPointsSeries, 'job')
+    await metricsClient.submit(metrics.jobMetrics, 'job')
   }
   if (inputs.collectStepMetrics) {
-    await metricsClient.submitMetrics(metrics.stepMetrics, 'step')
+    await metricsClient.submit({ series: metrics.stepMetrics }, 'step')
   }
 }
