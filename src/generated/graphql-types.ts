@@ -17078,6 +17078,23 @@ export enum ProjectV2WorkflowsOrderField {
   UpdatedAt = 'UPDATED_AT'
 }
 
+/** A property that must match */
+export type PropertyTargetDefinition = {
+  __typename?: 'PropertyTargetDefinition';
+  /** The name of the property */
+  name: Scalars['String']['output'];
+  /** The values to match for */
+  propertyValues: Array<Scalars['String']['output']>;
+};
+
+/** A property that must match */
+export type PropertyTargetDefinitionInput = {
+  /** The name of the property */
+  name: Scalars['String']['input'];
+  /** The values to match for */
+  propertyValues: Array<Scalars['String']['input']>;
+};
+
 /** A user's public key. */
 export type PublicKey = Node & {
   __typename?: 'PublicKey';
@@ -17213,6 +17230,8 @@ export type PullRequest = Assignable & Closable & Comment & Labelable & Lockable
   isCrossRepository: Scalars['Boolean']['output'];
   /** Identifies if the pull request is a draft. */
   isDraft: Scalars['Boolean']['output'];
+  /** Indicates whether the pull request is in a merge queue */
+  isInMergeQueue: Scalars['Boolean']['output'];
   /** Is this pull request read by the viewer */
   isReadByViewer?: Maybe<Scalars['Boolean']['output']>;
   /** A list of labels associated with the object. */
@@ -17229,6 +17248,8 @@ export type PullRequest = Assignable & Closable & Comment & Labelable & Lockable
   maintainerCanModify: Scalars['Boolean']['output'];
   /** The commit that was created when this pull request was merged. */
   mergeCommit?: Maybe<Commit>;
+  /** The merge queue for the pull request's base branch */
+  mergeQueue?: Maybe<MergeQueue>;
   /** The merge queue entry of the pull request in the base branch's merge queue */
   mergeQueueEntry?: Maybe<MergeQueueEntry>;
   /** Whether or not the pull request can be merged based on the existence of merge conflicts. */
@@ -22008,6 +22029,23 @@ export enum RepositoryPrivacy {
   Public = 'PUBLIC'
 }
 
+/** Parameters to be used for the repository_property condition */
+export type RepositoryPropertyConditionTarget = {
+  __typename?: 'RepositoryPropertyConditionTarget';
+  /** Array of repository properties that must not match. */
+  exclude: Array<PropertyTargetDefinition>;
+  /** Array of repository properties that must match */
+  include: Array<PropertyTargetDefinition>;
+};
+
+/** Parameters to be used for the repository_property condition */
+export type RepositoryPropertyConditionTargetInput = {
+  /** Array of repository properties that must not match. */
+  exclude: Array<PropertyTargetDefinitionInput>;
+  /** Array of repository properties that must match */
+  include: Array<PropertyTargetDefinitionInput>;
+};
+
 /** A repository rule. */
 export type RepositoryRule = Node & {
   __typename?: 'RepositoryRule';
@@ -22030,6 +22068,8 @@ export type RepositoryRuleConditions = {
   repositoryId?: Maybe<RepositoryIdConditionTarget>;
   /** Configuration for the repository_name condition */
   repositoryName?: Maybe<RepositoryNameConditionTarget>;
+  /** Configuration for the repository_property condition */
+  repositoryProperty?: Maybe<RepositoryPropertyConditionTarget>;
 };
 
 /** Specifies the conditions required for a ruleset to evaluate */
@@ -22040,6 +22080,8 @@ export type RepositoryRuleConditionsInput = {
   repositoryId?: InputMaybe<RepositoryIdConditionTargetInput>;
   /** Configuration for the repository_name condition */
   repositoryName?: InputMaybe<RepositoryNameConditionTargetInput>;
+  /** Configuration for the repository_property condition */
+  repositoryProperty?: InputMaybe<RepositoryPropertyConditionTargetInput>;
 };
 
 /** The connection type for RepositoryRule. */
