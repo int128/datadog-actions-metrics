@@ -17232,6 +17232,8 @@ export type PullRequest = Assignable & Closable & Comment & Labelable & Lockable
   isDraft: Scalars['Boolean']['output'];
   /** Indicates whether the pull request is in a merge queue */
   isInMergeQueue: Scalars['Boolean']['output'];
+  /** Indicates whether the pull request's base ref has a merge queue enabled. */
+  isMergeQueueEnabled: Scalars['Boolean']['output'];
   /** Is this pull request read by the viewer */
   isReadByViewer?: Maybe<Scalars['Boolean']['output']>;
   /** A list of labels associated with the object. */
