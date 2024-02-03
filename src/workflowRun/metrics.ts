@@ -293,6 +293,12 @@ export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: W
         type: 'gauge',
         points: [[completedAt, duration]],
       })
+      distributionPointsSeries.push({
+        host: 'github.com',
+        tags: distributionPointsTags,
+        metric: 'github.actions.step.duration_second.distribution',
+        points: [[completedAt, [duration]]],
+      })
 
       const sinceWorkflowStart = startedAt - workflowRunStartedAt
       distributionPointsSeries.push({

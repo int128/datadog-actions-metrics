@@ -182,6 +182,8 @@ This action sends the following metrics if `collect-step-metrics` is enabled.
   - e.g. `github.actions.step.conclusion.failure_total`
 - `github.actions.step.duration_second`
   - Time from a step is started until completed (gauge)
+- `github.actions.step.duration_second.distribution`
+  - Time from a step is started until completed (distribution)
 - `github.actions.step.start_time_from_workflow_start_second.distribution`
   - Time from the workflow run is started until a step is started (distribution)
 
