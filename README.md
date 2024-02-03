@@ -99,10 +99,12 @@ Other events are ignored.
 This action sends the following metrics.
 
 - `github.actions.workflow_run.total`
+  - Total workflow runs (count)
 - `github.actions.workflow_run.conclusion.{CONCLUSION}_total`
+  - Total workflow runs by the conclusion (count).
+    See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
-  - See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
 - `github.actions.workflow_run.duration_second`
   - Time from a workflow run is started until it is updated (gauge)
 - `github.actions.workflow_run.duration_second.distribution`
@@ -132,7 +134,9 @@ See also the actual metrics in the [E2E test](https://github.com/int128/datadog-
 This action sends the following metrics if `collect-job-metrics` is enabled.
 
 - `github.actions.job.total`
+  - Total jobs (count)
 - `github.actions.job.conclusion.{CONCLUSION}_total`
+  - Total jobs by the conclusion (count)
   - e.g. `github.actions.job.conclusion.success_total`
   - e.g. `github.actions.job.conclusion.failure_total`
 - `github.actions.job.queued_duration_second`
@@ -177,7 +181,9 @@ It has the following tags:
 This action sends the following metrics if `collect-step-metrics` is enabled.
 
 - `github.actions.step.total`
+  - Total steps (count)
 - `github.actions.step.conclusion.{CONCLUSION}_total`
+  - Total steps by the conclusion (count)
   - e.g. `github.actions.step.conclusion.success_total`
   - e.g. `github.actions.step.conclusion.failure_total`
 - `github.actions.step.duration_second`
@@ -253,10 +259,15 @@ permissions:
 This action sends the following metrics on `opened` type.
 
 - `github.actions.pull_request_opened.total`
+  - Total opened events (count)
 - `github.actions.pull_request_opened.commits`
+  - Number of commits in a pull request (count)
 - `github.actions.pull_request_opened.changed_files`
+  - Number of changed files in a pull request (count)
 - `github.actions.pull_request_opened.additions`
+  - Number of added lines in a pull request (count)
 - `github.actions.pull_request_opened.deletions`
+  - Number of deleted lines in a pull request (count)
 
 It has the following tags:
 
@@ -275,16 +286,21 @@ It has the following tags:
 This action sends the following metrics on `closed` type.
 
 - `github.actions.pull_request_closed.total`
+  - Total closed events (count)
 - `github.actions.pull_request_closed.since_opened_seconds`
-  - Time from a pull request is opened to closed
+  - Time from a pull request is opened to closed (gauge)
 - `github.actions.pull_request_closed.since_first_authored_seconds`
-  - Time from the authored time of the first commit until closed
+  - Time from the authored time of the first commit until closed (gauge)
 - `github.actions.pull_request_closed.since_first_committed_seconds`
-  - Time from the committed time of the first commit until closed
+  - Time from the committed time of the first commit until closed (gauge)
 - `github.actions.pull_request_closed.commits`
+  - Number of commits in a pull request (count)
 - `github.actions.pull_request_closed.changed_files`
+  - Number of changed files in a pull request (count)
 - `github.actions.pull_request_closed.additions`
+  - Number of added lines in a pull request (count)
 - `github.actions.pull_request_closed.deletions`
+  - Number of deleted lines in a pull request (count)
 
 It has the following tags:
 
@@ -318,6 +334,7 @@ permissions:
 This action sends the following metrics.
 
 - `github.actions.push.total`
+  - Total push events (count)
 
 It has the following tags:
 
@@ -337,7 +354,8 @@ It has the following tags:
 
 This action sends the following metrics:
 
-- `github.actions.schedule.queued_workflow_run.total` (gauge)
+- `github.actions.schedule.queued_workflow_run.total`
+  - Number of queued workflow runs (gauge)
 
 It has the following tags:
 
@@ -359,10 +377,12 @@ permissions:
 
 ### Rate limit
 
-This action always sends the following metrics of [the built-in `GITHUB_TOKEN` rate limit](https://docs.github.com/en/rest/overview/resources-in-the-rest-api#rate-limiting).
+This action always sends the following metrics of [the built-in `GITHUB_TOKEN` rate limit](https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api).
 
 - `github.actions.api_rate_limit.remaining`
+  - Remaining requests of GitHub API (gauge)
 - `github.actions.api_rate_limit.limit`
+  - Limit of requests of GitHub API (gauge)
 
 It has the following tags:
 
