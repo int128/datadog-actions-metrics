@@ -39,7 +39,10 @@ export type WorkflowRunJobStepMetrics = {
     series: v1.Series[]
     distributionPointsSeries: v1.DistributionPointsSeries[]
   }
-  stepMetrics: v1.Series[]
+  stepMetrics: {
+    series: v1.Series[]
+    distributionPointsSeries: v1.DistributionPointsSeries[]
+  }
 }
 
 export const computeWorkflowRunJobStepMetrics = (
@@ -54,7 +57,10 @@ export const computeWorkflowRunJobStepMetrics = (
         series: [],
         distributionPointsSeries: [],
       },
-      stepMetrics: [],
+      stepMetrics: {
+        series: [],
+        distributionPointsSeries: [],
+      },
     }
   }
 
@@ -114,6 +120,7 @@ export const computeJobMetrics = (
   workflowJobs: WorkflowJobs,
   checkSuite?: CompletedCheckSuite,
 ) => {
+  const workflowRunStartedAt = unixTime(e.workflow_run.run_started_at)
   const series: v1.Series[] = []
   const distributionPointsSeries: v1.DistributionPointsSeries[] = []
   for (const job of workflowJobs.jobs) {
@@ -189,6 +196,14 @@ export const computeJobMetrics = (
       points: [[completedAt, [duration]]],
     })
 
+    const sinceWorkflowStart = startedAt - workflowRunStartedAt
+    distributionPointsSeries.push({
+      host: 'github.com',
+      tags: distributionPointsTags,
+      metric: 'github.actions.job.start_time_from_workflow_start_second.distribution',
+      points: [[completedAt, [sinceWorkflowStart]]],
+    })
+
     if (checkSuite) {
       const checkRun = checkSuite.node.checkRuns.nodes.find((checkRun) => checkRun.databaseId === job.run_id)
       if (checkRun) {
@@ -223,16 +238,11 @@ export const isLostCommunicationWithServerError = (message: string): boolean =>
 export const isReceivedShutdownSignalError = (message: string): boolean =>
   message.startsWith('The runner has received a shutdown signal.')
 
-export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: WorkflowJobs): v1.Series[] => {
+export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: WorkflowJobs) => {
+  const workflowRunStartedAt = unixTime(e.workflow_run.run_started_at)
   const series: v1.Series[] = []
+  const distributionPointsSeries: v1.DistributionPointsSeries[] = []
   for (const job of workflowJobs.jobs) {
-    const jobTags = [
-      ...getCommonMetricsTags(e),
-      `job_id:${String(job.id)}`,
-      `job_name:${job.name}`,
-      `runs_on:${joinRunsOn(job.labels)}`,
-    ]
-
     for (const step of job.steps ?? []) {
       if (step.started_at == null || step.completed_at == null) {
         continue
@@ -240,9 +250,20 @@ export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: W
       const startedAt = unixTime(step.started_at)
       const completedAt = unixTime(step.completed_at)
       const tags = [
-        ...jobTags,
+        ...getCommonMetricsTags(e),
+        `job_id:${String(job.id)}`,
+        `job_name:${job.name}`,
+        `runs_on:${joinRunsOn(job.labels)}`,
         `step_name:${step.name}`,
         `step_number:${step.number}`,
+        `conclusion:${step.conclusion}`,
+        `status:${step.status}`,
+      ]
+      const distributionPointsTags = [
+        ...getCommonDistibutionPointsTags(e),
+        `job_name:${job.name}`,
+        `runs_on:${joinRunsOn(job.labels)}`,
+        `step_name:${step.name}`,
         `conclusion:${step.conclusion}`,
         `status:${step.status}`,
       ]
@@ -272,9 +293,17 @@ export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: W
         type: 'gauge',
         points: [[completedAt, duration]],
       })
+
+      const sinceWorkflowStart = startedAt - workflowRunStartedAt
+      distributionPointsSeries.push({
+        host: 'github.com',
+        tags: distributionPointsTags,
+        metric: 'github.actions.step.start_time_from_workflow_start_second.distribution',
+        points: [[completedAt, [sinceWorkflowStart]]],
+      })
     }
   }
-  return series
+  return { series, distributionPointsSeries }
 }
 
 const unixTime = (s: string): number => Date.parse(s) / 1000

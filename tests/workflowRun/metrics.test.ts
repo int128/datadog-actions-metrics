@@ -21,8 +21,9 @@ test('computeJobMetrics', () => {
 })
 
 test('computeStepMetrics', () => {
-  const series = computeStepMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs)
-  expect(series).toMatchSnapshot()
+  const metrics = computeStepMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs)
+  expect(metrics.series).toMatchSnapshot()
+  expect(metrics.distributionPointsSeries).toMatchSnapshot()
 })
 
 describe('isLostCommunicationWithServerError', () => {

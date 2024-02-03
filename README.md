@@ -143,6 +143,8 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
   - Time from a job is started to completed (gauge)
 - `github.actions.job.duration_second.distribution`
   - Time from a job is started to completed (distribution)
+- `github.actions.job.start_time_from_workflow_start_second.distribution`
+  - Time from the workflow run is started until a job is started (distribution)
 - `github.actions.job.lost_communication_with_server_error_total`
   - Count of "lost communication with the server" errors of self-hosted runners.
     See the issue [#444](https://github.com/int128/datadog-actions-metrics/issues/444) for details
@@ -179,6 +181,9 @@ This action sends the following metrics if `collect-step-metrics` is enabled.
   - e.g. `github.actions.step.conclusion.success_total`
   - e.g. `github.actions.step.conclusion.failure_total`
 - `github.actions.step.duration_second`
+  - Time from a step is started until completed (gauge)
+- `github.actions.step.start_time_from_workflow_start_second.distribution`
+  - Time from the workflow run is started until a step is started (distribution)
 
 It has the following tags:
 
