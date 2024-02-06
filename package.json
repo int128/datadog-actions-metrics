@@ -20,10 +20,10 @@
     "graphql": "16.8.1"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "5.0.0",
+    "@graphql-codegen/cli": "5.0.2",
     "@graphql-codegen/import-types-preset": "3.0.0",
-    "@graphql-codegen/typescript": "4.0.1",
-    "@graphql-codegen/typescript-operations": "4.0.1",
+    "@graphql-codegen/typescript": "4.0.4",
+    "@graphql-codegen/typescript-operations": "4.1.2",
     "@octokit/graphql-schema": "14.53.0",
     "@octokit/webhooks-examples": "7.3.2",
     "@tsconfig/node16": "16.1.1",
