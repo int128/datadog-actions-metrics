@@ -1165,10 +1165,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@datadog/datadog-api-client@1.21.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.21.0.tgz#6c30bcc9a2085a8818d81eb20da743ca4c8b15f1"
-  integrity sha512-PYDD/ecfNom96d+zZfIFOmaszpMUvSUF+2JyW13dpb+1iLaAlGFnRT4MLTrZUqFBQLxhfBPUxZFRQA28WBOdbA==
+"@datadog/datadog-api-client@1.22.0":
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/@datadog/datadog-api-client/-/datadog-api-client-1.22.0.tgz#2b64f9aa685edb02a9e875650a0004c331f4ea52"
+  integrity sha512-8tFElpzo40EGPif77FpoE90VimmH0dDhp9uDtw7OHU9/hWY4KBOxMFfWq70aFrGDBUtlpMmeCuIJnNQvEbzmng==
   dependencies:
     "@types/buffer-from" "^1.1.0"
     "@types/node" "*"
