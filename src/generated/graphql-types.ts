@@ -20848,6 +20848,8 @@ export type Repository = Node & PackageOwner & ProjectOwner & ProjectV2Recent & 
   hasIssuesEnabled: Scalars['Boolean']['output'];
   /** Indicates if the repository has the Projects feature enabled. */
   hasProjectsEnabled: Scalars['Boolean']['output'];
+  /** Indicates if the repository displays a Sponsor button for financial contributions. */
+  hasSponsorshipsEnabled: Scalars['Boolean']['output'];
   /** Whether vulnerability alerts are enabled for the repository. */
   hasVulnerabilityAlertsEnabled: Scalars['Boolean']['output'];
   /** Indicates if the repository has wiki feature enabled. */
@@ -21668,6 +21670,8 @@ export type RepositoryInfo = {
   hasIssuesEnabled: Scalars['Boolean']['output'];
   /** Indicates if the repository has the Projects feature enabled. */
   hasProjectsEnabled: Scalars['Boolean']['output'];
+  /** Indicates if the repository displays a Sponsor button for financial contributions. */
+  hasSponsorshipsEnabled: Scalars['Boolean']['output'];
   /** Indicates if the repository has wiki feature enabled. */
   hasWikiEnabled: Scalars['Boolean']['output'];
   /** The repository's URL. */
@@ -28096,6 +28100,8 @@ export type UpdateRepositoryInput = {
   hasIssuesEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   /** Indicates if the repository should have the project boards feature enabled. */
   hasProjectsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
+  /** Indicates if the repository displays a Sponsor button for financial contributions. */
+  hasSponsorshipsEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   /** Indicates if the repository should have the wiki feature enabled. */
   hasWikiEnabled?: InputMaybe<Scalars['Boolean']['input']>;
   /** The URL for a web page about this repository. Pass an empty string to erase the existing URL. */
