@@ -17,6 +17,9 @@ dependencies:
   '@datadog/datadog-api-client':
     specifier: 1.22.0
     version: 1.22.0
+  '@octokit/types':
+    specifier: ^12.6.0
+    version: 12.6.0
   '@octokit/webhooks-types':
     specifier: 7.3.2
     version: 7.3.2
