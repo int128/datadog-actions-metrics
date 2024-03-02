@@ -1,12 +1,9 @@
 {
   "private": true,
-  "main": "lib/src/main.js",
   "scripts": {
-    "build": "tsc",
     "format": "prettier --write **/*.ts",
-    "format-check": "prettier --check **/*.ts",
     "lint": "eslint **/*.ts",
-    "package": "ncc build --source-map --license licenses.txt",
+    "build": "ncc build --source-map --license licenses.txt src/main.ts",
     "test": "jest",
     "graphql-codegen": "graphql-codegen --config graphql-codegen.yaml",
     "check": "yarn graphql-codegen && yarn format && yarn lint && yarn test"
@@ -16,6 +13,7 @@
     "@actions/github": "6.0.0",
     "@actions/http-client": "2.2.0",
     "@datadog/datadog-api-client": "1.22.0",
+    "@octokit/types": "^12.6.0",
     "@octokit/webhooks-types": "7.3.2",
     "graphql": "16.8.1"
   },
@@ -26,7 +24,7 @@
     "@graphql-codegen/typescript-operations": "4.2.0",
     "@octokit/graphql-schema": "14.58.0",
     "@octokit/webhooks-examples": "7.3.2",
-    "@tsconfig/node16": "16.1.1",
+    "@tsconfig/node20": "20.1.2",
     "@types/jest": "29.5.12",
     "@types/js-yaml": "4.0.9",
     "@types/node": "20.11.24",
