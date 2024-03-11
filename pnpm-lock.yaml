@@ -21,8 +21,8 @@ dependencies:
     specifier: 12.6.0
     version: 12.6.0
   '@octokit/webhooks-types':
-    specifier: 7.3.2
-    version: 7.3.2
+    specifier: 7.4.0
+    version: 7.4.0
   graphql:
     specifier: 16.8.1
     version: 16.8.1
@@ -44,8 +44,8 @@ devDependencies:
     specifier: 14.58.0
     version: 14.58.0
   '@octokit/webhooks-examples':
-    specifier: 7.3.2
-    version: 7.3.2
+    specifier: 7.4.0
+    version: 7.4.0
   '@tsconfig/node20':
     specifier: 20.1.2
     version: 20.1.2
@@ -2006,14 +2006,14 @@ packages:
       '@octokit/openapi-types': 20.0.0
     dev: false
 
-  /@octokit/webhooks-examples@7.3.2:
-    resolution: {integrity: sha512-8bHtYo5X0AuU89NRtF1LzQclgjUyAIJuXtaqX/+GjUEdn9W9KNduwwH2qPaRZzC8FpnVtXWBXblyu/C3ZMVUgA==}
+  /@octokit/webhooks-examples@7.4.0:
+    resolution: {integrity: sha512-gHvMtNOmge+6pzeYvThh4zRx7t5w7WYP7qP1l7iEHfQ5r70HtyJLoom/m6o1B6R3htVHa7b82XOevxlRTOlJmw==}
     dependencies:
-      '@octokit/webhooks-types': 7.3.2
+      '@octokit/webhooks-types': 7.4.0
     dev: true
 
-  /@octokit/webhooks-types@7.3.2:
-    resolution: {integrity: sha512-JWOoOgtWTFnTSAamPXXyjTY5/apttvNxF+vPBnwdSu5cj5snrd7FO0fyw4+wTXy8fHduq626JjhO+TwCyyA6vA==}
+  /@octokit/webhooks-types@7.4.0:
+    resolution: {integrity: sha512-FE2V+QZ2UYlh+9wWd5BPLNXG+J/XUD/PPq0ovS+nCcGX4+3qVbi3jYOmCTW48hg9SBBLtInx9+o7fFt4H5iP0Q==}
 
   /@peculiar/asn1-schema@2.3.8:
     resolution: {integrity: sha512-ULB1XqHKx1WBU/tTFIA+uARuRoBVZ4pNdOA878RDrRbBfBGcSzi5HBkdScC6ZbHn8z7L8gmKCgPC1LHRrP46tA==}
