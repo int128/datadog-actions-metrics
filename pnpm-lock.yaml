@@ -15,8 +15,8 @@ dependencies:
     specifier: 2.2.1
     version: 2.2.1
   '@datadog/datadog-api-client':
-    specifier: 1.22.0
-    version: 1.22.0
+    specifier: 1.23.0
+    version: 1.23.0
   '@octokit/types':
     specifier: 12.6.0
     version: 12.6.0
@@ -832,8 +832,8 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@datadog/datadog-api-client@1.22.0:
-    resolution: {integrity: sha512-8tFElpzo40EGPif77FpoE90VimmH0dDhp9uDtw7OHU9/hWY4KBOxMFfWq70aFrGDBUtlpMmeCuIJnNQvEbzmng==}
+  /@datadog/datadog-api-client@1.23.0:
+    resolution: {integrity: sha512-hwt/WIrm63Y1JWQXj5DHihgiYdaJkJ41KJTJDUtRA85B9QpoDA+P/j28xC75IIfoajcEeAe1n9BtRrRZ7Z2x3A==}
     engines: {node: '>=12.0.0'}
     dependencies:
       '@types/buffer-from': 1.1.3
