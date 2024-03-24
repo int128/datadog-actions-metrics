@@ -47,8 +47,8 @@ devDependencies:
     specifier: 7.4.0
     version: 7.4.0
   '@tsconfig/node20':
-    specifier: 20.1.2
-    version: 20.1.2
+    specifier: 20.1.3
+    version: 20.1.3
   '@types/jest':
     specifier: 29.5.12
     version: 29.5.12
@@ -2061,8 +2061,8 @@ packages:
       '@sinonjs/commons': 3.0.1
     dev: true
 
-  /@tsconfig/node20@20.1.2:
-    resolution: {integrity: sha512-madaWq2k+LYMEhmcp0fs+OGaLFk0OenpHa4gmI4VEmCKX4PJntQ6fnnGADVFrVkBj0wIdAlQnK/MrlYTHsa1gQ==}
+  /@tsconfig/node20@20.1.3:
+    resolution: {integrity: sha512-XeWn6Gms5MaQWdj+C4fuxuo/Icy8ckh+BwAIijhX2LKRHHt1OuctLLLlB0F4EPi55m2IUJNTnv8FH9kSBI7Ogw==}
     dev: true
 
   /@types/babel__core@7.20.5:
