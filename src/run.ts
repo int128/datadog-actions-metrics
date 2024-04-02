@@ -18,6 +18,7 @@ type Inputs = {
   collectJobMetrics: boolean
   collectStepMetrics: boolean
   sendPullRequestLabels: boolean
+  disableDistributionMetrics: boolean
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {

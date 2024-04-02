@@ -105,8 +105,6 @@ This action sends the following metrics.
     See [the official document](https://docs.github.com/en/rest/reference/checks#create-a-check-run) for the possible values of `CONCLUSION` field
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
-- `github.actions.workflow_run.duration_second`
-  - Time from a workflow run is started until it is updated (gauge)
 - `github.actions.workflow_run.duration_second.distribution`
   - Time from a workflow run is started until it is updated (distribution)
 
@@ -139,12 +137,8 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
   - Total jobs by the conclusion (count)
   - e.g. `github.actions.job.conclusion.success_total`
   - e.g. `github.actions.job.conclusion.failure_total`
-- `github.actions.job.queued_duration_second`
-  - Time from a job is created to started (gauge)
 - `github.actions.job.queued_duration_second.distribution`
   - Time from a job is created to started (distribution)
-- `github.actions.job.duration_second`
-  - Time from a job is started to completed (gauge)
 - `github.actions.job.duration_second.distribution`
   - Time from a job is started to completed (distribution)
 - `github.actions.job.start_time_from_workflow_start_second.distribution`
@@ -186,8 +180,6 @@ This action sends the following metrics if `collect-step-metrics` is enabled.
   - Total steps by the conclusion (count)
   - e.g. `github.actions.step.conclusion.success_total`
   - e.g. `github.actions.step.conclusion.failure_total`
-- `github.actions.step.duration_second`
-  - Time from a step is started until completed (gauge)
 - `github.actions.step.duration_second.distribution`
   - Time from a step is started until completed (distribution)
 - `github.actions.step.start_time_from_workflow_start_second.distribution`
@@ -406,6 +398,7 @@ You can set the following inputs:
 | `send-pull-request-labels`        | `false`        | Send pull request labels as Datadog tags                                        |
 | `collect-job-metrics`             | `false`        | Collect job metrics                                                             |
 | `collect-step-metrics`            | `false`        | Collect step metrics                                                            |
+| `disable-distribution-metrics`    | `false`        | If true, do not send the distribution metrics                                   |
 
 ### Proxy
 

@@ -6,6 +6,7 @@ type Inputs = {
   datadogApiKey?: string
   datadogSite?: string
   datadogTags: string[]
+  disableDistributionMetrics: boolean
 }
 
 export type MetricsClient = {
@@ -37,6 +38,7 @@ class RealMetricsClient implements MetricsClient {
   constructor(
     private readonly metricsApi: v1.MetricsApi,
     private readonly tags: string[],
+    private readonly disableDistributionMetrics: boolean,
   ) {}
 
   async submitMetrics(series: v1.Series[], description: string): Promise<void> {
@@ -54,6 +56,10 @@ class RealMetricsClient implements MetricsClient {
     core.startGroup(`Distribution points payload (${description})`)
     core.info(JSON.stringify(series, undefined, 2))
     core.endGroup()
+    if (this.disableDistributionMetrics) {
+      core.info(`Distribution metrics are disabled`)
+      return
+    }
     core.info(`Sending ${series.length} distribution points to Datadog`)
     const accepted = await this.metricsApi.submitDistributionPoints({ body: { series } })
     core.info(`Sent ${JSON.stringify(accepted)}`)
@@ -83,7 +89,7 @@ export const createMetricsClient = (inputs: Inputs): MetricsClient => {
       site: inputs.datadogSite,
     })
   }
-  return new RealMetricsClient(new v1.MetricsApi(configuration), inputs.datadogTags)
+  return new RealMetricsClient(new v1.MetricsApi(configuration), inputs.datadogTags, inputs.disableDistributionMetrics)
 }
 
 const createHttpLibraryIfHttpsProxy = () => {
