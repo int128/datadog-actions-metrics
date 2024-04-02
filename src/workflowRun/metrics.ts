@@ -97,13 +97,6 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent) => {
 
   const runStartedAt = unixTime(e.workflow_run.run_started_at)
   const duration = updatedAt - runStartedAt
-  series.push({
-    host: 'github.com',
-    tags,
-    metric: 'github.actions.workflow_run.duration_second',
-    type: 'gauge',
-    points: [[updatedAt, duration]],
-  })
   distributionPointsSeries.push({
     host: 'github.com',
     tags: distributionPointsTags,
@@ -166,13 +159,6 @@ export const computeJobMetrics = (
     const queuedDuration = startedAt - createdAt
     if (queuedDuration > 0) {
       // queuedDuration may be negative when the job is rerun
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.job.queued_duration_second',
-        type: 'gauge',
-        points: [[completedAt, queuedDuration]],
-      })
       distributionPointsSeries.push({
         host: 'github.com',
         tags: distributionPointsTags,
@@ -182,13 +168,6 @@ export const computeJobMetrics = (
     }
 
     const duration = completedAt - startedAt
-    series.push({
-      host: 'github.com',
-      tags,
-      metric: 'github.actions.job.duration_second',
-      type: 'gauge',
-      points: [[completedAt, duration]],
-    })
     distributionPointsSeries.push({
       host: 'github.com',
       tags: distributionPointsTags,
@@ -286,13 +265,6 @@ export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: W
       )
 
       const duration = completedAt - startedAt
-      series.push({
-        host: 'github.com',
-        tags,
-        metric: 'github.actions.step.duration_second',
-        type: 'gauge',
-        points: [[completedAt, duration]],
-      })
       distributionPointsSeries.push({
         host: 'github.com',
         tags: distributionPointsTags,
