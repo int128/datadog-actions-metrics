@@ -13,6 +13,7 @@ const main = async (): Promise<void> => {
     collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
     sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),
     disableDistributionMetrics: core.getBooleanInput('disable-distribution-metrics'),
+    filteredMetrics: core.getMultilineInput('filtered-metrics'),
   })
 }
 
