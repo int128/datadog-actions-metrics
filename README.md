@@ -399,6 +399,7 @@ You can set the following inputs:
 | `collect-job-metrics`             | `false`        | Collect job metrics                                                             |
 | `collect-step-metrics`            | `false`        | Collect step metrics                                                            |
 | `disable-distribution-metrics`    | `false`        | If true, do not send the distribution metrics                                   |
+| `filtered-metrics`                | -              | Metrics to be sent. Defaults to all metrics                                     |
 
 ### Proxy
 
