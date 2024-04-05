@@ -73,6 +73,13 @@ export const injectTags = <S extends { tags?: string[] }>(series: S[], tags: str
   return series.map((s) => ({ ...s, tags: [...(s.tags ?? []), ...tags] }))
 }
 
+export const filterMetrics = <S extends { metric: string }>(series: S[], filteredMetrics: string[]): S[] => {
+  if (filteredMetrics.length === 0) {
+    return series
+  }
+  return series.filter((s) => filteredMetrics.includes(s.metric))
+}
+
 export const createMetricsClient = (inputs: Inputs): MetricsClient => {
   if (inputs.datadogApiKey === undefined) {
     return new DryRunMetricsClient(inputs.datadogTags)
