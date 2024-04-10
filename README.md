@@ -27,6 +27,7 @@ jobs:
           # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
 ```
+** The workflow_run trigger will only run in the default branch see - [GitHub trigger: workflow_run](https://docs.github.com/en/actions/using-workflows/events-that-trigger-workflows#workflow_run) **
 
 For the developer experience, you can analyze the following metrics:
 
