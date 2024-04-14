@@ -1,4 +1,4 @@
-import * as Types from './graphql-types';
+import * as Types from './graphql-types.js';
 
 export type GetCheckSuiteQueryVariables = Types.Exact<{
   node_id: Types.Scalars['ID']['input'];

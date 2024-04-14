@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import { client, v1 } from '@datadog/datadog-api-client'
-import { HttpLibrary } from './http'
+import { HttpLibrary } from './http.js'
 
 type Inputs = {
   datadogApiKey?: string

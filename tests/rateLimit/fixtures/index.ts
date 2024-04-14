@@ -1,5 +1,5 @@
 import { v1 } from '@datadog/datadog-api-client'
-import { RateLimitResponse } from '../../../src/types'
+import { RateLimitResponse } from '../../../src/types.js'
 
 export const exampleRateLimitResponse: RateLimitResponse = {
   url: 'https://api.example.com',

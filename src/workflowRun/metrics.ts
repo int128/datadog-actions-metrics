@@ -1,7 +1,7 @@
 import { v1 } from '@datadog/datadog-api-client'
 import { WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
-import { CompletedCheckSuite } from '../queries/getCheckSuite'
-import { WorkflowJobs } from '../types'
+import { CompletedCheckSuite } from '../queries/getCheckSuite.js'
+import { WorkflowJobs } from '../types.js'
 
 const getCommonMetricsTags = (e: WorkflowRunCompletedEvent): string[] => [
   `repository_owner:${e.workflow_run.repository.owner.login}`,

@@ -1,14 +1,14 @@
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
-import { run } from '../src/run'
-import { exampleWorkflowRunCompletedEvent } from './fixtures'
-import { exampleRateLimitResponse } from './rateLimit/fixtures'
-import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite'
-import { examplePullRequestClosedEvent } from './fixtures'
-import { WebhookPayload } from '@actions/github/lib/interfaces'
-import { examplePullRequestOpenedEvent } from './fixtures'
-import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest'
-import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs'
+import { run } from '../src/run.js'
+import { exampleWorkflowRunCompletedEvent } from './fixtures.js'
+import { exampleRateLimitResponse } from './rateLimit/fixtures/index.js'
+import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite.js'
+import { examplePullRequestClosedEvent } from './fixtures.js'
+import { WebhookPayload } from '@actions/github/lib/interfaces.js'
+import { examplePullRequestOpenedEvent } from './fixtures.js'
+import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest.js'
+import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs.js'
 
 jest.mock('@actions/core')
 
