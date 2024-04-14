@@ -1,4 +1,4 @@
-import { extractCheckRuns } from '../../src/queries/getCheckSuite'
+import { extractCheckRuns } from '../../src/queries/getCheckSuite.js'
 
 describe('extractCheckRuns', () => {
   it('should return same length of nodes', () => {

@@ -1,6 +1,6 @@
 import { client, v1 } from '@datadog/datadog-api-client'
 import { createProxy } from 'proxy'
-import { HttpLibrary } from '../src/http'
+import { HttpLibrary } from '../src/http.js'
 import * as http from 'http'
 
 describe('without proxy', () => {

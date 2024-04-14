@@ -12,7 +12,7 @@ const config: CodegenConfig = {
       preset: 'import-types',
       plugins: ['typescript-operations'],
       presetConfig: {
-        typesPath: './graphql-types',
+        typesPath: './graphql-types.js',
       },
     },
   },

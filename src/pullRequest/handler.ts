@@ -1,10 +1,10 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { MetricsClient } from '../client'
-import { PullRequestEvent } from '@octokit/webhooks-types'
-import { GitHubContext } from '../types'
-import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './metrics'
-import { getPullRequestFirstCommit } from '../queries/getPullRequest'
+import { MetricsClient } from '../client.js'
+import { PullRequestEvent } from '@octokit/webhooks-types/schema.js'
+import { GitHubContext } from '../types.js'
+import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './metrics.js'
+import { getPullRequestFirstCommit } from '../queries/getPullRequest.js'
 
 type Inputs = {
   githubToken: string

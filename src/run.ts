@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
-import { computeRateLimitMetrics } from './rateLimit/metrics'
-import { GitHubContext } from './types'
-import { MetricsClient, createMetricsClient } from './client'
-import { handleWorkflowRun } from './workflowRun/handler'
-import { handlePullRequest } from './pullRequest/handler'
-import { handlePush } from './push/handler'
-import { handleSchedule } from './schedule/handler'
+import { computeRateLimitMetrics } from './rateLimit/metrics.js'
+import { GitHubContext } from './types.js'
+import { MetricsClient, createMetricsClient } from './client.js'
+import { handleWorkflowRun } from './workflowRun/handler.js'
+import { handlePullRequest } from './pullRequest/handler.js'
+import { handlePush } from './push/handler.js'
+import { handleSchedule } from './schedule/handler.js'
 
 type Inputs = {
   githubToken: string

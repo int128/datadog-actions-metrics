@@ -1,5 +1,5 @@
-import { computeRateLimitMetrics } from '../../src/rateLimit/metrics'
-import { exampleRateLimitMetrics, exampleRateLimitResponse } from './fixtures'
+import { computeRateLimitMetrics } from '../../src/rateLimit/metrics.js'
+import { exampleRateLimitMetrics, exampleRateLimitResponse } from './fixtures/index.js'
 
 test('run successfully', () => {
   const series = computeRateLimitMetrics(
