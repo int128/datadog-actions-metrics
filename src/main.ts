@@ -12,7 +12,6 @@ const main = async (): Promise<void> => {
     collectJobMetrics: core.getBooleanInput('collect-job-metrics'),
     collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
     sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),
-    disableDistributionMetrics: core.getBooleanInput('disable-distribution-metrics'),
   })
 }
 

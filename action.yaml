@@ -33,10 +33,6 @@ inputs:
     description: Send pull request labels as Datadog tags
     required: false
     default: 'false'
-  disable-distribution-metrics:
-    description: If true, do not send the distribution metrics
-    required: false
-    default: 'false'
 
 runs:
   using: 'node20'
