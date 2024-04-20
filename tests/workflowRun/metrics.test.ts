@@ -10,18 +10,24 @@ import { exampleWorkflowRunCompletedEvent } from '../fixtures'
 import { exampleWorkflowJobs } from './fixtures/workflowJobs'
 
 test('computeWorkflowRunMetrics', () => {
-  const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent)
+  const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, {
+    preferDistributionWorkflowRunMetrics: false,
+  })
   expect(series).toMatchSnapshot()
 })
 
 test('computeJobMetrics', () => {
-  const metrics = computeJobMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs, exampleCompletedCheckSuite)
+  const metrics = computeJobMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs, exampleCompletedCheckSuite, {
+    preferDistributionJobMetrics: false,
+  })
   expect(metrics.series).toMatchSnapshot()
   expect(metrics.distributionPointsSeries).toMatchSnapshot()
 })
 
 test('computeStepMetrics', () => {
-  const metrics = computeStepMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs)
+  const metrics = computeStepMetrics(exampleWorkflowRunCompletedEvent, exampleWorkflowJobs, {
+    preferDistributionStepMetrics: false,
+  })
   expect(metrics.series).toMatchSnapshot()
   expect(metrics.distributionPointsSeries).toMatchSnapshot()
 })

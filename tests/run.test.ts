@@ -49,6 +49,9 @@ test('workflow_run with collectJobMetrics', async () => {
       datadogTags: [],
       collectJobMetrics: true,
       collectStepMetrics: true,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
     },
   )
@@ -74,6 +77,9 @@ test('workflow_run', async () => {
       datadogTags: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
     },
   )
@@ -99,6 +105,9 @@ test('pull_request_opened', async () => {
       datadogTags: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
     },
   )
@@ -125,6 +134,9 @@ test('pull_request_closed', async () => {
       datadogTags: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: true,
     },
   )

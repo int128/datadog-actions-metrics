@@ -106,9 +106,8 @@ This action sends the following metrics.
   - e.g. `github.actions.workflow_run.conclusion.success_total`
   - e.g. `github.actions.workflow_run.conclusion.failure_total`
 - `github.actions.workflow_run.duration_second`
-  - Time from a workflow run is started until it is updated (gauge)
 - `github.actions.workflow_run.duration_second.distribution`
-  - Time from a workflow run is started until it is updated (distribution)
+  - Time from a workflow run is started until it is updated (gauge or distribution)
 
 It has the following tags:
 
@@ -140,15 +139,14 @@ This action sends the following metrics if `collect-job-metrics` is enabled.
   - e.g. `github.actions.job.conclusion.success_total`
   - e.g. `github.actions.job.conclusion.failure_total`
 - `github.actions.job.queued_duration_second`
-  - Time from a job is created to started (gauge)
 - `github.actions.job.queued_duration_second.distribution`
-  - Time from a job is created to started (distribution)
+  - Time from a job is created to started (gauge or distribution)
 - `github.actions.job.duration_second`
-  - Time from a job is started to completed (gauge)
 - `github.actions.job.duration_second.distribution`
-  - Time from a job is started to completed (distribution)
+  - Time from a job is started to completed (gauge or distribution)
+- `github.actions.job.start_time_from_workflow_start_second`
 - `github.actions.job.start_time_from_workflow_start_second.distribution`
-  - Time from the workflow run is started until a job is started (distribution)
+  - Time from the workflow run is started until a job is started (gauge or distribution)
 - `github.actions.job.lost_communication_with_server_error_total`
   - Count of "lost communication with the server" errors of self-hosted runners.
     See the issue [#444](https://github.com/int128/datadog-actions-metrics/issues/444) for details
@@ -187,11 +185,11 @@ This action sends the following metrics if `collect-step-metrics` is enabled.
   - e.g. `github.actions.step.conclusion.success_total`
   - e.g. `github.actions.step.conclusion.failure_total`
 - `github.actions.step.duration_second`
-  - Time from a step is started until completed (gauge)
 - `github.actions.step.duration_second.distribution`
-  - Time from a step is started until completed (distribution)
+  - Time from a step is started until completed (gauge or distribution)
+- `github.actions.step.start_time_from_workflow_start_second`
 - `github.actions.step.start_time_from_workflow_start_second.distribution`
-  - Time from the workflow run is started until a step is started (distribution)
+  - Time from the workflow run is started until a step is started (gauge or distribution)
 
 It has the following tags:
 
@@ -251,6 +249,25 @@ permissions:
   checks: read
   contents: read
 ```
+
+### Prefer distribution metrics
+
+This action sends the gauge metrics by default.
+To send the distribution metrics instead of the gauge metrics,
+
+```yaml
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+      prefer-distribution-workflow-run-metrics: true
+      collect-job-metrics: true
+      collect-step-metrics: true
+      prefer-distribution-job-metrics: true
+      prefer-distribution-step-metrics: true
+```
+
+Note that the distribution metrics may increase the custom metrics cost.
 
 ## Metrics for pull_request event
 
@@ -396,16 +413,19 @@ This does not affect the rate limit of GitHub API because it just calls [`/rate_
 
 You can set the following inputs:
 
-| Name                              | Default        | Description                                                                     |
-| --------------------------------- | -------------- | ------------------------------------------------------------------------------- |
-| `github-token`                    | `github.token` | GitHub token to get jobs and steps if needed                                    |
-| `github-token-rate-limit-metrics` | `github.token` | GitHub token for rate limit metrics                                             |
-| `datadog-api-key`                 | -              | Datadog API key. If not set, this action does not send metrics actually         |
-| `datadog-site`                    | -              | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com` |
-| `datadog-tags`                    | -              | Additional tags in the form of `key:value` in a multiline string                |
-| `send-pull-request-labels`        | `false`        | Send pull request labels as Datadog tags                                        |
-| `collect-job-metrics`             | `false`        | Collect job metrics                                                             |
-| `collect-step-metrics`            | `false`        | Collect step metrics                                                            |
+| Name                                       | Default        | Description                                                                     |
+| ------------------------------------------ | -------------- | ------------------------------------------------------------------------------- |
+| `github-token`                             | `github.token` | GitHub token to get jobs and steps if needed                                    |
+| `github-token-rate-limit-metrics`          | `github.token` | GitHub token for rate limit metrics                                             |
+| `datadog-api-key`                          | -              | Datadog API key. If not set, this action does not send metrics actually         |
+| `datadog-site`                             | -              | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com` |
+| `datadog-tags`                             | -              | Additional tags in the form of `key:value` in a multiline string                |
+| `send-pull-request-labels`                 | `false`        | Send pull request labels as Datadog tags                                        |
+| `collect-job-metrics`                      | `false`        | Collect job metrics                                                             |
+| `collect-step-metrics`                     | `false`        | Collect step metrics                                                            |
+| `prefer-distribution-workflow-run-metrics` | `false`        | If true, send the distribution metrics instead of gauge metrics                 |
+| `prefer-distribution-job-metrics`          | `false`        | If true, send the distribution metrics instead of gauge metrics                 |
+| `prefer-distribution-step-metrics`         | `false`        | If true, send the distribution metrics instead of gauge metrics                 |
 
 ### Proxy
 

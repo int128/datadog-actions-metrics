@@ -11,6 +11,9 @@ const main = async (): Promise<void> => {
     datadogTags: core.getMultilineInput('datadog-tags'),
     collectJobMetrics: core.getBooleanInput('collect-job-metrics'),
     collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
+    preferDistributionWorkflowRunMetrics: core.getBooleanInput('prefer-distribution-workflow-run-metrics'),
+    preferDistributionJobMetrics: core.getBooleanInput('prefer-distribution-job-metrics'),
+    preferDistributionStepMetrics: core.getBooleanInput('prefer-distribution-step-metrics'),
     sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),
   })
 }
