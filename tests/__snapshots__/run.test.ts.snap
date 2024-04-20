@@ -923,6 +923,33 @@ exports[`workflow_run with collectJobMetrics 1`] = `
             ],
             "type": "gauge",
           },
+          {
+            "host": "github.com",
+            "metric": "github.actions.job.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542279,
+                -60141282,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "conclusion:success",
+              "status:completed",
+              "runs_on:bar,foo,self-hosted",
+            ],
+          },
         ],
       },
     },
@@ -1023,6 +1050,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542161,
+                -60141282,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Set up job",
+              "step_number:1",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1113,6 +1169,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542165,
+                -60141281,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Run actions/checkout@v2",
+              "step_number:2",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1200,6 +1285,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
               "status:completed",
             ],
             "type": "gauge",
+          },
+          {
+            "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542165,
+                -60141277,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Set up Ruby",
+              "step_number:3",
+              "conclusion:success",
+              "status:completed",
+            ],
           },
           {
             "host": "github.com",
@@ -1293,6 +1407,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542168,
+                -60141277,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Run actions/cache@v3",
+              "step_number:4",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1383,6 +1526,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542172,
+                -60141274,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Install Bundler",
+              "step_number:5",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1470,6 +1642,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
               "status:completed",
             ],
             "type": "gauge",
+          },
+          {
+            "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542173,
+                -60141270,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Install Gems",
+              "step_number:6",
+              "conclusion:success",
+              "status:completed",
+            ],
           },
           {
             "host": "github.com",
@@ -1563,6 +1764,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542179,
+                -60141269,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Run Tests",
+              "step_number:7",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1653,6 +1883,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542279,
+                -60141263,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Deploy to Heroku",
+              "step_number:8",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1743,6 +2002,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
           },
           {
             "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542279,
+                -60141163,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Post actions/cache@v3",
+              "step_number:16",
+              "conclusion:success",
+              "status:completed",
+            ],
+          },
+          {
+            "host": "github.com",
             "metric": "github.actions.step.total",
             "points": [
               [
@@ -1830,6 +2118,35 @@ exports[`workflow_run with collectJobMetrics 1`] = `
               "status:completed",
             ],
             "type": "gauge",
+          },
+          {
+            "host": "github.com",
+            "metric": "github.actions.step.start_time_from_workflow_start_second",
+            "points": [
+              [
+                1579542279,
+                -60141163,
+              ],
+            ],
+            "tags": [
+              "repository_owner:octo-org",
+              "repository_name:octo-repo",
+              "workflow_id:1589141559",
+              "workflow_name:Manually triggered workflow",
+              "run_attempt:1",
+              "event:workflow_dispatch",
+              "sender:Codertocat",
+              "sender_type:User",
+              "branch:main",
+              "default_branch:true",
+              "job_id:399444496",
+              "job_name:build",
+              "runs_on:bar,foo,self-hosted",
+              "step_name:Complete job",
+              "step_number:17",
+              "conclusion:success",
+              "status:completed",
+            ],
           },
         ],
       },
