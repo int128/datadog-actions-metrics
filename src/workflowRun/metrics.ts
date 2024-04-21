@@ -45,14 +45,17 @@ export type WorkflowRunJobStepMetrics = {
   }
 }
 
+type WorkflowRunJobStepMetricsOptions = WorkflowRunMetricsOptions & JobMetricsOptions & StepMetricsOptions
+
 export const computeWorkflowRunJobStepMetrics = (
   e: WorkflowRunCompletedEvent,
-  checkSuite?: CompletedCheckSuite,
-  workflowJobs?: WorkflowJobs,
+  checkSuite: CompletedCheckSuite | undefined,
+  workflowJobs: WorkflowJobs | undefined,
+  opts: WorkflowRunJobStepMetricsOptions,
 ): WorkflowRunJobStepMetrics => {
   if (workflowJobs === undefined) {
     return {
-      workflowRunMetrics: computeWorkflowRunMetrics(e),
+      workflowRunMetrics: computeWorkflowRunMetrics(e, opts),
       jobMetrics: {
         series: [],
         distributionPointsSeries: [],
@@ -65,13 +68,17 @@ export const computeWorkflowRunJobStepMetrics = (
   }
 
   return {
-    workflowRunMetrics: computeWorkflowRunMetrics(e),
-    jobMetrics: computeJobMetrics(e, workflowJobs, checkSuite),
-    stepMetrics: computeStepMetrics(e, workflowJobs),
+    workflowRunMetrics: computeWorkflowRunMetrics(e, opts),
+    jobMetrics: computeJobMetrics(e, workflowJobs, checkSuite, opts),
+    stepMetrics: computeStepMetrics(e, workflowJobs, opts),
   }
 }
 
-export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent) => {
+type WorkflowRunMetricsOptions = {
+  preferDistributionWorkflowRunMetrics: boolean
+}
+
+export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent, opts: WorkflowRunMetricsOptions) => {
   const series: v1.Series[] = []
   const distributionPointsSeries: v1.DistributionPointsSeries[] = []
   const tags = [...getCommonMetricsTags(e), `conclusion:${e.workflow_run.conclusion}`]
@@ -97,21 +104,36 @@ export const computeWorkflowRunMetrics = (e: WorkflowRunCompletedEvent) => {
 
   const runStartedAt = unixTime(e.workflow_run.run_started_at)
   const duration = updatedAt - runStartedAt
-  distributionPointsSeries.push({
-    host: 'github.com',
-    tags: distributionPointsTags,
-    metric: 'github.actions.workflow_run.duration_second.distribution',
-    points: [[updatedAt, [duration]]],
-  })
+  if (opts.preferDistributionWorkflowRunMetrics) {
+    distributionPointsSeries.push({
+      host: 'github.com',
+      tags: distributionPointsTags,
+      metric: 'github.actions.workflow_run.duration_second.distribution',
+      points: [[updatedAt, [duration]]],
+    })
+  } else {
+    series.push({
+      host: 'github.com',
+      tags,
+      metric: 'github.actions.workflow_run.duration_second',
+      type: 'gauge',
+      points: [[updatedAt, duration]],
+    })
+  }
   return { series, distributionPointsSeries }
 }
 
 const joinRunsOn = (labels: string[]): string => labels.sort().join(',')
 
+type JobMetricsOptions = {
+  preferDistributionJobMetrics: boolean
+}
+
 export const computeJobMetrics = (
   e: WorkflowRunCompletedEvent,
   workflowJobs: WorkflowJobs,
-  checkSuite?: CompletedCheckSuite,
+  checkSuite: CompletedCheckSuite | undefined,
+  opts: JobMetricsOptions,
 ) => {
   const workflowRunStartedAt = unixTime(e.workflow_run.run_started_at)
   const series: v1.Series[] = []
@@ -159,29 +181,58 @@ export const computeJobMetrics = (
     const queuedDuration = startedAt - createdAt
     if (queuedDuration > 0) {
       // queuedDuration may be negative when the job is rerun
-      distributionPointsSeries.push({
-        host: 'github.com',
-        tags: distributionPointsTags,
-        metric: 'github.actions.job.queued_duration_second.distribution',
-        points: [[completedAt, [queuedDuration]]],
-      })
+      if (opts.preferDistributionJobMetrics) {
+        distributionPointsSeries.push({
+          host: 'github.com',
+          tags: distributionPointsTags,
+          metric: 'github.actions.job.queued_duration_second.distribution',
+          points: [[completedAt, [queuedDuration]]],
+        })
+      } else {
+        series.push({
+          host: 'github.com',
+          tags,
+          metric: 'github.actions.job.queued_duration_second',
+          type: 'gauge',
+          points: [[completedAt, queuedDuration]],
+        })
+      }
     }
 
     const duration = completedAt - startedAt
-    distributionPointsSeries.push({
-      host: 'github.com',
-      tags: distributionPointsTags,
-      metric: 'github.actions.job.duration_second.distribution',
-      points: [[completedAt, [duration]]],
-    })
+    if (opts.preferDistributionJobMetrics) {
+      distributionPointsSeries.push({
+        host: 'github.com',
+        tags: distributionPointsTags,
+        metric: 'github.actions.job.duration_second.distribution',
+        points: [[completedAt, [duration]]],
+      })
+    } else {
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.job.duration_second',
+        type: 'gauge',
+        points: [[completedAt, duration]],
+      })
+    }
 
     const sinceWorkflowStart = startedAt - workflowRunStartedAt
-    distributionPointsSeries.push({
-      host: 'github.com',
-      tags: distributionPointsTags,
-      metric: 'github.actions.job.start_time_from_workflow_start_second.distribution',
-      points: [[completedAt, [sinceWorkflowStart]]],
-    })
+    if (opts.preferDistributionJobMetrics) {
+      distributionPointsSeries.push({
+        host: 'github.com',
+        tags: distributionPointsTags,
+        metric: 'github.actions.job.start_time_from_workflow_start_second.distribution',
+        points: [[completedAt, [sinceWorkflowStart]]],
+      })
+    } else {
+      series.push({
+        host: 'github.com',
+        tags,
+        metric: 'github.actions.job.start_time_from_workflow_start_second',
+        points: [[completedAt, sinceWorkflowStart]],
+      })
+    }
 
     if (checkSuite) {
       const checkRun = checkSuite.node.checkRuns.nodes.find((checkRun) => checkRun.databaseId === job.run_id)
@@ -217,7 +268,15 @@ export const isLostCommunicationWithServerError = (message: string): boolean =>
 export const isReceivedShutdownSignalError = (message: string): boolean =>
   message.startsWith('The runner has received a shutdown signal.')
 
-export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: WorkflowJobs) => {
+type StepMetricsOptions = {
+  preferDistributionStepMetrics: boolean
+}
+
+export const computeStepMetrics = (
+  e: WorkflowRunCompletedEvent,
+  workflowJobs: WorkflowJobs,
+  opts: StepMetricsOptions,
+) => {
   const workflowRunStartedAt = unixTime(e.workflow_run.run_started_at)
   const series: v1.Series[] = []
   const distributionPointsSeries: v1.DistributionPointsSeries[] = []
@@ -265,20 +324,39 @@ export const computeStepMetrics = (e: WorkflowRunCompletedEvent, workflowJobs: W
       )
 
       const duration = completedAt - startedAt
-      distributionPointsSeries.push({
-        host: 'github.com',
-        tags: distributionPointsTags,
-        metric: 'github.actions.step.duration_second.distribution',
-        points: [[completedAt, [duration]]],
-      })
+      if (opts.preferDistributionStepMetrics) {
+        distributionPointsSeries.push({
+          host: 'github.com',
+          tags: distributionPointsTags,
+          metric: 'github.actions.step.duration_second.distribution',
+          points: [[completedAt, [duration]]],
+        })
+      } else {
+        series.push({
+          host: 'github.com',
+          tags,
+          metric: 'github.actions.step.duration_second',
+          type: 'gauge',
+          points: [[completedAt, duration]],
+        })
+      }
 
       const sinceWorkflowStart = startedAt - workflowRunStartedAt
-      distributionPointsSeries.push({
-        host: 'github.com',
-        tags: distributionPointsTags,
-        metric: 'github.actions.step.start_time_from_workflow_start_second.distribution',
-        points: [[completedAt, [sinceWorkflowStart]]],
-      })
+      if (opts.preferDistributionStepMetrics) {
+        distributionPointsSeries.push({
+          host: 'github.com',
+          tags: distributionPointsTags,
+          metric: 'github.actions.step.start_time_from_workflow_start_second.distribution',
+          points: [[completedAt, [sinceWorkflowStart]]],
+        })
+      } else {
+        series.push({
+          host: 'github.com',
+          tags,
+          metric: 'github.actions.step.start_time_from_workflow_start_second',
+          points: [[completedAt, sinceWorkflowStart]],
+        })
+      }
     }
   }
   return { series, distributionPointsSeries }

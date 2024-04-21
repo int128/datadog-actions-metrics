@@ -9,6 +9,9 @@ type Inputs = {
   githubToken: string
   collectJobMetrics: boolean
   collectStepMetrics: boolean
+  preferDistributionWorkflowRunMetrics: boolean
+  preferDistributionJobMetrics: boolean
+  preferDistributionStepMetrics: boolean
 }
 
 export const handleWorkflowRun = async (metricsClient: MetricsClient, e: WorkflowRunEvent, inputs: Inputs) => {
@@ -58,7 +61,7 @@ const handleWorkflowRunCompleted = async (
     core.info(`Found ${workflowJobs.data.jobs.length} job(s)`)
   }
 
-  const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite, workflowJobs?.data)
+  const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite, workflowJobs?.data, inputs)
 
   await metricsClient.submitMetrics(metrics.workflowRunMetrics.series, 'workflow run')
   await metricsClient.submitDistributionPoints(metrics.workflowRunMetrics.distributionPointsSeries, 'workflow run')

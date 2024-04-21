@@ -49,8 +49,10 @@ test('workflow_run with collectJobMetrics', async () => {
       datadogTags: [],
       collectJobMetrics: true,
       collectStepMetrics: true,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
-      disableDistributionMetrics: false,
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
@@ -75,8 +77,10 @@ test('workflow_run', async () => {
       datadogTags: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
-      disableDistributionMetrics: false,
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
@@ -101,8 +105,10 @@ test('pull_request_opened', async () => {
       datadogTags: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
-      disableDistributionMetrics: false,
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
@@ -128,8 +134,10 @@ test('pull_request_closed', async () => {
       datadogTags: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
       sendPullRequestLabels: true,
-      disableDistributionMetrics: false,
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
