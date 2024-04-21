@@ -29,12 +29,20 @@ inputs:
     description: Collect step metrics
     required: false
     default: 'false'
-  send-pull-request-labels:
-    description: Send pull request labels as Datadog tags
+  prefer-distribution-workflow-run-metrics:
+    description: If true, send the distribution metrics instead of gauge metrics
     required: false
     default: 'false'
-  disable-distribution-metrics:
-    description: If true, do not send the distribution metrics
+  prefer-distribution-job-metrics:
+    description: If true, send the distribution metrics instead of gauge metrics
+    required: false
+    default: 'false'
+  prefer-distribution-step-metrics:
+    description: If true, send the distribution metrics instead of gauge metrics
+    required: false
+    default: 'false'
+  send-pull-request-labels:
+    description: Send pull request labels as Datadog tags
     required: false
     default: 'false'
 

@@ -17,8 +17,10 @@ type Inputs = {
   datadogTags: string[]
   collectJobMetrics: boolean
   collectStepMetrics: boolean
+  preferDistributionWorkflowRunMetrics: boolean
+  preferDistributionJobMetrics: boolean
+  preferDistributionStepMetrics: boolean
   sendPullRequestLabels: boolean
-  disableDistributionMetrics: boolean
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
