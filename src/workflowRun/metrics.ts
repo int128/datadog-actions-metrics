@@ -235,7 +235,7 @@ export const computeJobMetrics = (
     }
 
     if (checkSuite) {
-      const checkRun = checkSuite.node.checkRuns.nodes.find((checkRun) => checkRun.databaseId === job.run_id)
+      const checkRun = checkSuite.node.checkRuns.nodes.find((checkRun) => checkRun.databaseId === job.id)
       if (checkRun) {
         if (checkRun.annotations.nodes.some((a) => isLostCommunicationWithServerError(a.message))) {
           series.push({

@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 20
@@ -42,7 +42,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@9bb56186c3b09b4f86b1c65136769dd318469633 # v4.1.2
+      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4.1.4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
         with:
           node-version: 20
@@ -51,4 +51,4 @@ jobs:
       - run: pnpm lint --fix
       - run: pnpm format
       - run: pnpm graphql-codegen
-      - uses: int128/update-generated-files-action@0c31bff4a68c9a6f4ac83dd528bf45f77620f191 # v2.50.0
+      - uses: int128/update-generated-files-action@96ac74aa35f9d2e748335b60e7f3260304d22a6b # v2.51.0
