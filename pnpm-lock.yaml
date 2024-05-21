@@ -18,8 +18,8 @@ importers:
         specifier: 2.2.1
         version: 2.2.1
       '@datadog/datadog-api-client':
-        specifier: 1.24.0
-        version: 1.24.0
+        specifier: 1.25.0
+        version: 1.25.0
       '@octokit/types':
         specifier: 12.6.0
         version: 12.6.0
@@ -468,8 +468,8 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@datadog/datadog-api-client@1.24.0':
-    resolution: {integrity: sha512-y2E8dWeJatLBV6J+SDfGIBM9If1Z/zRkvcBMl0odO6aQ2xv1MbYBOdef6jL5zXhiVWiiW6sIyOIoObc+VL02Tg==}
+  '@datadog/datadog-api-client@1.25.0':
+    resolution: {integrity: sha512-q0InWeL9RDTnwqeeDaBWM7tNomTPQBpIYfAYfoDtWgOcEPQyq7e3pIxCQUFGmLwUTudv2Ar4kvAh0rGaZw5/Zw==}
     engines: {node: '>=12.0.0'}
 
   '@eslint-community/eslint-utils@4.4.0':
@@ -3418,7 +3418,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@datadog/datadog-api-client@1.24.0':
+  '@datadog/datadog-api-client@1.25.0':
     dependencies:
       '@types/buffer-from': 1.1.3
       '@types/node': 20.12.12
