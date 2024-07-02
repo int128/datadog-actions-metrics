@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
-import { MetricsClient } from '../client'
+import { MetricsClient } from '../client.js'
 import { PushEvent } from '@octokit/webhooks-types'
-import { computePushMetrics } from './metrics'
+import { computePushMetrics } from './metrics.js'
 
 export const handlePush = async (metricsClient: MetricsClient, e: PushEvent) => {
   core.info(`Got push event: ${e.compare}`)

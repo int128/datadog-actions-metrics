@@ -1,5 +1,5 @@
 import { v1 } from '@datadog/datadog-api-client'
-import { RateLimitResponse } from '../types'
+import { RateLimitResponse } from '../types.js'
 
 type Context = {
   repo: {

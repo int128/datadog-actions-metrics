@@ -4,10 +4,10 @@ import {
   computeWorkflowRunMetrics,
   isLostCommunicationWithServerError,
   isReceivedShutdownSignalError,
-} from '../../src/workflowRun/metrics'
-import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite'
-import { exampleWorkflowRunCompletedEvent } from '../fixtures'
-import { exampleWorkflowJobs } from './fixtures/workflowJobs'
+} from '../../src/workflowRun/metrics.js'
+import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite.js'
+import { exampleWorkflowRunCompletedEvent } from '../fixtures.js'
+import { exampleWorkflowJobs } from './fixtures/workflowJobs.js'
 
 test('computeWorkflowRunMetrics', () => {
   const series = computeWorkflowRunMetrics(exampleWorkflowRunCompletedEvent, {

@@ -1,7 +1,7 @@
-import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from '../../src/pullRequest/metrics'
-import { examplePullRequestClosedEvent } from '../fixtures'
-import { examplePullRequestOpenedEvent } from '../fixtures'
-import { examplePullRequestFirstCommit } from './fixtures/getPullRequest'
+import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from '../../src/pullRequest/metrics.js'
+import { examplePullRequestClosedEvent } from '../fixtures.js'
+import { examplePullRequestOpenedEvent } from '../fixtures.js'
+import { examplePullRequestFirstCommit } from './fixtures/getPullRequest.js'
 
 test('computePullRequestOpenedMetrics', () => {
   const series = computePullRequestOpenedMetrics(examplePullRequestOpenedEvent)

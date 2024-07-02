@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
   {
-    ignores: ['.git/', 'node_modules/', 'dist/', '*.config.*', 'src/generated/'],
+    ignores: ['.git/', 'node_modules/', 'dist/', 'eslint.config.js', 'src/generated/'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
