@@ -49,7 +49,7 @@ importers:
         specifier: 7.5.1
         version: 7.5.1
       '@tsconfig/recommended':
-        specifier: ^1.0.7
+        specifier: 1.0.7
         version: 1.0.7
       '@types/jest':
         specifier: 29.5.12
