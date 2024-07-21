@@ -1,4 +1,4 @@
-import { injectTags } from '../src/client'
+import { injectTags } from '../src/client.js'
 
 describe('injectTags', () => {
   it('should return series if tags is empty', () => {

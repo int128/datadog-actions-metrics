@@ -1,5 +1,5 @@
-import { Context } from '@actions/github/lib/context'
-import { GitHub } from '@actions/github/lib/utils'
+import { Context } from '@actions/github/lib/context.js'
+import { GitHub } from '@actions/github/lib/utils.js'
 import { Endpoints } from '@octokit/types'
 
 export type GitHubContext = Pick<Context, 'eventName' | 'payload' | 'repo'>

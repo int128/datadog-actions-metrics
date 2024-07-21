@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { getCompletedCheckSuite } from '../queries/getCheckSuite'
-import { computeWorkflowRunJobStepMetrics } from './metrics'
-import { MetricsClient } from '../client'
+import { getCompletedCheckSuite } from '../queries/getCheckSuite.js'
+import { computeWorkflowRunJobStepMetrics } from './metrics.js'
+import { MetricsClient } from '../client.js'
 import { WorkflowRunCompletedEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 
 type Inputs = {

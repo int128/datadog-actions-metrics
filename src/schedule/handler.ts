@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { MetricsClient } from '../client'
-import { GitHubContext } from '../types'
-import { computeScheduleMetrics } from './metrics'
+import { MetricsClient } from '../client.js'
+import { GitHubContext } from '../types.js'
+import { computeScheduleMetrics } from './metrics.js'
 
 type Inputs = {
   githubToken: string
