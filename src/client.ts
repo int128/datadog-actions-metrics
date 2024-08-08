@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import { minimatch } from 'minimatch'
 import { client, v1 } from '@datadog/datadog-api-client'
 import { HttpLibrary } from './http.js'
 
@@ -6,6 +7,7 @@ type Inputs = {
   datadogApiKey?: string
   datadogSite?: string
   datadogTags: string[]
+  metricsFilter: string[]
 }
 
 export type MetricsClient = {
@@ -13,12 +15,14 @@ export type MetricsClient = {
   submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void>
 }
 
+type MetricsFilter = <S extends v1.Series | v1.DistributionPointsSeries>(series: S[]) => S[]
+
 class DryRunMetricsClient implements MetricsClient {
-  constructor(private readonly tags: string[]) {}
+  constructor(private readonly metricsFilter: MetricsFilter) {}
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async submitMetrics(series: v1.Series[], description: string): Promise<void> {
-    series = injectTags(series, this.tags)
+    series = this.metricsFilter(series)
     core.startGroup(`Metrics payload (dry-run) (${description})`)
     core.info(JSON.stringify(series, undefined, 2))
     core.endGroup()
@@ -26,7 +30,7 @@ class DryRunMetricsClient implements MetricsClient {
 
   // eslint-disable-next-line @typescript-eslint/require-await
   async submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void> {
-    series = injectTags(series, this.tags)
+    series = this.metricsFilter(series)
     core.startGroup(`Distribution points payload (dry-run) (${description})`)
     core.info(JSON.stringify(series, undefined, 2))
     core.endGroup()
@@ -36,11 +40,11 @@ class DryRunMetricsClient implements MetricsClient {
 class RealMetricsClient implements MetricsClient {
   constructor(
     private readonly metricsApi: v1.MetricsApi,
-    private readonly tags: string[],
+    private readonly metricsFilter: MetricsFilter,
   ) {}
 
   async submitMetrics(series: v1.Series[], description: string): Promise<void> {
-    series = injectTags(series, this.tags)
+    series = this.metricsFilter(series)
     core.startGroup(`Metrics payload (${description})`)
     core.info(JSON.stringify(series, undefined, 2))
     core.endGroup()
@@ -50,7 +54,7 @@ class RealMetricsClient implements MetricsClient {
   }
 
   async submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void> {
-    series = injectTags(series, this.tags)
+    series = this.metricsFilter(series)
     core.startGroup(`Distribution points payload (${description})`)
     core.info(JSON.stringify(series, undefined, 2))
     core.endGroup()
@@ -60,6 +64,20 @@ class RealMetricsClient implements MetricsClient {
   }
 }
 
+export const createMatcher =
+  (patterns: string[]) =>
+  (metric: string): boolean => {
+    let matched = false
+    for (const pattern of patterns) {
+      if (pattern.startsWith('!')) {
+        matched = matched && minimatch(metric, pattern)
+      } else {
+        matched = matched || minimatch(metric, pattern)
+      }
+    }
+    return matched
+  }
+
 export const injectTags = <S extends { tags?: string[] }>(series: S[], tags: string[]): S[] => {
   if (tags.length === 0) {
     return series
@@ -67,9 +85,17 @@ export const injectTags = <S extends { tags?: string[] }>(series: S[], tags: str
   return series.map((s) => ({ ...s, tags: [...(s.tags ?? []), ...tags] }))
 }
 
+const createMetricsFilter = (inputs: Inputs): MetricsFilter => {
+  const matcher = createMatcher(inputs.metricsFilter)
+  return (series) => {
+    series = series.filter((s) => matcher(s.metric))
+    return injectTags(series, inputs.datadogTags)
+  }
+}
+
 export const createMetricsClient = (inputs: Inputs): MetricsClient => {
   if (inputs.datadogApiKey === undefined) {
-    return new DryRunMetricsClient(inputs.datadogTags)
+    return new DryRunMetricsClient(createMetricsFilter(inputs))
   }
 
   const configuration = client.createConfiguration({
@@ -83,7 +109,7 @@ export const createMetricsClient = (inputs: Inputs): MetricsClient => {
       site: inputs.datadogSite,
     })
   }
-  return new RealMetricsClient(new v1.MetricsApi(configuration), inputs.datadogTags)
+  return new RealMetricsClient(new v1.MetricsApi(configuration), createMetricsFilter(inputs))
 }
 
 const createHttpLibraryIfHttpsProxy = () => {
