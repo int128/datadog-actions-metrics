@@ -430,7 +430,32 @@ You can set the following inputs:
 
 ### Filter metrics
 
-If `metrics-filter` is set, this action sends only metrics.
+If `metrics-filter` is set, this action sends the metrics filtered by the glob patterns.
+The glob specification is same as [the filters of workflow](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#using-filters).
+
+To include the specific metrics,
+
+```yaml
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      metrics-filter: |
+        github.actions.workflow_run.*
+        github.actions.job.*
+```
+
+To exclude the specific metrics,
+
+```yaml
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      metrics-filter: |
+        *
+        !github.actions.*.conclusion.*
+```
+
+If both include and exclude patterns are given, the later pattern has higher precedence.
 
 ### Proxy
 
