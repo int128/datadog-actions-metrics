@@ -67,6 +67,9 @@ class RealMetricsClient implements MetricsClient {
 export const createMatcher =
   (patterns: string[]) =>
   (metric: string): boolean => {
+    if (patterns.length === 0) {
+      return true
+    }
     let matched = false
     for (const pattern of patterns) {
       if (pattern.startsWith('!')) {
