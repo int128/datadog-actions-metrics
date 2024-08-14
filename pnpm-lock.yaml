@@ -30,7 +30,7 @@ importers:
         specifier: 16.9.0
         version: 16.9.0
       minimatch:
-        specifier: ^10.0.1
+        specifier: 10.0.1
         version: 10.0.1
     devDependencies:
       '@graphql-codegen/cli':
