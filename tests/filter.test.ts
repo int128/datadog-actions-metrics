@@ -1,4 +1,4 @@
-import { createMatcher, injectTags } from '../src/client.js'
+import { createMatcher, injectTags } from '../src/filter.js'
 
 describe('injectTags', () => {
   it('should return series if tags is empty', () => {
@@ -13,28 +13,28 @@ describe('injectTags', () => {
 
 describe('createMatcher', () => {
   it('should match anything when no pattern is given', () => {
-    const filter = createMatcher([])
-    expect(filter('github.foo.bar')).toBe(true)
-    expect(filter('github.foo.baz')).toBe(true)
+    const matcher = createMatcher([])
+    expect(matcher('github.foo.bar')).toBe(true)
+    expect(matcher('github.foo.baz')).toBe(true)
   })
   it('should match it when a pattern is given', () => {
-    const filter = createMatcher(['*.bar'])
-    expect(filter('github.foo.bar')).toBe(true)
-    expect(filter('github.foo.baz')).toBe(false)
+    const matcher = createMatcher(['*.bar'])
+    expect(matcher('github.foo.bar')).toBe(true)
+    expect(matcher('github.foo.baz')).toBe(false)
   })
   it('should exclude it when a negative pattern is given', () => {
-    const filter = createMatcher(['*', '!*.github.*'])
-    expect(filter('foo.github.bar')).toBe(false)
-    expect(filter('foo.github.baz')).toBe(false)
-    expect(filter('example.bar')).toBe(true)
-    expect(filter('example.baz')).toBe(true)
+    const matcher = createMatcher(['*', '!*.github.*'])
+    expect(matcher('foo.github.bar')).toBe(false)
+    expect(matcher('foo.github.baz')).toBe(false)
+    expect(matcher('example.bar')).toBe(true)
+    expect(matcher('example.baz')).toBe(true)
   })
   it('should take higher precedence to the later pattern', () => {
     // https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#example-including-and-excluding-branches
-    const filter = createMatcher(['*.bar', '!foo.*', '*.baz'])
-    expect(filter('foo.github.bar')).toBe(false)
-    expect(filter('foo.github.baz')).toBe(true)
-    expect(filter('example.bar')).toBe(true)
-    expect(filter('example.baz')).toBe(true)
+    const matcher = createMatcher(['*.bar', '!foo.*', '*.baz'])
+    expect(matcher('foo.github.bar')).toBe(false)
+    expect(matcher('foo.github.baz')).toBe(true)
+    expect(matcher('example.bar')).toBe(true)
+    expect(matcher('example.baz')).toBe(true)
   })
 })

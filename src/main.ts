@@ -9,7 +9,7 @@ const main = async (): Promise<void> => {
     datadogApiKey: core.getInput('datadog-api-key') || undefined,
     datadogSite: core.getInput('datadog-site') || undefined,
     datadogTags: core.getMultilineInput('datadog-tags'),
-    metricsFilter: core.getMultilineInput('metrics-filter'),
+    metricsPatterns: core.getMultilineInput('metrics-patterns'),
     collectJobMetrics: core.getBooleanInput('collect-job-metrics'),
     collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
     preferDistributionWorkflowRunMetrics: core.getBooleanInput('prefer-distribution-workflow-run-metrics'),

@@ -15,7 +15,7 @@ type Inputs = {
   datadogApiKey?: string
   datadogSite?: string
   datadogTags: string[]
-  metricsFilter: string[]
+  metricsPatterns: string[]
   collectJobMetrics: boolean
   collectStepMetrics: boolean
   preferDistributionWorkflowRunMetrics: boolean

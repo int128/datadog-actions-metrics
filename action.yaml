@@ -20,8 +20,8 @@ inputs:
   datadog-tags:
     description: Additional tags in the form of `key:value` in a multiline string
     required: false
-  metrics-filter:
-    description: Filter the metrics by given patterns in a multiline string
+  metrics-patterns:
+    description: Filter the metrics by patterns in a multiline string
     required: false
 
   collect-job-metrics:

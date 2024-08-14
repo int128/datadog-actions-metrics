@@ -420,7 +420,7 @@ You can set the following inputs:
 | `datadog-api-key`                          | -              | Datadog API key. If not set, this action does not send metrics actually         |
 | `datadog-site`                             | -              | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com` |
 | `datadog-tags`                             | -              | Additional tags in the form of `key:value` in a multiline string                |
-| `metrics-filter`                           | -              | Filter the metrics by given patterns in a multiline string                      |
+| `metrics-patterns`                         | -              | Filter the metrics by patterns in a multiline string                            |
 | `send-pull-request-labels`                 | `false`        | Send pull request labels as Datadog tags                                        |
 | `collect-job-metrics`                      | `false`        | Collect job metrics                                                             |
 | `collect-step-metrics`                     | `false`        | Collect step metrics                                                            |
@@ -430,7 +430,7 @@ You can set the following inputs:
 
 ### Filter metrics
 
-If `metrics-filter` is set, this action sends the metrics filtered by the glob patterns.
+If `metrics-patterns` is set, this action sends the metrics filtered by the glob patterns.
 The glob specification is same as [the filters of workflow](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#using-filters).
 
 To include the specific metrics,
@@ -439,7 +439,7 @@ To include the specific metrics,
 steps:
   - uses: int128/datadog-actions-metrics@v1
     with:
-      metrics-filter: |
+      metrics-patterns: |
         github.actions.workflow_run.*
         github.actions.job.*
 ```
@@ -450,7 +450,7 @@ To exclude the specific metrics,
 steps:
   - uses: int128/datadog-actions-metrics@v1
     with:
-      metrics-filter: |
+      metrics-patterns: |
         *
         !github.actions.*.conclusion.*
 ```

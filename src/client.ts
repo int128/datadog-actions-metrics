@@ -1,21 +1,19 @@
 import * as core from '@actions/core'
-import { minimatch } from 'minimatch'
 import { client, v1 } from '@datadog/datadog-api-client'
 import { HttpLibrary } from './http.js'
+import { createMetricsFilter, MetricsFilter } from './filter.js'
 
 type Inputs = {
   datadogApiKey?: string
   datadogSite?: string
   datadogTags: string[]
-  metricsFilter: string[]
+  metricsPatterns: string[]
 }
 
 export type MetricsClient = {
   submitMetrics: (series: v1.Series[], description: string) => Promise<void>
   submitDistributionPoints(series: v1.DistributionPointsSeries[], description: string): Promise<void>
 }
-
-type MetricsFilter = <S extends v1.Series | v1.DistributionPointsSeries>(series: S[]) => S[]
 
 class DryRunMetricsClient implements MetricsClient {
   constructor(private readonly metricsFilter: MetricsFilter) {}
@@ -61,38 +59,6 @@ class RealMetricsClient implements MetricsClient {
     core.info(`Sending ${series.length} distribution points to Datadog`)
     const accepted = await this.metricsApi.submitDistributionPoints({ body: { series } })
     core.info(`Sent ${JSON.stringify(accepted)}`)
-  }
-}
-
-export const createMatcher =
-  (patterns: string[]) =>
-  (metric: string): boolean => {
-    if (patterns.length === 0) {
-      return true
-    }
-    let matched = false
-    for (const pattern of patterns) {
-      if (pattern.startsWith('!')) {
-        matched = matched && minimatch(metric, pattern)
-      } else {
-        matched = matched || minimatch(metric, pattern)
-      }
-    }
-    return matched
-  }
-
-export const injectTags = <S extends { tags?: string[] }>(series: S[], tags: string[]): S[] => {
-  if (tags.length === 0) {
-    return series
-  }
-  return series.map((s) => ({ ...s, tags: [...(s.tags ?? []), ...tags] }))
-}
-
-const createMetricsFilter = (inputs: Inputs): MetricsFilter => {
-  const matcher = createMatcher(inputs.metricsFilter)
-  return (series) => {
-    series = series.filter((s) => matcher(s.metric))
-    return injectTags(series, inputs.datadogTags)
   }
 }
 
