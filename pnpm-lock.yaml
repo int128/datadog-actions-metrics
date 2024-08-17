@@ -15,8 +15,8 @@ importers:
         specifier: 6.0.0
         version: 6.0.0
       '@actions/http-client':
-        specifier: 2.2.1
-        version: 2.2.1
+        specifier: 2.2.2
+        version: 2.2.2
       '@datadog/datadog-api-client':
         specifier: 1.27.0
         version: 1.27.0
@@ -109,8 +109,8 @@ packages:
   '@actions/github@6.0.0':
     resolution: {integrity: sha512-alScpSVnYmjNEXboZjarjukQEzgCRmjMv6Xj47fsdnqGS73bjJNDpiiXmp8jr0UZLdUB6d9jW63IcmddUP+l0g==}
 
-  '@actions/http-client@2.2.1':
-    resolution: {integrity: sha512-KhC/cZsq7f8I4LfZSJKgCvEwfkE8o1538VoBeoGzokVLLnbFDEAdFD3UhoMklxo2un9NJVBdANOresx7vTHlHw==}
+  '@actions/http-client@2.2.2':
+    resolution: {integrity: sha512-2TvX5LskKQzDDQI+bobIDGAjkn0NJiQlg4MTrKnZ8HfQ7nDEUbtJ1ytxPDb2bfk3Hr2XD99X8oAJISAmIoiSAQ==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -3012,17 +3012,17 @@ snapshots:
 
   '@actions/core@1.10.1':
     dependencies:
-      '@actions/http-client': 2.2.1
+      '@actions/http-client': 2.2.2
       uuid: 8.3.2
 
   '@actions/github@6.0.0':
     dependencies:
-      '@actions/http-client': 2.2.1
+      '@actions/http-client': 2.2.2
       '@octokit/core': 5.1.0
       '@octokit/plugin-paginate-rest': 9.2.1(@octokit/core@5.1.0)
       '@octokit/plugin-rest-endpoint-methods': 10.4.1(@octokit/core@5.1.0)
 
-  '@actions/http-client@2.2.1':
+  '@actions/http-client@2.2.2':
     dependencies:
       tunnel: 0.0.6
       undici: 5.28.3
