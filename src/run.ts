@@ -29,8 +29,12 @@ export const run = async (context: GitHubContext, inputs: Inputs): Promise<void>
 
   await handleEvent(metricsClient, context, inputs)
 
-  const rateLimit = await getRateLimitMetrics(context, inputs)
-  await metricsClient.submitMetrics(rateLimit, 'rate limit')
+  const rateLimit = await getRateLimitMetrics(context, inputs).catch((e) => {
+    core.warning(`Rate-limit metrics are not available: ${e}`)
+  })
+  if (rateLimit) {
+    await metricsClient.submitMetrics(rateLimit, 'rate-limit')
+  }
 }
 
 const handleEvent = async (metricsClient: MetricsClient, context: GitHubContext, inputs: Inputs) => {
