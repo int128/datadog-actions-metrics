@@ -51,4 +51,4 @@ jobs:
       - run: pnpm lint --fix
       - run: pnpm format
       - run: pnpm graphql-codegen
-      - uses: int128/update-generated-files-action@d01a193ae8a14d7d7699981665a0922bde444389 # v2.52.0
+      - uses: int128/update-generated-files-action@6ac8557861efc7d8c34f4e3f182f9c39b26e6e76 # v2.53.0
