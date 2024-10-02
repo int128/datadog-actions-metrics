@@ -12,7 +12,7 @@
     "@actions/core": "1.10.1",
     "@actions/github": "6.0.0",
     "@actions/http-client": "2.2.3",
-    "@datadog/datadog-api-client": "1.28.0",
+    "@datadog/datadog-api-client": "1.29.0",
     "@octokit/types": "12.6.0",
     "@octokit/webhooks-types": "7.5.1",
     "graphql": "16.9.0",
