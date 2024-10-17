@@ -1,5 +1,5 @@
 import { v1 } from '@datadog/datadog-api-client'
-import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent } from '@octokit/webhooks-types'
+import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent, PullRequestDequeuedEvent } from '@octokit/webhooks-types'
 import { PullRequestFirstCommit } from '../queries/getPullRequest.js'
 
 const computeCommonTags = (e: PullRequestEvent): string[] => {
@@ -150,6 +150,27 @@ export const computePullRequestClosedMetrics = (
   }
 
   return series
+}
+
+export const computePullRequestDequeuedMetrics = (e: PullRequestDequeuedEvent): v1.Series[] => {
+  const tags = computeCommonTags(e)
+  const t = unixTime(e.pull_request.updated_at)
+  return [
+    {
+      host: 'github.com',
+      tags,
+      metric: 'github.actions.pull_request_dequeued.total',
+      type: 'count',
+      points: [[t, 1]],
+    },
+    {
+      host: 'github.com',
+      tags,
+      metric: `github.actions.pull_request_dequeued.reason.${e.reason.toLowerCase()}_total`,
+      type: 'count',
+      points: [[t, 1]],
+    },
+  ]
 }
 
 const unixTime = (s: string): number => Date.parse(s) / 1000
