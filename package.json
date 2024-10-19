@@ -28,7 +28,7 @@
     "@tsconfig/recommended": "1.0.7",
     "@types/jest": "29.5.13",
     "@types/js-yaml": "4.0.9",
-    "@types/node": "20.16.12",
+    "@types/node": "20.16.13",
     "@types/proxy": "1.0.4",
     "@vercel/ncc": "0.38.2",
     "eslint": "9.13.0",
