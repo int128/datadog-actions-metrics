@@ -13,7 +13,7 @@
     "@actions/github": "6.0.0",
     "@actions/http-client": "2.2.3",
     "@datadog/datadog-api-client": "1.29.0",
-    "@octokit/types": "12.6.0",
+    "@octokit/types": "13.6.1",
     "@octokit/webhooks-types": "7.6.1",
     "graphql": "16.9.0",
     "minimatch": "10.0.1"
@@ -23,7 +23,7 @@
     "@graphql-codegen/import-types-preset": "3.0.0",
     "@graphql-codegen/typescript": "4.1.1",
     "@graphql-codegen/typescript-operations": "4.3.1",
-    "@octokit/graphql-schema": "14.58.0",
+    "@octokit/graphql-schema": "15.25.0",
     "@octokit/webhooks-examples": "7.6.1",
     "@tsconfig/recommended": "1.0.8",
     "@types/jest": "29.5.14",
