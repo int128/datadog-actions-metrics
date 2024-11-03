@@ -1,8 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
-import { schema } from '@octokit/graphql-schema'
 
 const config: CodegenConfig = {
-  schema: schema.idl,
+  schema: `node_modules/@octokit/graphql-schema/schema.graphql`,
   documents: ['src/queries/**/*.ts'],
   generates: {
     'src/generated/graphql-types.ts': {
