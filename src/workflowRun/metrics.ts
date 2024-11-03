@@ -138,7 +138,7 @@ export const computeJobMetrics = (
   const workflowRunStartedAt = unixTime(e.workflow_run.run_started_at)
   const series: v1.Series[] = []
   const distributionPointsSeries: v1.DistributionPointsSeries[] = []
-  for (const job of workflowJobs.jobs) {
+  for (const job of workflowJobs) {
     if (job.completed_at == null) {
       continue
     }
@@ -280,7 +280,7 @@ export const computeStepMetrics = (
   const workflowRunStartedAt = unixTime(e.workflow_run.run_started_at)
   const series: v1.Series[] = []
   const distributionPointsSeries: v1.DistributionPointsSeries[] = []
-  for (const job of workflowJobs.jobs) {
+  for (const job of workflowJobs) {
     for (const step of job.steps ?? []) {
       if (step.started_at == null || step.completed_at == null) {
         continue

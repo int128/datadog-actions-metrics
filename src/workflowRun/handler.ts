@@ -55,6 +55,7 @@ const handleWorkflowRunCompleted = async (
       })
     } catch (error) {
       core.warning(`Could not get the jobs: ${String(error)}`)
+      throw error // FIXME
     }
   }
   if (workflowJobs) {
