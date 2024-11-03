@@ -14,6 +14,7 @@ jest.mock('@actions/core')
 
 jest.mock('@actions/github')
 const octokitMock = {
+  paginate: jest.fn(),
   graphql: jest.fn(),
   rest: {
     actions: {
@@ -31,7 +32,10 @@ jest.mock('@datadog/datadog-api-client')
 const submitMetrics = jest.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
 
 test('workflow_run with collectJobMetrics', async () => {
-  octokitMock.rest.actions.listJobsForWorkflowRunAttempt.mockResolvedValue({ data: exampleWorkflowJobs })
+  octokitMock.paginate.mockImplementation((f: unknown) => {
+    expect(f).toBe(octokitMock.rest.actions.listJobsForWorkflowRunAttempt)
+    return exampleWorkflowJobs
+  })
   octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
   octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   submitMetrics.mockResolvedValue({ status: 'ok' })
