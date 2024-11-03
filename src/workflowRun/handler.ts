@@ -46,7 +46,7 @@ const handleWorkflowRunCompleted = async (
   if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
     core.info(`Finding the jobs for the workflow run ${e.workflow_run.id}`)
     try {
-      workflowJobs = await octokit.rest.actions.listJobsForWorkflowRunAttempt({
+      workflowJobs = await octokit.paginate(octokit.rest.actions.listJobsForWorkflowRunAttempt, {
         owner: e.workflow_run.repository.owner.login,
         repo: e.workflow_run.repository.name,
         run_id: e.workflow_run.id,
@@ -58,10 +58,10 @@ const handleWorkflowRunCompleted = async (
     }
   }
   if (workflowJobs) {
-    core.info(`Found ${workflowJobs.data.jobs.length} job(s)`)
+    core.info(`Found ${workflowJobs.length} job(s)`)
   }
 
-  const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite, workflowJobs?.data, inputs)
+  const metrics = computeWorkflowRunJobStepMetrics(e, checkSuite, workflowJobs, inputs)
 
   await metricsClient.submitMetrics(metrics.workflowRunMetrics.series, 'workflow run')
   await metricsClient.submitDistributionPoints(metrics.workflowRunMetrics.distributionPointsSeries, 'workflow run')
