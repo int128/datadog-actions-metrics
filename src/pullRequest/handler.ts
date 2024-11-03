@@ -3,7 +3,7 @@ import * as github from '@actions/github'
 import { MetricsClient } from '../client.js'
 import { PullRequestEvent } from '@octokit/webhooks-types/schema.js'
 import { GitHubContext } from '../types.js'
-import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from './metrics.js'
+import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics, computePullRequestDequeuedMetrics } from './metrics.js'
 import { getPullRequestFirstCommit } from '../queries/getPullRequest.js'
 
 type Inputs = {
@@ -40,6 +40,10 @@ export const handlePullRequest = async (
       computePullRequestClosedMetrics(e, pullRequestFirstCommit, inputs),
       'pull request',
     )
+  }
+
+  if (e.action === 'dequeued') {
+    return await metricsClient.submitMetrics(computePullRequestDequeuedMetrics(e), 'pull request')
   }
 
   core.warning(`Not supported action ${e.action}`)
