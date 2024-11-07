@@ -18,8 +18,8 @@ importers:
         specifier: 2.2.3
         version: 2.2.3
       '@datadog/datadog-api-client':
-        specifier: 1.29.0
-        version: 1.29.0
+        specifier: 1.30.0
+        version: 1.30.0
       '@octokit/types':
         specifier: 13.6.1
         version: 13.6.1
@@ -477,8 +477,8 @@ packages:
   '@bcoe/v8-coverage@0.2.3':
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
 
-  '@datadog/datadog-api-client@1.29.0':
-    resolution: {integrity: sha512-UqqPyEtj8KGeiAl1bd1I5pkQrKl0niPRahKnciKIjJP7jQQ9to9uSR0HrUSotRdXVM8lnO80NPrvRxJ7jDeVQA==}
+  '@datadog/datadog-api-client@1.30.0':
+    resolution: {integrity: sha512-Xa/7rpnM+QwL38+BiA7J9GUOA/ikQK4AhNMkqAGj0mLuyrZQv9oAlqxXuP7ZbdrdhB76h8ZX0Js13xEyvj/NaA==}
     engines: {node: '>=12.0.0'}
 
   '@eslint-community/eslint-utils@4.4.0':
@@ -2520,9 +2520,6 @@ packages:
   pure-rand@6.0.4:
     resolution: {integrity: sha512-LA0Y9kxMYv47GIPJy6MI84fqTd2HmYZI83W/kM/SkKfDlajnZYfmXFTxkbY+xSBPkLJxltMa9hIkmdc29eguMA==}
 
-  querystringify@2.2.0:
-    resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
-
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -2554,9 +2551,6 @@ packages:
 
   require-main-filename@2.0.0:
     resolution: {integrity: sha512-NKN5kMDylKuldxYLSUfrbo5Tuzh4hd+2E8NPPX02mZtn1VuREQToYe/ZdlJy+J3uCpfaiGF05e7B8W0iXbQHmg==}
-
-  requires-port@1.0.0:
-    resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
   resolve-cwd@3.0.0:
     resolution: {integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==}
@@ -2878,9 +2872,6 @@ packages:
 
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
-
-  url-parse@1.5.10:
-    resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
 
   urlpattern-polyfill@10.0.0:
     resolution: {integrity: sha512-H/A06tKD7sS1O1X2SshBVeA5FLycRpjqiBeqGKmBwBDBy28EnRjORxTNe269KSSr5un5qyWi1iL61wLxpd+ZOg==}
@@ -3430,7 +3421,7 @@ snapshots:
 
   '@bcoe/v8-coverage@0.2.3': {}
 
-  '@datadog/datadog-api-client@1.29.0':
+  '@datadog/datadog-api-client@1.30.0':
     dependencies:
       '@types/buffer-from': 1.1.3
       '@types/node': 20.17.6
@@ -3441,7 +3432,6 @@ snapshots:
       form-data: 4.0.0
       loglevel: 1.9.1
       pako: 2.1.0
-      url-parse: 1.5.10
     transitivePeerDependencies:
       - encoding
 
@@ -6129,8 +6119,6 @@ snapshots:
 
   pure-rand@6.0.4: {}
 
-  querystringify@2.2.0: {}
-
   queue-microtask@1.2.3: {}
 
   react-is@18.2.0: {}
@@ -6160,8 +6148,6 @@ snapshots:
   require-directory@2.1.1: {}
 
   require-main-filename@2.0.0: {}
-
-  requires-port@1.0.0: {}
 
   resolve-cwd@3.0.0:
     dependencies:
@@ -6443,11 +6429,6 @@ snapshots:
   uri-js@4.4.1:
     dependencies:
       punycode: 2.3.1
-
-  url-parse@1.5.10:
-    dependencies:
-      querystringify: 2.2.0
-      requires-port: 1.0.0
 
   urlpattern-polyfill@10.0.0: {}
 
