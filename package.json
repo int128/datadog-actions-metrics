@@ -31,7 +31,7 @@
     "@types/node": "20.17.6",
     "@types/proxy": "1.0.4",
     "@vercel/ncc": "0.38.3",
-    "eslint": "9.14.0",
+    "eslint": "9.15.0",
     "eslint-plugin-jest": "28.9.0",
     "jest": "29.7.0",
     "js-yaml": "4.1.0",
@@ -39,7 +39,7 @@
     "proxy": "2.2.0",
     "ts-jest": "29.2.5",
     "typescript": "5.6.3",
-    "typescript-eslint": "8.14.0"
+    "typescript-eslint": "8.15.0"
   },
   "packageManager": "pnpm@9.13.2"
 }
