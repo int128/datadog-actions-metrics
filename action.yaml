@@ -23,6 +23,9 @@ inputs:
   metrics-patterns:
     description: Filter the metrics by patterns in a multiline string
     required: false
+  tags-to-exclude:
+    description: Exclude tags by name in a multiline string
+    required: false
 
   collect-job-metrics:
     description: Collect job metrics
