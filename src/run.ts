@@ -22,6 +22,7 @@ type Inputs = {
   preferDistributionJobMetrics: boolean
   preferDistributionStepMetrics: boolean
   sendPullRequestLabels: boolean
+  tagsToExclude: string[]
 }
 
 export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {

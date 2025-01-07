@@ -58,6 +58,42 @@ test('workflow_run with collectJobMetrics', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
+      tagsToExclude: [],
+    },
+  )
+  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(submitMetrics).toHaveBeenCalledTimes(4)
+  expect(submitMetrics.mock.calls).toMatchSnapshot()
+})
+
+test('workflow_run with collectJobMetrics with tags to exclude', async () => {
+  octokitMock.paginate.mockImplementation((f: unknown) => {
+    expect(f).toBe(octokitMock.rest.actions.listJobsForWorkflowRunAttempt)
+    return exampleWorkflowJobs
+  })
+  octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
+  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  submitMetrics.mockResolvedValue({ status: 'ok' })
+
+  await run(
+    {
+      eventName: 'workflow_run',
+      payload: exampleWorkflowRunCompletedEvent,
+      repo: { owner: 'Codertocat', repo: 'Hello-World' },
+    },
+    {
+      githubToken: 'GITHUB_TOKEN',
+      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
+      datadogApiKey: 'DATADOG_API_KEY',
+      datadogTags: [],
+      metricsPatterns: [],
+      collectJobMetrics: true,
+      collectStepMetrics: true,
+      preferDistributionWorkflowRunMetrics: false,
+      preferDistributionJobMetrics: false,
+      preferDistributionStepMetrics: false,
+      sendPullRequestLabels: false,
+      tagsToExclude: ['job_id'],
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
@@ -87,6 +123,7 @@ test('workflow_run', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
+      tagsToExclude: [],
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
@@ -116,6 +153,7 @@ test('pull_request_opened', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
+      tagsToExclude: [],
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
@@ -146,6 +184,7 @@ test('pull_request_closed', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: true,
+      tagsToExclude: [],
     },
   )
   expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
