@@ -21,8 +21,8 @@ importers:
         specifier: 1.31.0
         version: 1.31.0
       '@octokit/types':
-        specifier: 13.7.0
-        version: 13.7.0
+        specifier: 13.8.0
+        version: 13.8.0
       '@octokit/webhooks-types':
         specifier: 7.6.1
         version: 7.6.1
@@ -957,8 +957,8 @@ packages:
   '@octokit/types@12.6.0':
     resolution: {integrity: sha512-1rhSOfRa6H9w4YwK0yrf5faDaDTb+yLyBUKOCV4xtCDB5VmIPqd/v9yr9o6SAzOAlRxMiRiCic6JVM1/kunVkw==}
 
-  '@octokit/types@13.7.0':
-    resolution: {integrity: sha512-BXfRP+3P3IN6fd4uF3SniaHKOO4UXWBfkdR3vA8mIvaoO/wLjGN5qivUtW0QRitBHHMcfC41SLhNVYIZZE+wkA==}
+  '@octokit/types@13.8.0':
+    resolution: {integrity: sha512-x7DjTIbEpEWXK99DMd01QfWy0hd5h4EN+Q7shkdKds3otGQP+oWE/y0A76i1OvH9fygo4ddvNf7ZvF0t78P98A==}
 
   '@octokit/webhooks-examples@7.6.1':
     resolution: {integrity: sha512-De6U3XB6O3DtCa7bKgCMzTHdeopqqZ6SNivMYJnK65ierKL1AnNIA0tkRYCRS7lwGT792d+Ps1WbfHlso6MynQ==}
@@ -4273,7 +4273,7 @@ snapshots:
     dependencies:
       '@octokit/openapi-types': 20.0.0
 
-  '@octokit/types@13.7.0':
+  '@octokit/types@13.8.0':
     dependencies:
       '@octokit/openapi-types': 23.0.1
 
