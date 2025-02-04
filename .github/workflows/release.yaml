@@ -21,7 +21,7 @@ jobs:
       - uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
         with:
           node-version: 20
-      - run: corepack enable pnpm
+      - run: npm install -g pnpm@latest-10
       - run: pnpm i
       - run: pnpm build
       - uses: int128/release-typescript-action@5c561f7c79fbe5981a4e91a58735a7d124a70022 # v1.34.0
