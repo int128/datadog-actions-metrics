@@ -36,12 +36,12 @@
     "eslint-plugin-jest": "28.11.0",
     "jest": "29.7.0",
     "js-yaml": "4.1.0",
-    "pnpm": "10.2.1",
+    "pnpm": "10.3.0",
     "prettier": "3.5.0",
     "proxy": "2.2.0",
     "ts-jest": "29.2.5",
     "typescript": "5.6.3",
     "typescript-eslint": "8.23.0"
   },
-  "packageManager": "pnpm@10.2.1"
+  "packageManager": "pnpm@10.3.0"
 }
