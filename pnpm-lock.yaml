@@ -85,8 +85,8 @@ importers:
         specifier: 4.1.0
         version: 4.1.0
       pnpm:
-        specifier: 10.5.2
-        version: 10.5.2
+        specifier: 10.6.0
+        version: 10.6.0
       prettier:
         specifier: 3.5.3
         version: 3.5.3
@@ -2512,8 +2512,8 @@ packages:
     resolution: {integrity: sha512-HRDzbaKjC+AOWVXxAU/x54COGeIv9eb+6CkDSQoNTt4XyWoIJvuPsXizxu/Fr23EiekbtZwmh1IcIG/l/a10GQ==}
     engines: {node: '>=8'}
 
-  pnpm@10.5.2:
-    resolution: {integrity: sha512-2p3CjNP/QNBZIYgjWrJdMgKt2KIHr77caCIg5KACn/v/RWIQK55uRrTj+ei9U+bQXeSFRLDFfUsBeeIsdtEZmw==}
+  pnpm@10.6.0:
+    resolution: {integrity: sha512-3wE255fbDPp+wQhOd/O9+BusuukGaDL7+Vy6TCFArQXmTzFs3lHOP5nqAKkf/HAtau3TwPRQ+JXj58BS/lc82A==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -6151,7 +6151,7 @@ snapshots:
     dependencies:
       find-up: 4.1.0
 
-  pnpm@10.5.2: {}
+  pnpm@10.6.0: {}
 
   prelude-ls@1.2.1: {}
 
