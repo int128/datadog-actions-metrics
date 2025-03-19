@@ -21,8 +21,8 @@ importers:
         specifier: 1.33.1
         version: 1.33.1
       '@octokit/types':
-        specifier: 13.9.0
-        version: 13.9.0
+        specifier: 13.10.0
+        version: 13.10.0
       '@octokit/webhooks-types':
         specifier: 7.6.1
         version: 7.6.1
@@ -947,8 +947,8 @@ packages:
   '@octokit/openapi-types@20.0.0':
     resolution: {integrity: sha512-EtqRBEjp1dL/15V7WiX5LJMIxxkdiGJnabzYx5Apx4FkQIFgAfKumXeYAqqJCj1s+BMX4cPFIFC4OLCR6stlnA==}
 
-  '@octokit/openapi-types@24.1.0':
-    resolution: {integrity: sha512-FnYcCZ7MV5dEB+E5ejjhFeg6IFLDcaCCCYcISBeSuTN891Oju1QPnR7k6v/JTwcn2+LjcVhVRcTtUIkVMyzHiw==}
+  '@octokit/openapi-types@24.2.0':
+    resolution: {integrity: sha512-9sIH3nSUttelJSXUrmGzl7QUBFul0/mB8HRYl3fOlgHbIWG+WnYDXU3v/2zMtAvuzZ/ed00Ei6on975FhBfzrg==}
 
   '@octokit/plugin-paginate-rest@9.2.1':
     resolution: {integrity: sha512-wfGhE/TAkXZRLjksFXuDZdmGnJQHvtU/joFQdweXUgzo1XwvBCD4o4+75NtFfjfLK5IwLf9vHTfSiU3sLRYpRw==}
@@ -973,8 +973,8 @@ packages:
   '@octokit/types@12.6.0':
     resolution: {integrity: sha512-1rhSOfRa6H9w4YwK0yrf5faDaDTb+yLyBUKOCV4xtCDB5VmIPqd/v9yr9o6SAzOAlRxMiRiCic6JVM1/kunVkw==}
 
-  '@octokit/types@13.9.0':
-    resolution: {integrity: sha512-gRWS+SLIhZV3JUWn9BJt+jd9L4hON2YxRTuZBw20ExPFbqTj7/2kjwzHX1V00wAN4/qJGLz1GF9Kr1DILxTBqg==}
+  '@octokit/types@13.10.0':
+    resolution: {integrity: sha512-ifLaO34EbbPj0Xgro4G5lP5asESjwHracYJvVaPIyXMuiuXLlhic3S47cBdTb+jfODkTE5YtGCLt3Ay3+J97sA==}
 
   '@octokit/webhooks-examples@7.6.1':
     resolution: {integrity: sha512-De6U3XB6O3DtCa7bKgCMzTHdeopqqZ6SNivMYJnK65ierKL1AnNIA0tkRYCRS7lwGT792d+Ps1WbfHlso6MynQ==}
@@ -4283,7 +4283,7 @@ snapshots:
 
   '@octokit/openapi-types@20.0.0': {}
 
-  '@octokit/openapi-types@24.1.0': {}
+  '@octokit/openapi-types@24.2.0': {}
 
   '@octokit/plugin-paginate-rest@9.2.1(@octokit/core@5.1.0)':
     dependencies:
@@ -4312,9 +4312,9 @@ snapshots:
     dependencies:
       '@octokit/openapi-types': 20.0.0
 
-  '@octokit/types@13.9.0':
+  '@octokit/types@13.10.0':
     dependencies:
-      '@octokit/openapi-types': 24.1.0
+      '@octokit/openapi-types': 24.2.0
 
   '@octokit/webhooks-examples@7.6.1':
     dependencies:
