@@ -1,3 +1,5 @@
+import { test } from 'vitest'
+import { expect } from 'vitest'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from '../../src/pullRequest/metrics.js'
 import { examplePullRequestClosedEvent } from '../fixtures.js'
 import { examplePullRequestOpenedEvent } from '../fixtures.js'

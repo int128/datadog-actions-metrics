@@ -1,3 +1,6 @@
+import { test } from 'vitest'
+import { describe } from 'vitest'
+import { expect } from 'vitest'
 import { client, v1 } from '@datadog/datadog-api-client'
 import { createProxy } from 'proxy'
 import { HttpLibrary } from '../src/http.js'
