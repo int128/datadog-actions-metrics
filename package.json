@@ -29,7 +29,7 @@
     "@tsconfig/recommended": "1.0.8",
     "@types/jest": "29.5.14",
     "@types/node": "20.17.31",
-    "@types/proxy": "1.0.4",
+    "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.38.3",
     "eslint": "9.25.1",
     "eslint-plugin-jest": "28.11.0",
