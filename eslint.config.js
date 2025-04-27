@@ -1,7 +1,7 @@
 // @ts-check
 
 import eslint from '@eslint/js'
-import jest from 'eslint-plugin-jest'
+import vitest from '@vitest/eslint-plugin'
 import tseslint from 'typescript-eslint'
 
 export default tseslint.config(
@@ -10,7 +10,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
-  jest.configs['flat/recommended'],
+  vitest.configs.recommended,
   {
     languageOptions: {
       parserOptions: {
