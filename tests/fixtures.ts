@@ -1,7 +1,7 @@
 import WebhookDefinitions from '@octokit/webhooks-examples'
 import { PullRequestClosedEvent, PullRequestOpenedEvent, WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 
-const examples = WebhookDefinitions.default.flatMap((definition) => definition.examples)
+const examples = WebhookDefinitions.flatMap((definition) => definition.examples)
 
 export const examplePullRequestClosedEvent: PullRequestClosedEvent = (() => {
   for (const example of examples) {
