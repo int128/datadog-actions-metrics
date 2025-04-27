@@ -1,3 +1,6 @@
+import { describe } from 'vitest'
+import { it } from 'vitest'
+import { expect } from 'vitest'
 import { createMatcher, injectTags } from '../src/filter.js'
 
 describe('injectTags', () => {

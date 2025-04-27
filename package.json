@@ -4,7 +4,7 @@
     "format": "prettier --write **/*.ts",
     "lint": "eslint .",
     "build": "ncc build --source-map --license licenses.txt src/main.ts",
-    "test": "jest",
+    "test": "vitest",
     "graphql-codegen": "graphql-codegen --config graphql-codegen.ts"
   },
   "type": "module",
@@ -27,19 +27,17 @@
     "@octokit/graphql-schema": "15.26.0",
     "@octokit/webhooks-examples": "7.6.1",
     "@tsconfig/node20": "^20.1.4",
-    "@types/jest": "29.5.14",
     "@types/node": "20.17.31",
     "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.38.3",
+    "@vitest/eslint-plugin": "^1.1.43",
     "eslint": "9.25.1",
-    "eslint-plugin-jest": "28.11.0",
-    "jest": "29.7.0",
     "pnpm": "10.9.0",
     "prettier": "3.5.3",
     "proxy": "2.2.0",
-    "ts-jest": "29.3.2",
     "typescript": "5.6.3",
-    "typescript-eslint": "8.31.0"
+    "typescript-eslint": "8.31.0",
+    "vitest": "^3.1.2"
   },
   "packageManager": "pnpm@10.9.0"
 }

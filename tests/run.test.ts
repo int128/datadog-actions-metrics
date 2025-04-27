@@ -1,3 +1,4 @@
+import { test, expect, vi } from 'vitest'
 import * as github from '@actions/github'
 import { v1 } from '@datadog/datadog-api-client'
 import { run } from '../src/run.js'
@@ -10,26 +11,25 @@ import { examplePullRequestOpenedEvent } from './fixtures.js'
 import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest.js'
 import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs.js'
 
-jest.mock('@actions/core')
+vi.mock('@actions/core')
 
-jest.mock('@actions/github')
+vi.mock('@actions/github')
 const octokitMock = {
-  paginate: jest.fn(),
-  graphql: jest.fn(),
+  paginate: vi.fn(),
+  graphql: vi.fn(),
   rest: {
     actions: {
-      listJobsForWorkflowRunAttempt: jest.fn(),
+      listJobsForWorkflowRunAttempt: vi.fn(),
     },
     rateLimit: {
-      get: jest.fn(),
+      get: vi.fn(),
     },
   },
 }
-const getOctokit = github.getOctokit as jest.Mock
-getOctokit.mockReturnValue(octokitMock)
+vi.mocked(github.getOctokit).mockReturnValue(octokitMock as unknown as ReturnType<typeof github.getOctokit>)
 
-jest.mock('@datadog/datadog-api-client')
-const submitMetrics = jest.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
+vi.mock('@datadog/datadog-api-client')
+const submitMetrics = vi.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
 
 test('workflow_run with collectJobMetrics', async () => {
   octokitMock.paginate.mockImplementation((f: unknown) => {
@@ -60,7 +60,7 @@ test('workflow_run with collectJobMetrics', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(4)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
@@ -89,7 +89,7 @@ test('workflow_run', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(2)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
@@ -118,7 +118,7 @@ test('pull_request_opened', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(2)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
@@ -148,7 +148,7 @@ test('pull_request_closed', async () => {
       sendPullRequestLabels: true,
     },
   )
-  expect(getOctokit).toHaveBeenCalledWith('GITHUB_TOKEN')
+  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(2)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
