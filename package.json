@@ -27,7 +27,7 @@
     "@octokit/graphql-schema": "15.26.0",
     "@octokit/webhooks-examples": "7.6.1",
     "@tsconfig/recommended": "1.0.8",
-    "@types/node": "20.17.31",
+    "@types/node": "20.17.32",
     "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.38.3",
     "@vitest/eslint-plugin": "1.1.43",
