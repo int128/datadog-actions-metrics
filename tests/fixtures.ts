@@ -1,7 +1,12 @@
-import WebhookDefinitions from '@octokit/webhooks-examples'
+import fs from 'fs/promises'
+import { WebhookDefinition } from '@octokit/webhooks-examples'
 import { PullRequestClosedEvent, PullRequestOpenedEvent, WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 
-const examples = WebhookDefinitions.flatMap((definition) => definition.examples)
+const examples = (
+  JSON.parse(
+    await fs.readFile('node_modules/@octokit/webhooks-examples/api.github.com/index.json', 'utf-8'),
+  ) as WebhookDefinition[]
+).flatMap((definition) => definition.examples)
 
 export const examplePullRequestClosedEvent: PullRequestClosedEvent = (() => {
   for (const example of examples) {
