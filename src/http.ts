@@ -20,12 +20,15 @@ export class HttpLibrary implements client.HttpLibrary {
   }
 }
 
-const toRequestData = (req: client.RequestContext): string | Readable | null => {
+const toRequestData = (req: client.RequestContext) => {
   const body = req.getBody()
-  if (body instanceof Buffer) {
-    return Readable.from(body)
+  if (body === undefined) {
+    return null
   }
-  return body ?? null
+  if (typeof body === 'string') {
+    return body
+  }
+  return Readable.from(body)
 }
 
 const toResponseHeaders = (resp: HttpClientResponse): { [key: string]: string } => {
