@@ -1,7 +1,7 @@
 import assert from 'assert'
 import { GetCheckSuiteQuery, GetCheckSuiteQueryVariables } from '../generated/graphql.js'
 import { CheckAnnotation, CheckRun } from '../generated/graphql-types.js'
-import { Octokit } from '../types.js'
+import { Octokit } from '@octokit/action'
 
 const query = /* GraphQL */ `
   query getCheckSuite($node_id: ID!) {

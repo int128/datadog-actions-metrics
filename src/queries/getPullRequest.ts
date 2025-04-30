@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { GetPullRequestQuery, GetPullRequestQueryVariables } from '../generated/graphql.js'
-import { Octokit } from '../types.js'
+import { Octokit } from '@octokit/action'
 
 const query = /* GraphQL */ `
   query getPullRequest($owner: String!, $name: String!, $number: Int!) {
