@@ -1,12 +1,11 @@
 import * as core from '@actions/core'
-import * as github from '../github.js'
 import { getCompletedCheckSuite } from '../queries/getCheckSuite.js'
 import { computeWorkflowRunJobStepMetrics } from './metrics.js'
 import { MetricsClient } from '../client.js'
+import { Octokit } from '@octokit/action'
 import { WorkflowRunCompletedEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 
 type Inputs = {
-  githubToken: string
   collectJobMetrics: boolean
   collectStepMetrics: boolean
   preferDistributionWorkflowRunMetrics: boolean
@@ -14,21 +13,25 @@ type Inputs = {
   preferDistributionStepMetrics: boolean
 }
 
-export const handleWorkflowRun = async (metricsClient: MetricsClient, e: WorkflowRunEvent, inputs: Inputs) => {
+export const handleWorkflowRun = async (
+  metricsClient: MetricsClient,
+  octokit: Octokit,
+  e: WorkflowRunEvent,
+  inputs: Inputs,
+) => {
   core.info(`Got workflow run ${e.action} event: ${e.workflow_run.html_url}`)
   if (e.action === 'completed') {
-    return await handleWorkflowRunCompleted(metricsClient, e, inputs)
+    return await handleWorkflowRunCompleted(metricsClient, octokit, e, inputs)
   }
   core.warning(`Not supported action ${e.action}`)
 }
 
 const handleWorkflowRunCompleted = async (
   metricsClient: MetricsClient,
+  octokit: Octokit,
   e: WorkflowRunCompletedEvent,
   inputs: Inputs,
 ) => {
-  const octokit = github.getOctokit(inputs.githubToken)
-
   let checkSuite
   if (inputs.collectJobMetrics) {
     core.info(`Finding the check suite ${e.workflow_run.check_suite_node_id}`)
