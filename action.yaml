@@ -23,7 +23,7 @@ inputs:
   metrics-patterns:
     description: Filter the metrics by patterns in a multiline string
     required: false
-  tags-patterns:
+  tag-key-patterns:
     description: Filter the tag keys by patterns in a multiline string
     required: false
 

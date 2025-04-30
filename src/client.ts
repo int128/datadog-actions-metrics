@@ -8,7 +8,7 @@ type Inputs = {
   datadogSite?: string
   datadogTags: string[]
   metricsPatterns: string[]
-  tagsPatterns: string[]
+  tagKeyPatterns: string[]
 }
 
 export type MetricsClient = {

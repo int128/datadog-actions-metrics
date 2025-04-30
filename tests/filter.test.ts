@@ -5,7 +5,7 @@ describe('createMetricsFilter', () => {
   it('passes through series when no patterns are given', () => {
     const filter = createMetricsFilter({
       metricsPatterns: [],
-      tagsPatterns: [],
+      tagKeyPatterns: [],
       datadogTags: [],
     })
     expect(filter([{ metric: 'example.foo' }])).toEqual([{ metric: 'example.foo' }])
@@ -13,7 +13,7 @@ describe('createMetricsFilter', () => {
   it('filters out series when a metrics pattern is given', () => {
     const filter = createMetricsFilter({
       metricsPatterns: ['example.*'],
-      tagsPatterns: [],
+      tagKeyPatterns: [],
       datadogTags: [],
     })
     expect(filter([{ metric: 'example.foo' }, { metric: 'example.bar' }, { metric: 'other.foo' }])).toEqual([
@@ -24,7 +24,7 @@ describe('createMetricsFilter', () => {
   it('filters out tags when a tags pattern is given', () => {
     const filter = createMetricsFilter({
       metricsPatterns: [],
-      tagsPatterns: ['*', '!foo', '!example_*'],
+      tagKeyPatterns: ['*', '!foo', '!example_*'],
       datadogTags: [],
     })
     expect(

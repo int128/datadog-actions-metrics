@@ -3,7 +3,7 @@ import { v1 } from '@datadog/datadog-api-client'
 
 type Inputs = {
   metricsPatterns: string[]
-  tagsPatterns: string[]
+  tagKeyPatterns: string[]
   datadogTags: string[]
 }
 
@@ -13,7 +13,7 @@ export type MetricsFilter = <S extends Pick<SeriesLike, 'metric' | 'tags'>>(seri
 
 export const createMetricsFilter = (inputs: Inputs): MetricsFilter => {
   const metricMatcher = createMatcher(inputs.metricsPatterns)
-  const tagsMatcher = createMatcher(inputs.tagsPatterns)
+  const tagsMatcher = createMatcher(inputs.tagKeyPatterns)
   return (series) => {
     series = series.filter((s) => metricMatcher(s.metric))
     series = filterTags(series, tagsMatcher)
