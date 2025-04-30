@@ -421,7 +421,7 @@ You can set the following inputs:
 | `datadog-site`                             | -              | Datadog Server name such as `datadoghq.eu`, `ddog-gov.com`, `us3.datadoghq.com` |
 | `datadog-tags`                             | -              | Additional tags in the form of `key:value` in a multiline string                |
 | `metrics-patterns`                         | -              | Filter the metrics by patterns in a multiline string                            |
-| `tags-to-exclude`                          | -              | Exclude specified tags by names in a multiline string                           |
+| `tags-patterns`                            | -              | Filter the tags by patterns in a multiline string                               |
 | `send-pull-request-labels`                 | `false`        | Send pull request labels as Datadog tags                                        |
 | `collect-job-metrics`                      | `false`        | Collect job metrics                                                             |
 | `collect-step-metrics`                     | `false`        | Collect step metrics                                                            |
@@ -458,22 +458,35 @@ steps:
 
 If both include and exclude patterns are given, the later pattern has higher precedence.
 
-### Exclude Tags
+### Filter tags
 
-The `tags-to-exclude` input allows you to specify tags that should be excluded from being sent to Datadog. You can provide this as a multiline string where each line contains a tag to be excluded. 
+The `tags-patterns` input allows you to specify the tags to be included or excluded from the metrics sent to Datadog.
+The glob specification is same as [the filters of workflow](https://docs.github.com/en/actions/writing-workflows/choosing-when-your-workflow-runs/triggering-a-workflow#using-filters).
 
-To exclude specific tags, include the `tags-to-exclude` option like this:
+To include the specific tags,
 
 ```yaml
 steps:
   - uses: int128/datadog-actions-metrics@v1
     with:
-      tags-to-exclude: |
-        job_id
-        runs_on
+      tags-patterns: |
+        workflow_*
+        job_name
 ```
 
-Each tag listed in `tags-to-exclude` will not be sent to Datadog, helping you streamline the metrics data you wish to analyze.
+To exclude the specific tags,
+
+```yaml
+steps:
+  - uses: int128/datadog-actions-metrics@v1
+    with:
+      tags-patterns: |
+        *
+        !job_id
+        !runs_on
+```
+
+If both include and exclude patterns are given, the later pattern has higher precedence.
 
 ### Proxy
 
