@@ -1,7 +1,45 @@
-import { describe } from 'vitest'
-import { it } from 'vitest'
-import { expect } from 'vitest'
-import { createMatcher, injectTags } from '../src/filter.js'
+import { describe, expect, it } from 'vitest'
+import { createMatcher, createMetricsFilter, injectTags } from '../src/filter.js'
+
+describe('createMetricsFilter', () => {
+  it('passes through series when no patterns are given', () => {
+    const filter = createMetricsFilter({
+      metricsPatterns: [],
+      tagKeyPatterns: [],
+      datadogTags: [],
+    })
+    expect(filter([{ metric: 'example.foo' }])).toEqual([{ metric: 'example.foo' }])
+  })
+  it('filters out series when a metrics pattern is given', () => {
+    const filter = createMetricsFilter({
+      metricsPatterns: ['example.*'],
+      tagKeyPatterns: [],
+      datadogTags: [],
+    })
+    expect(filter([{ metric: 'example.foo' }, { metric: 'example.bar' }, { metric: 'other.foo' }])).toEqual([
+      { metric: 'example.foo' },
+      { metric: 'example.bar' },
+    ])
+  })
+  it('filters out tags when a tags pattern is given', () => {
+    const filter = createMetricsFilter({
+      metricsPatterns: [],
+      tagKeyPatterns: ['*', '!foo', '!example_*'],
+      datadogTags: [],
+    })
+    expect(
+      filter([
+        { metric: 'example1', tags: ['example_bar:value', 'foo:value', 'other_baz:value'] },
+        { metric: 'example2', tags: ['example_baz:value'] },
+        { metric: 'example3' },
+      ]),
+    ).toEqual([
+      { metric: 'example1', tags: ['other_baz:value'] },
+      { metric: 'example2', tags: [] },
+      { metric: 'example3' },
+    ])
+  })
+})
 
 describe('injectTags', () => {
   it('should return series if tags is empty', () => {

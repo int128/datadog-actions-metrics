@@ -10,6 +10,7 @@ const main = async (): Promise<void> => {
       datadogSite: core.getInput('datadog-site') || undefined,
       datadogTags: core.getMultilineInput('datadog-tags'),
       metricsPatterns: core.getMultilineInput('metrics-patterns'),
+      tagKeyPatterns: core.getMultilineInput('tag-key-patterns'),
     }),
     github.getOctokit(core.getInput('github-token', { required: true })),
     github.getOctokit(core.getInput('github-token-rate-limit-metrics', { required: true })),
