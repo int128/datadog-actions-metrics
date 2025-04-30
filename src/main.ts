@@ -1,9 +1,9 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as github from './github.js'
 import { run } from './run.js'
 
 const main = async (): Promise<void> => {
-  await run(github.context, {
+  await run(await github.getContext(), {
     githubToken: core.getInput('github-token', { required: true }),
     githubTokenForRateLimitMetrics: core.getInput('github-token-rate-limit-metrics', { required: true }),
     datadogApiKey: core.getInput('datadog-api-key') || undefined,

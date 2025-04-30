@@ -1,19 +1,18 @@
 import { test, expect, vi } from 'vitest'
-import * as github from '@actions/github'
+import * as github from '../src/github.js'
 import { v1 } from '@datadog/datadog-api-client'
 import { run } from '../src/run.js'
 import { exampleWorkflowRunCompletedEvent } from './fixtures.js'
 import { exampleRateLimitResponse } from './rateLimit/fixtures/index.js'
 import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite.js'
 import { examplePullRequestClosedEvent } from './fixtures.js'
-import { WebhookPayload } from '@actions/github/lib/interfaces.js'
 import { examplePullRequestOpenedEvent } from './fixtures.js'
 import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest.js'
 import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs.js'
 
 vi.mock('@actions/core')
 
-vi.mock('@actions/github')
+vi.mock('../src/github.js')
 const octokitMock = {
   paginate: vi.fn(),
   graphql: vi.fn(),
@@ -101,7 +100,7 @@ test('pull_request_opened', async () => {
   await run(
     {
       eventName: 'pull_request',
-      payload: examplePullRequestOpenedEvent as WebhookPayload,
+      payload: examplePullRequestOpenedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
@@ -131,7 +130,7 @@ test('pull_request_closed', async () => {
   await run(
     {
       eventName: 'pull_request',
-      payload: examplePullRequestClosedEvent as WebhookPayload,
+      payload: examplePullRequestClosedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
