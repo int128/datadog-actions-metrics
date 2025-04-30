@@ -3,23 +3,26 @@ import * as github from './github.js'
 import { run } from './run.js'
 
 const main = async (): Promise<void> => {
-  await run(await github.getContext(), {
-    githubToken: core.getInput('github-token', { required: true }),
-    githubTokenForRateLimitMetrics: core.getInput('github-token-rate-limit-metrics', { required: true }),
-    datadogApiKey: core.getInput('datadog-api-key') || undefined,
-    datadogSite: core.getInput('datadog-site') || undefined,
-    datadogTags: core.getMultilineInput('datadog-tags'),
-    metricsPatterns: core.getMultilineInput('metrics-patterns'),
-    collectJobMetrics: core.getBooleanInput('collect-job-metrics'),
-    collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
-    preferDistributionWorkflowRunMetrics: core.getBooleanInput('prefer-distribution-workflow-run-metrics'),
-    preferDistributionJobMetrics: core.getBooleanInput('prefer-distribution-job-metrics'),
-    preferDistributionStepMetrics: core.getBooleanInput('prefer-distribution-step-metrics'),
-    sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),
-  })
+  await run(
+    github.getOctokit(core.getInput('github-token', { required: true })),
+    github.getOctokit(core.getInput('github-token-rate-limit-metrics', { required: true })),
+    await github.getContext(),
+    {
+      datadogApiKey: core.getInput('datadog-api-key') || undefined,
+      datadogSite: core.getInput('datadog-site') || undefined,
+      datadogTags: core.getMultilineInput('datadog-tags'),
+      metricsPatterns: core.getMultilineInput('metrics-patterns'),
+      collectJobMetrics: core.getBooleanInput('collect-job-metrics'),
+      collectStepMetrics: core.getBooleanInput('collect-step-metrics'),
+      preferDistributionWorkflowRunMetrics: core.getBooleanInput('prefer-distribution-workflow-run-metrics'),
+      preferDistributionJobMetrics: core.getBooleanInput('prefer-distribution-job-metrics'),
+      preferDistributionStepMetrics: core.getBooleanInput('prefer-distribution-step-metrics'),
+      sendPullRequestLabels: core.getBooleanInput('send-pull-request-labels'),
+    },
+  )
 }
 
-main().catch((e: Error) => {
+await main().catch((e: Error) => {
   core.setFailed(e)
   console.error(e)
 })

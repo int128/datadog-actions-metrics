@@ -1,5 +1,4 @@
 import { test, expect, vi } from 'vitest'
-import * as github from '../src/github.js'
 import { v1 } from '@datadog/datadog-api-client'
 import { run } from '../src/run.js'
 import { exampleWorkflowRunCompletedEvent } from './fixtures.js'
@@ -9,45 +8,40 @@ import { examplePullRequestClosedEvent } from './fixtures.js'
 import { examplePullRequestOpenedEvent } from './fixtures.js'
 import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest.js'
 import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs.js'
+import { Octokit } from '@octokit/action'
 
 vi.mock('@actions/core')
-
-vi.mock('../src/github.js')
-const octokitMock = {
-  paginate: vi.fn(),
-  graphql: vi.fn(),
-  rest: {
-    actions: {
-      listJobsForWorkflowRunAttempt: vi.fn(),
-    },
-    rateLimit: {
-      get: vi.fn(),
-    },
-  },
-}
-vi.mocked(github.getOctokit).mockReturnValue(octokitMock as unknown as ReturnType<typeof github.getOctokit>)
-
 vi.mock('@datadog/datadog-api-client')
 const submitMetrics = vi.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
 
 test('workflow_run with collectJobMetrics', async () => {
+  const octokitMock = {
+    paginate: vi.fn(),
+    graphql: vi.fn().mockResolvedValue(exampleCompletedCheckSuite),
+    rest: {
+      actions: {
+        listJobsForWorkflowRunAttempt: vi.fn(),
+      },
+      rateLimit: {
+        get: vi.fn().mockResolvedValue(exampleRateLimitResponse),
+      },
+    },
+  }
   octokitMock.paginate.mockImplementation((f: unknown) => {
     expect(f).toBe(octokitMock.rest.actions.listJobsForWorkflowRunAttempt)
     return exampleWorkflowJobs
   })
-  octokitMock.graphql.mockResolvedValue(exampleCompletedCheckSuite)
-  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
   submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    octokitMock as unknown as Octokit,
+    octokitMock as unknown as Octokit,
     {
       eventName: 'workflow_run',
       payload: exampleWorkflowRunCompletedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      githubToken: 'GITHUB_TOKEN',
-      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       datadogTags: [],
       metricsPatterns: [],
@@ -59,24 +53,29 @@ test('workflow_run with collectJobMetrics', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(4)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('workflow_run', async () => {
-  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  const octokitMock = {
+    rest: {
+      rateLimit: {
+        get: vi.fn().mockResolvedValue(exampleRateLimitResponse),
+      },
+    },
+  }
   submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    octokitMock as unknown as Octokit,
+    octokitMock as unknown as Octokit,
     {
       eventName: 'workflow_run',
       payload: exampleWorkflowRunCompletedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      githubToken: 'GITHUB_TOKEN',
-      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       datadogTags: [],
       metricsPatterns: [],
@@ -88,24 +87,29 @@ test('workflow_run', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(2)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('pull_request_opened', async () => {
-  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  const octokitMock = {
+    rest: {
+      rateLimit: {
+        get: vi.fn().mockResolvedValue(exampleRateLimitResponse),
+      },
+    },
+  }
   submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    octokitMock as unknown as Octokit,
+    octokitMock as unknown as Octokit,
     {
       eventName: 'pull_request',
       payload: examplePullRequestOpenedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      githubToken: 'GITHUB_TOKEN',
-      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       datadogTags: [],
       metricsPatterns: [],
@@ -117,25 +121,30 @@ test('pull_request_opened', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(2)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('pull_request_closed', async () => {
-  octokitMock.graphql.mockResolvedValue(exampleGetPullRequestQuery)
-  octokitMock.rest.rateLimit.get.mockResolvedValue(exampleRateLimitResponse)
+  const octokitMock = {
+    graphql: vi.fn().mockResolvedValue(exampleGetPullRequestQuery),
+    rest: {
+      rateLimit: {
+        get: vi.fn().mockResolvedValue(exampleRateLimitResponse),
+      },
+    },
+  }
   submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    octokitMock as unknown as Octokit,
+    octokitMock as unknown as Octokit,
     {
       eventName: 'pull_request',
       payload: examplePullRequestClosedEvent,
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      githubToken: 'GITHUB_TOKEN',
-      githubTokenForRateLimitMetrics: 'GITHUB_TOKEN',
       datadogApiKey: 'DATADOG_API_KEY',
       datadogTags: [],
       metricsPatterns: [],
@@ -147,7 +156,6 @@ test('pull_request_closed', async () => {
       sendPullRequestLabels: true,
     },
   )
-  expect(vi.mocked(github.getOctokit)).toHaveBeenCalledWith('GITHUB_TOKEN')
   expect(submitMetrics).toHaveBeenCalledTimes(2)
   expect(submitMetrics.mock.calls).toMatchSnapshot()
 })
