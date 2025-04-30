@@ -1,8 +1,7 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as github from './github.js'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computeRateLimitMetrics } from './rateLimit/metrics.js'
-import { GitHubContext } from './types.js'
 import { MetricsClient, createMetricsClient } from './client.js'
 import { handleWorkflowRun } from './workflowRun/handler.js'
 import { handlePullRequest } from './pullRequest/handler.js'
@@ -24,7 +23,7 @@ type Inputs = {
   sendPullRequestLabels: boolean
 }
 
-export const run = async (context: GitHubContext, inputs: Inputs): Promise<void> => {
+export const run = async (context: github.Context, inputs: Inputs): Promise<void> => {
   const metricsClient = createMetricsClient(inputs)
 
   await handleEvent(metricsClient, context, inputs)
@@ -37,7 +36,7 @@ export const run = async (context: GitHubContext, inputs: Inputs): Promise<void>
   }
 }
 
-const handleEvent = async (metricsClient: MetricsClient, context: GitHubContext, inputs: Inputs) => {
+const handleEvent = async (metricsClient: MetricsClient, context: github.Context, inputs: Inputs) => {
   if (context.eventName === 'workflow_run') {
     return await handleWorkflowRun(metricsClient, context.payload as WorkflowRunEvent, inputs)
   }
@@ -53,7 +52,7 @@ const handleEvent = async (metricsClient: MetricsClient, context: GitHubContext,
   core.warning(`Not supported event ${context.eventName}`)
 }
 
-const getRateLimitMetrics = async (context: GitHubContext, inputs: Inputs) => {
+const getRateLimitMetrics = async (context: github.Context, inputs: Inputs) => {
   const octokit = github.getOctokit(inputs.githubTokenForRateLimitMetrics)
   const rateLimit = await octokit.rest.rateLimit.get()
   return computeRateLimitMetrics(context, rateLimit)

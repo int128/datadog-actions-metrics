@@ -1,14 +1,13 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as github from '../github.js'
 import { MetricsClient } from '../client.js'
-import { GitHubContext } from '../types.js'
 import { computeScheduleMetrics } from './metrics.js'
 
 type Inputs = {
   githubToken: string
 }
 
-export const handleSchedule = async (metricsClient: MetricsClient, context: GitHubContext, inputs: Inputs) => {
+export const handleSchedule = async (metricsClient: MetricsClient, context: github.Context, inputs: Inputs) => {
   core.info(`Got schedule event`)
   const octokit = github.getOctokit(inputs.githubToken)
   const queuedWorkflowRuns = await octokit.rest.actions.listWorkflowRunsForRepo({

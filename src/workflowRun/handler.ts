@@ -1,5 +1,5 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as github from '../github.js'
 import { getCompletedCheckSuite } from '../queries/getCheckSuite.js'
 import { computeWorkflowRunJobStepMetrics } from './metrics.js'
 import { MetricsClient } from '../client.js'
