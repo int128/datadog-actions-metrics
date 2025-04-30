@@ -18,10 +18,10 @@ importers:
         specifier: 1.34.1
         version: 1.34.1
       '@octokit/action':
-        specifier: ^7.0.2
+        specifier: 7.0.2
         version: 7.0.2
       '@octokit/plugin-retry':
-        specifier: ^7.2.1
+        specifier: 7.2.1
         version: 7.2.1(@octokit/core@6.1.5)
       '@octokit/types':
         specifier: 14.0.0
