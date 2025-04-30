@@ -1,19 +1,15 @@
 import * as core from '@actions/core'
 import * as github from './github.js'
 import { Octokit } from '@octokit/action'
+import { MetricsClient } from './client.js'
 import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import { computeRateLimitMetrics } from './rateLimit/metrics.js'
-import { MetricsClient, createMetricsClient } from './client.js'
 import { handleWorkflowRun } from './workflowRun/handler.js'
 import { handlePullRequest } from './pullRequest/handler.js'
 import { handlePush } from './push/handler.js'
 import { handleSchedule } from './schedule/handler.js'
 
 type Inputs = {
-  datadogApiKey?: string
-  datadogSite?: string
-  datadogTags: string[]
-  metricsPatterns: string[]
   collectJobMetrics: boolean
   collectStepMetrics: boolean
   preferDistributionWorkflowRunMetrics: boolean
@@ -23,13 +19,12 @@ type Inputs = {
 }
 
 export const run = async (
+  metricsClient: MetricsClient,
   octokit: Octokit,
   octokitForRateLimitMetrics: Octokit,
   context: github.Context,
   inputs: Inputs,
 ): Promise<void> => {
-  const metricsClient = createMetricsClient(inputs)
-
   await handleEvent(metricsClient, octokit, context, inputs)
 
   const rateLimit = await getRateLimitMetrics(octokitForRateLimitMetrics, context).catch((e) => {

@@ -1,5 +1,4 @@
 import { test, expect, vi } from 'vitest'
-import { v1 } from '@datadog/datadog-api-client'
 import { run } from '../src/run.js'
 import { exampleWorkflowRunCompletedEvent } from './fixtures.js'
 import { exampleRateLimitResponse } from './rateLimit/fixtures/index.js'
@@ -11,8 +10,11 @@ import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs.js'
 import { Octokit } from '@octokit/action'
 
 vi.mock('@actions/core')
-vi.mock('@datadog/datadog-api-client')
-const submitMetrics = vi.spyOn(v1.MetricsApi.prototype, 'submitMetrics')
+
+const metricsClient = {
+  submitMetrics: vi.fn().mockResolvedValue({ status: 'ok' }),
+  submitDistributionPoints: vi.fn().mockResolvedValue({ status: 'ok' }),
+}
 
 test('workflow_run with collectJobMetrics', async () => {
   const octokitMock = {
@@ -31,9 +33,9 @@ test('workflow_run with collectJobMetrics', async () => {
     expect(f).toBe(octokitMock.rest.actions.listJobsForWorkflowRunAttempt)
     return exampleWorkflowJobs
   })
-  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    metricsClient,
     octokitMock as unknown as Octokit,
     octokitMock as unknown as Octokit,
     {
@@ -42,9 +44,6 @@ test('workflow_run with collectJobMetrics', async () => {
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      datadogApiKey: 'DATADOG_API_KEY',
-      datadogTags: [],
-      metricsPatterns: [],
       collectJobMetrics: true,
       collectStepMetrics: true,
       preferDistributionWorkflowRunMetrics: false,
@@ -53,8 +52,8 @@ test('workflow_run with collectJobMetrics', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(submitMetrics).toHaveBeenCalledTimes(4)
-  expect(submitMetrics.mock.calls).toMatchSnapshot()
+  expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(4)
+  expect(metricsClient.submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('workflow_run', async () => {
@@ -65,9 +64,9 @@ test('workflow_run', async () => {
       },
     },
   }
-  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    metricsClient,
     octokitMock as unknown as Octokit,
     octokitMock as unknown as Octokit,
     {
@@ -76,9 +75,6 @@ test('workflow_run', async () => {
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      datadogApiKey: 'DATADOG_API_KEY',
-      datadogTags: [],
-      metricsPatterns: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
       preferDistributionWorkflowRunMetrics: false,
@@ -87,8 +83,8 @@ test('workflow_run', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(submitMetrics).toHaveBeenCalledTimes(2)
-  expect(submitMetrics.mock.calls).toMatchSnapshot()
+  expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(2)
+  expect(metricsClient.submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('pull_request_opened', async () => {
@@ -99,9 +95,9 @@ test('pull_request_opened', async () => {
       },
     },
   }
-  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    metricsClient,
     octokitMock as unknown as Octokit,
     octokitMock as unknown as Octokit,
     {
@@ -110,9 +106,6 @@ test('pull_request_opened', async () => {
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      datadogApiKey: 'DATADOG_API_KEY',
-      datadogTags: [],
-      metricsPatterns: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
       preferDistributionWorkflowRunMetrics: false,
@@ -121,8 +114,8 @@ test('pull_request_opened', async () => {
       sendPullRequestLabels: false,
     },
   )
-  expect(submitMetrics).toHaveBeenCalledTimes(2)
-  expect(submitMetrics.mock.calls).toMatchSnapshot()
+  expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(2)
+  expect(metricsClient.submitMetrics.mock.calls).toMatchSnapshot()
 })
 
 test('pull_request_closed', async () => {
@@ -134,9 +127,9 @@ test('pull_request_closed', async () => {
       },
     },
   }
-  submitMetrics.mockResolvedValue({ status: 'ok' })
 
   await run(
+    metricsClient,
     octokitMock as unknown as Octokit,
     octokitMock as unknown as Octokit,
     {
@@ -145,9 +138,6 @@ test('pull_request_closed', async () => {
       repo: { owner: 'Codertocat', repo: 'Hello-World' },
     },
     {
-      datadogApiKey: 'DATADOG_API_KEY',
-      datadogTags: [],
-      metricsPatterns: [],
       collectJobMetrics: false,
       collectStepMetrics: false,
       preferDistributionWorkflowRunMetrics: false,
@@ -156,6 +146,6 @@ test('pull_request_closed', async () => {
       sendPullRequestLabels: true,
     },
   )
-  expect(submitMetrics).toHaveBeenCalledTimes(2)
-  expect(submitMetrics.mock.calls).toMatchSnapshot()
+  expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(2)
+  expect(metricsClient.submitMetrics.mock.calls).toMatchSnapshot()
 })
