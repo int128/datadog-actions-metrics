@@ -1,20 +1,24 @@
 import * as core from '@actions/core'
-import * as github from '@actions/github'
+import * as github from '../github.js'
 import { MetricsClient } from '../client.js'
+import { Octokit } from '@octokit/action'
 import { PullRequestEvent } from '@octokit/webhooks-types/schema.js'
-import { GitHubContext } from '../types.js'
-import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics, computePullRequestDequeuedMetrics } from './metrics.js'
+import {
+  computePullRequestClosedMetrics,
+  computePullRequestOpenedMetrics,
+  computePullRequestDequeuedMetrics,
+} from './metrics.js'
 import { getPullRequestFirstCommit } from '../queries/getPullRequest.js'
 
 type Inputs = {
-  githubToken: string
   sendPullRequestLabels: boolean
 }
 
 export const handlePullRequest = async (
   metricsClient: MetricsClient,
+  octokit: Octokit,
   e: PullRequestEvent,
-  context: GitHubContext,
+  context: github.Context,
   inputs: Inputs,
 ) => {
   core.info(`Got pull request ${e.action} event: ${e.pull_request.html_url}`)
@@ -25,7 +29,6 @@ export const handlePullRequest = async (
 
   if (e.action === 'closed') {
     core.info(`Finding the first commit of the pull request #${e.pull_request.number}`)
-    const octokit = github.getOctokit(inputs.githubToken)
     let pullRequestFirstCommit
     try {
       pullRequestFirstCommit = await getPullRequestFirstCommit(octokit, {

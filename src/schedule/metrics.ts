@@ -1,10 +1,11 @@
+import * as github from '../github.js'
 import { v1 } from '@datadog/datadog-api-client'
-import { GitHubContext, ListWorkflowRunsForRepoRateLimitResponse } from '../types.js'
+import { ListWorkflowRunsForRepoRateLimitResponse } from '../types.js'
 
 export const computeScheduleMetrics = (
-  context: GitHubContext,
+  context: github.Context,
   queuedWorkflowRuns: ListWorkflowRunsForRepoRateLimitResponse,
-  now: Date
+  now: Date,
 ): v1.Series[] => {
   const tags = [`repository_owner:${context.repo.owner}`, `repository_name:${context.repo.repo}`]
   const t = now.getTime() / 1000
