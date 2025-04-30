@@ -7,9 +7,9 @@ type Inputs = {
   datadogTags: string[]
 }
 
-export type MetricsFilter = <S extends Pick<v1.Series | v1.DistributionPointsSeries, 'metric' | 'tags'>>(
-  series: S[],
-) => S[]
+type SeriesLike = v1.Series | v1.DistributionPointsSeries
+
+export type MetricsFilter = <S extends Pick<SeriesLike, 'metric' | 'tags'>>(series: S[]) => S[]
 
 export const createMetricsFilter = (inputs: Inputs): MetricsFilter => {
   const metricMatcher = createMatcher(inputs.metricsPatterns)
@@ -41,13 +41,16 @@ export const createMatcher =
     return matched
   }
 
-const filterTags = <S extends { tags?: string[] }>(series: S[], matcher: Matcher): S[] =>
+const filterTags = <S extends Pick<SeriesLike, 'tags'>>(series: S[], matcher: Matcher): S[] =>
   series.map((s) => {
-    s.tags = s.tags?.filter((tag) => matcher(tag))
+    s.tags = s.tags?.filter((tag) => {
+      const tagKey = tag.replace(/:.*/, '')
+      return matcher(tagKey)
+    })
     return s
   })
 
-export const injectTags = <S extends { tags?: string[] }>(series: S[], tags: string[]): S[] => {
+export const injectTags = <S extends Pick<SeriesLike, 'tags'>>(series: S[], tags: string[]): S[] => {
   if (tags.length === 0) {
     return series
   }

@@ -24,16 +24,20 @@ describe('createMetricsFilter', () => {
   it('filters out tags when a tags pattern is given', () => {
     const filter = createMetricsFilter({
       metricsPatterns: [],
-      tagsPatterns: ['*', '!example_*'],
+      tagsPatterns: ['*', '!foo', '!example_*'],
       datadogTags: [],
     })
     expect(
       filter([
-        { metric: 'example1', tags: ['example_bar', 'other_baz'] },
-        { metric: 'example2', tags: ['example_baz'] },
+        { metric: 'example1', tags: ['example_bar:value', 'foo:value', 'other_baz:value'] },
+        { metric: 'example2', tags: ['example_baz:value'] },
         { metric: 'example3' },
       ]),
-    ).toEqual([{ metric: 'example1', tags: ['other_baz'] }, { metric: 'example2', tags: [] }, { metric: 'example3' }])
+    ).toEqual([
+      { metric: 'example1', tags: ['other_baz:value'] },
+      { metric: 'example2', tags: [] },
+      { metric: 'example3' },
+    ])
   })
 })
 
