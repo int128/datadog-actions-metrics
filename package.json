@@ -28,7 +28,7 @@
     "@octokit/webhooks-examples": "7.6.1",
     "@octokit/webhooks-types": "7.6.1",
     "@tsconfig/node20": "20.1.5",
-    "@types/node": "20.17.46",
+    "@types/node": "20.17.47",
     "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.38.3",
     "@vitest/eslint-plugin": "1.1.44",
