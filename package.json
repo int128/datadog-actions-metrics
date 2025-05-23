@@ -31,7 +31,7 @@
     "@types/node": "20.17.50",
     "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.38.3",
-    "@vitest/eslint-plugin": "1.2.0",
+    "@vitest/eslint-plugin": "1.2.1",
     "eslint": "9.27.0",
     "pnpm": "10.11.0",
     "prettier": "3.5.3",
