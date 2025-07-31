@@ -76,8 +76,8 @@ importers:
         specifier: 9.32.0
         version: 9.32.0(jiti@1.21.0)
       pnpm:
-        specifier: 10.13.1
-        version: 10.13.1
+        specifier: 10.14.0
+        version: 10.14.0
       prettier:
         specifier: 3.6.2
         version: 3.6.2
@@ -2406,8 +2406,8 @@ packages:
     resolution: {integrity: sha512-M7BAV6Rlcy5u+m6oPhAPFgJTzAioX/6B0DxyvDlo9l8+T3nLKbrczg2WLUyzd45L8RqfUMyGPzekbMvX2Ldkwg==}
     engines: {node: '>=12'}
 
-  pnpm@10.13.1:
-    resolution: {integrity: sha512-N+vxpcejDV+r4MXfRO6NpMllygxa89urKMOhaBtwolYhjQXIHJwNz3Z+9rhVHrW5YAQrntQwDFkkIzY3fgHPrQ==}
+  pnpm@10.14.0:
+    resolution: {integrity: sha512-rSenlkG0nD5IGhaoBbqnGBegS74Go40X5g4urug/ahRsamiBJfV5LkjdW6MOfaUqXNpMOZK5zPMz+c4iOvhHSA==}
     engines: {node: '>=18.12'}
     hasBin: true
 
@@ -5531,7 +5531,7 @@ snapshots:
 
   picomatch@4.0.2: {}
 
-  pnpm@10.13.1: {}
+  pnpm@10.14.0: {}
 
   postcss@8.5.3:
     dependencies:
