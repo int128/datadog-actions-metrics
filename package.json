@@ -33,12 +33,12 @@
     "@vercel/ncc": "0.38.3",
     "@vitest/eslint-plugin": "1.3.4",
     "eslint": "9.33.0",
-    "pnpm": "10.14.0",
+    "pnpm": "10.15.0",
     "prettier": "3.6.2",
     "proxy": "2.2.0",
     "typescript": "5.9.2",
     "typescript-eslint": "8.40.0",
     "vitest": "3.2.4"
   },
-  "packageManager": "pnpm@10.14.0"
+  "packageManager": "pnpm@10.15.0"
 }
