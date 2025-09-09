@@ -11,7 +11,7 @@
   "dependencies": {
     "@actions/core": "1.11.1",
     "@actions/http-client": "2.2.3",
-    "@datadog/datadog-api-client": "1.41.0",
+    "@datadog/datadog-api-client": "1.42.0",
     "@octokit/action": "8.0.2",
     "@octokit/plugin-retry": "8.0.1",
     "@octokit/types": "14.1.0",
