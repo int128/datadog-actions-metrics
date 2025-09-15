@@ -50,6 +50,7 @@ test('workflow_run with collectJobMetrics', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
+      collectJobMetricsRealtime: false,
     },
   )
   expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(4)
@@ -81,6 +82,7 @@ test('workflow_run', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
+      collectJobMetricsRealtime: false,
     },
   )
   expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(2)
@@ -112,6 +114,7 @@ test('pull_request_opened', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: false,
+      collectJobMetricsRealtime: false,
     },
   )
   expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(2)
@@ -144,6 +147,7 @@ test('pull_request_closed', async () => {
       preferDistributionJobMetrics: false,
       preferDistributionStepMetrics: false,
       sendPullRequestLabels: true,
+      collectJobMetricsRealtime: false,
     },
   )
   expect(metricsClient.submitMetrics).toHaveBeenCalledTimes(2)

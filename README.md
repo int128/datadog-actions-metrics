@@ -86,6 +86,7 @@ jobs:
 This action can handle the following events:
 
 - workflow_run event
+- workflow_job event
 - pull_request event
 - push event
 - schedule event
@@ -269,6 +270,79 @@ steps:
 
 Note that the distribution metrics may increase the custom metrics cost.
 
+## Metrics for workflow_job event
+
+### Real-time Job Metrics
+
+This action can collect job metrics in real-time as jobs complete using the `workflow_job` event.
+This provides faster feedback compared to waiting for the entire workflow to complete.
+
+To collect real-time job metrics:
+
+```yaml
+on:
+  workflow_job:
+    types:
+      - completed
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: int128/datadog-actions-metrics@v1
+        with:
+          # create an API key in https://docs.datadoghq.com/account_management/api-app-keys/
+          datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
+          collect-job-metrics-realtime: true
+```
+
+This action sends the following metrics for each completed job:
+
+- `github.actions.job.total`
+  - Total jobs (count)
+- `github.actions.job.conclusion.{CONCLUSION}_total`
+  - Total jobs by the conclusion (count)
+  - e.g. `github.actions.job.conclusion.success_total`
+  - e.g. `github.actions.job.conclusion.failure_total`
+- `github.actions.job.duration_second`
+- `github.actions.job.duration_second.distribution`
+  - Time from a job is started to completed (gauge or distribution)
+- `github.actions.job.start_time_from_workflow_start_second`
+- `github.actions.job.start_time_from_workflow_start_second.distribution`
+  - Time from the workflow run is started until a job is started (gauge or distribution)
+
+It has the following tags:
+
+- `repository_owner`
+- `repository_name`
+- `workflow_name`
+- `workflow_id`
+- `run_attempt`
+- `event`
+- `sender`
+- `sender_type` = either `Bot`, `User` or `Organization`
+- `branch`
+- `default_branch` = `true` or `false`
+- `pull_request_number`
+  - Pull request(s) which triggered the workflow
+- `job_name`
+- `job_id`
+- `conclusion`
+- `status`
+- `runs_on`
+  - Runner label inferred from the workflow file if available
+  - e.g. `ubuntu-latest`
+
+### Permissions
+
+For workflow_job event, this action requires the following permissions:
+
+```yaml
+permissions:
+  actions: read
+```
+
 ## Metrics for pull_request event
 
 ### Pull request (opened)
@@ -425,6 +499,7 @@ You can set the following inputs:
 | `send-pull-request-labels`                 | `false`        | Send pull request labels as Datadog tags                                        |
 | `collect-job-metrics`                      | `false`        | Collect job metrics                                                             |
 | `collect-step-metrics`                     | `false`        | Collect step metrics                                                            |
+| `collect-job-metrics-realtime`             | `false`        | Collect job metrics in real-time as jobs complete (requires workflow_job event) |
 | `prefer-distribution-workflow-run-metrics` | `false`        | If true, send the distribution metrics instead of gauge metrics                 |
 | `prefer-distribution-job-metrics`          | `false`        | If true, send the distribution metrics instead of gauge metrics                 |
 | `prefer-distribution-step-metrics`         | `false`        | If true, send the distribution metrics instead of gauge metrics                 |
