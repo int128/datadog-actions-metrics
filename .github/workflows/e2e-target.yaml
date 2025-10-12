@@ -33,7 +33,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_sha }}
       - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
         with:
-          node-version: 20.19.5
+          node-version-file: .node-version
           package-manager-cache: false
       - run: npm install -g pnpm@latest-10
       - run: pnpm i
