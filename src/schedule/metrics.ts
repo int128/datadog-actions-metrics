@@ -1,6 +1,6 @@
-import * as github from '../github.js'
-import { v1 } from '@datadog/datadog-api-client'
-import { ListWorkflowRunsForRepoRateLimitResponse } from '../types.js'
+import type { v1 } from '@datadog/datadog-api-client'
+import type * as github from '../github.js'
+import type { ListWorkflowRunsForRepoRateLimitResponse } from '../types.js'
 
 export const computeScheduleMetrics = (
   context: github.Context,

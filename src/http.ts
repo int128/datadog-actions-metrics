@@ -1,6 +1,6 @@
-import { HttpClient, HttpClientResponse } from '@actions/http-client'
+import { Readable } from 'node:stream'
+import { HttpClient, type HttpClientResponse } from '@actions/http-client'
 import { client } from '@datadog/datadog-api-client'
-import { Readable } from 'stream'
 
 export class HttpLibrary implements client.HttpLibrary {
   private client = new HttpClient()

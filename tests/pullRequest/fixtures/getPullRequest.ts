@@ -1,5 +1,5 @@
-import { PullRequestFirstCommit } from '../../../src/queries/getPullRequest.js'
-import { GetPullRequestQuery } from '../../../src/generated/graphql.js'
+import type { GetPullRequestQuery } from '../../../src/generated/graphql.js'
+import type { PullRequestFirstCommit } from '../../../src/queries/getPullRequest.js'
 
 export const exampleGetPullRequestQuery: GetPullRequestQuery = {
   repository: {

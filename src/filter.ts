@@ -1,5 +1,5 @@
+import type { v1 } from '@datadog/datadog-api-client'
 import { minimatch } from 'minimatch'
-import { v1 } from '@datadog/datadog-api-client'
 
 type Inputs = {
   metricsPatterns: string[]

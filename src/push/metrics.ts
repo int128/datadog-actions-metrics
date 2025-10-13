@@ -1,5 +1,5 @@
-import { v1 } from '@datadog/datadog-api-client'
-import { PushEvent } from '@octokit/webhooks-types'
+import type { v1 } from '@datadog/datadog-api-client'
+import type { PushEvent } from '@octokit/webhooks-types'
 
 export const computePushMetrics = (e: PushEvent, now: Date): v1.Series[] => {
   const tags = [

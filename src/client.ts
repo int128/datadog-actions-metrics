@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
 import { client, v1 } from '@datadog/datadog-api-client'
+import { createMetricsFilter, type MetricsFilter } from './filter.js'
 import { HttpLibrary } from './http.js'
-import { createMetricsFilter, MetricsFilter } from './filter.js'
 
 type Inputs = {
   datadogApiKey?: string
@@ -83,7 +83,7 @@ export const createMetricsClient = (inputs: Inputs): MetricsClient => {
 }
 
 const createHttpLibraryIfHttpsProxy = () => {
-  const httpsProxy = process.env['https_proxy']
+  const httpsProxy = process.env.https_proxy
   if (httpsProxy) {
     core.info(`Using https_proxy: ${httpsProxy}`)
     return new HttpLibrary()

@@ -1,4 +1,4 @@
-import { Endpoints } from '@octokit/types'
+import type { Endpoints } from '@octokit/types'
 
 export type WorkflowJobs =
   Endpoints['GET /repos/{owner}/{repo}/actions/runs/{run_id}/attempts/{attempt_number}/jobs']['response']['data']['jobs']

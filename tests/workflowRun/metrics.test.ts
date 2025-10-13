@@ -1,6 +1,4 @@
-import { test } from 'vitest'
-import { describe } from 'vitest'
-import { expect } from 'vitest'
+import { describe, expect, test } from 'vitest'
 import {
   computeJobMetrics,
   computeStepMetrics,
@@ -8,8 +6,8 @@ import {
   isLostCommunicationWithServerError,
   isReceivedShutdownSignalError,
 } from '../../src/workflowRun/metrics.js'
-import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite.js'
 import { exampleWorkflowRunCompletedEvent } from '../fixtures.js'
+import { exampleCompletedCheckSuite } from './fixtures/completedCheckSuite.js'
 import { exampleWorkflowJobs } from './fixtures/workflowJobs.js'
 
 test('computeWorkflowRunMetrics', () => {

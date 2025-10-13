@@ -1,6 +1,6 @@
-import fs from 'fs/promises'
-import { WebhookDefinition } from '@octokit/webhooks-examples'
-import { PullRequestClosedEvent, PullRequestOpenedEvent, WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
+import fs from 'node:fs/promises'
+import type { WebhookDefinition } from '@octokit/webhooks-examples'
+import type { PullRequestClosedEvent, PullRequestOpenedEvent, WorkflowRunCompletedEvent } from '@octokit/webhooks-types'
 
 const examples = (
   JSON.parse(

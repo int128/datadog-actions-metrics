@@ -1,6 +1,4 @@
-import { describe } from 'vitest'
-import { it } from 'vitest'
-import { expect } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { extractCheckRuns } from '../../src/queries/getCheckSuite.js'
 
 describe('extractCheckRuns', () => {

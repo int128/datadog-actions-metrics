@@ -1,6 +1,11 @@
-import { v1 } from '@datadog/datadog-api-client'
-import { PullRequestClosedEvent, PullRequestEvent, PullRequestOpenedEvent, PullRequestDequeuedEvent } from '@octokit/webhooks-types'
-import { PullRequestFirstCommit } from '../queries/getPullRequest.js'
+import type { v1 } from '@datadog/datadog-api-client'
+import type {
+  PullRequestClosedEvent,
+  PullRequestDequeuedEvent,
+  PullRequestEvent,
+  PullRequestOpenedEvent,
+} from '@octokit/webhooks-types'
+import type { PullRequestFirstCommit } from '../queries/getPullRequest.js'
 
 const computeCommonTags = (e: PullRequestEvent): string[] => {
   const tags = [
