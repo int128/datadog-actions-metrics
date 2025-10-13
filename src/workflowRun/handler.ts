@@ -45,7 +45,7 @@ const handleWorkflowRunCompleted = async (
     core.info(`Found the check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
   }
 
-  let workflowJobs: Awaited<ReturnType<Octokit["rest"]["actions"]["listJobsForWorkflowRunAttempt"]>>["data"] | undefined
+  let workflowJobs: Awaited<ReturnType<Octokit['rest']['actions']['listJobsForWorkflowRunAttempt']>>['data'] | undefined
   if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
     core.info(`Finding the jobs for the workflow run ${e.workflow_run.id}`)
     try {
