@@ -2,7 +2,8 @@ import * as core from '@actions/core'
 import type { Octokit } from '@octokit/action'
 import type { WorkflowRunCompletedEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 import type { MetricsClient } from '../client.js'
-import { getCompletedCheckSuite } from '../queries/getCheckSuite.js'
+import { type CompletedCheckSuite, getCompletedCheckSuite } from '../queries/getCheckSuite.js'
+import type { WorkflowJobs } from '../types.js'
 import { computeWorkflowRunJobStepMetrics } from './metrics.js'
 
 type Inputs = {
@@ -45,7 +46,7 @@ const handleWorkflowRunCompleted = async (
     core.info(`Found the check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
   }
 
-  let workflowJobs: Awaited<ReturnType<Octokit['rest']['actions']['listJobsForWorkflowRunAttempt']>>['data'] | undefined
+  let workflowJobs: WorkflowJobs | undefined
   if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
     core.info(`Finding the jobs for the workflow run ${e.workflow_run.id}`)
     try {
