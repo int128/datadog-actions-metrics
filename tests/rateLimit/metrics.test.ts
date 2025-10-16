@@ -1,5 +1,4 @@
-import { test } from 'vitest'
-import { expect } from 'vitest'
+import { expect, test } from 'vitest'
 import { computeRateLimitMetrics } from '../../src/rateLimit/metrics.js'
 import { exampleRateLimitMetrics, exampleRateLimitResponse } from './fixtures/index.js'
 
@@ -11,7 +10,7 @@ test('run successfully', () => {
         repo: 'Hello-World',
       },
     },
-    exampleRateLimitResponse
+    exampleRateLimitResponse,
   )
   expect(series).toStrictEqual(exampleRateLimitMetrics)
 })

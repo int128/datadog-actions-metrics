@@ -1,8 +1,6 @@
-import { test } from 'vitest'
-import { expect } from 'vitest'
+import { expect, test } from 'vitest'
 import { computePullRequestClosedMetrics, computePullRequestOpenedMetrics } from '../../src/pullRequest/metrics.js'
-import { examplePullRequestClosedEvent } from '../fixtures.js'
-import { examplePullRequestOpenedEvent } from '../fixtures.js'
+import { examplePullRequestClosedEvent, examplePullRequestOpenedEvent } from '../fixtures.js'
 import { examplePullRequestFirstCommit } from './fixtures/getPullRequest.js'
 
 test('computePullRequestOpenedMetrics', () => {

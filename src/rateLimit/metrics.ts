@@ -1,5 +1,5 @@
-import { v1 } from '@datadog/datadog-api-client'
-import { RateLimitResponse } from '../types.js'
+import type { v1 } from '@datadog/datadog-api-client'
+import type { RateLimitResponse } from '../types.js'
 
 type Context = {
   repo: {
@@ -58,7 +58,7 @@ export const computeRateLimitMetrics = (e: Context, r: RateLimitResponse): v1.Se
         metric: 'github.actions.api_rate_limit.limit',
         type: 'gauge',
         points: [[t, r.data.resources.graphql.limit]],
-      }
+      },
     )
   }
 
@@ -70,7 +70,7 @@ const unixTime = (s: string | undefined): number | undefined => {
     return
   }
   const t = Date.parse(s)
-  if (isNaN(t)) {
+  if (Number.isNaN(t)) {
     return
   }
   return Math.floor(t / 1000)

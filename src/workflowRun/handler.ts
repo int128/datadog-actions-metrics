@@ -1,9 +1,10 @@
 import * as core from '@actions/core'
-import { getCompletedCheckSuite } from '../queries/getCheckSuite.js'
+import type { Octokit } from '@octokit/action'
+import type { WorkflowRunCompletedEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
+import type { MetricsClient } from '../client.js'
+import { type CompletedCheckSuite, getCompletedCheckSuite } from '../queries/getCheckSuite.js'
+import type { WorkflowJobs } from '../types.js'
 import { computeWorkflowRunJobStepMetrics } from './metrics.js'
-import { MetricsClient } from '../client.js'
-import { Octokit } from '@octokit/action'
-import { WorkflowRunCompletedEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
 
 type Inputs = {
   collectJobMetrics: boolean
@@ -32,7 +33,7 @@ const handleWorkflowRunCompleted = async (
   e: WorkflowRunCompletedEvent,
   inputs: Inputs,
 ) => {
-  let checkSuite
+  let checkSuite: CompletedCheckSuite | undefined
   if (inputs.collectJobMetrics) {
     core.info(`Finding the check suite ${e.workflow_run.check_suite_node_id}`)
     try {
@@ -45,7 +46,7 @@ const handleWorkflowRunCompleted = async (
     core.info(`Found the check suite with ${checkSuite.node.checkRuns.nodes.length} check run(s)`)
   }
 
-  let workflowJobs
+  let workflowJobs: WorkflowJobs | undefined
   if (inputs.collectJobMetrics || inputs.collectStepMetrics) {
     core.info(`Finding the jobs for the workflow run ${e.workflow_run.id}`)
     try {

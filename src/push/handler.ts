@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
-import { MetricsClient } from '../client.js'
-import { PushEvent } from '@octokit/webhooks-types'
+import type { PushEvent } from '@octokit/webhooks-types'
+import type { MetricsClient } from '../client.js'
 import { computePushMetrics } from './metrics.js'
 
 export const handlePush = async (metricsClient: MetricsClient, e: PushEvent) => {

@@ -1,8 +1,8 @@
 import * as core from '@actions/core'
-import * as github from '../github.js'
-import { MetricsClient } from '../client.js'
+import type { Octokit } from '@octokit/action'
+import type { MetricsClient } from '../client.js'
+import type * as github from '../github.js'
 import { computeScheduleMetrics } from './metrics.js'
-import { Octokit } from '@octokit/action'
 
 export const handleSchedule = async (metricsClient: MetricsClient, octokit: Octokit, context: github.Context) => {
   core.info(`Got schedule event`)

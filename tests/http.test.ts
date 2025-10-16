@@ -1,8 +1,8 @@
-import { test, describe, expect, beforeAll, afterAll, beforeEach } from 'vitest'
+import type * as http from 'node:http'
 import { client, v1 } from '@datadog/datadog-api-client'
 import { createProxy } from 'proxy'
+import { afterAll, beforeAll, beforeEach, describe, expect, test } from 'vitest'
 import { HttpLibrary } from '../src/http.js'
-import * as http from 'http'
 
 describe('without proxy', () => {
   test('datadog-api-client works with HttpLibrary', async () => {
@@ -23,10 +23,10 @@ describe('with proxy', () => {
     proxyServer = createProxy()
     proxyServer.on('connect', (req) => proxyConnectURLs.push(String(req.url)))
     await new Promise<void>((resolve) => proxyServer.listen(8091, () => resolve()))
-    process.env['https_proxy'] = 'http://localhost:8091'
+    process.env.https_proxy = 'http://localhost:8091'
   })
   afterAll(() => {
-    delete process.env['https_proxy']
+    delete process.env.https_proxy
     proxyServer.close()
   })
   beforeEach(() => {

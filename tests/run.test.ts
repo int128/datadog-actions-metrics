@@ -1,13 +1,15 @@
-import { test, expect, vi } from 'vitest'
+import type { Octokit } from '@octokit/action'
+import { expect, test, vi } from 'vitest'
 import { run } from '../src/run.js'
-import { exampleWorkflowRunCompletedEvent } from './fixtures.js'
+import {
+  examplePullRequestClosedEvent,
+  examplePullRequestOpenedEvent,
+  exampleWorkflowRunCompletedEvent,
+} from './fixtures.js'
+import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest.js'
 import { exampleRateLimitResponse } from './rateLimit/fixtures/index.js'
 import { exampleCompletedCheckSuite } from './workflowRun/fixtures/completedCheckSuite.js'
-import { examplePullRequestClosedEvent } from './fixtures.js'
-import { examplePullRequestOpenedEvent } from './fixtures.js'
-import { exampleGetPullRequestQuery } from './pullRequest/fixtures/getPullRequest.js'
 import { exampleWorkflowJobs } from './workflowRun/fixtures/workflowJobs.js'
-import { Octokit } from '@octokit/action'
 
 vi.mock('@actions/core')
 

@@ -1,13 +1,13 @@
 import * as core from '@actions/core'
-import * as github from './github.js'
-import { Octokit } from '@octokit/action'
-import { MetricsClient } from './client.js'
-import { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
-import { computeRateLimitMetrics } from './rateLimit/metrics.js'
-import { handleWorkflowRun } from './workflowRun/handler.js'
+import type { Octokit } from '@octokit/action'
+import type { PullRequestEvent, PushEvent, WorkflowRunEvent } from '@octokit/webhooks-types'
+import type { MetricsClient } from './client.js'
+import type * as github from './github.js'
 import { handlePullRequest } from './pullRequest/handler.js'
 import { handlePush } from './push/handler.js'
+import { computeRateLimitMetrics } from './rateLimit/metrics.js'
 import { handleSchedule } from './schedule/handler.js'
+import { handleWorkflowRun } from './workflowRun/handler.js'
 
 type Inputs = {
   collectJobMetrics: boolean

@@ -1,4 +1,4 @@
-import { WorkflowJobs } from '../../../src/types.js'
+import type { WorkflowJobs } from '../../../src/types.js'
 
 // https://docs.github.com/en/rest/actions/workflow-jobs?apiVersion=2022-11-28#list-jobs-for-a-workflow-run-attempt
 export const exampleWorkflowJobs: WorkflowJobs = [

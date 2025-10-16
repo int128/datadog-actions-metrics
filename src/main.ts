@@ -1,7 +1,7 @@
 import * as core from '@actions/core'
+import { createMetricsClient } from './client.js'
 import * as github from './github.js'
 import { run } from './run.js'
-import { createMetricsClient } from './client.js'
 
 const main = async (): Promise<void> => {
   await run(

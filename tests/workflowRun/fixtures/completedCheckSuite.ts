@@ -1,5 +1,5 @@
-import { CompletedCheckSuite } from '../../../src/queries/getCheckSuite.js'
-import { GetCheckSuiteQuery } from '../../../src/generated/graphql.js'
+import type { GetCheckSuiteQuery } from '../../../src/generated/graphql.js'
+import type { CompletedCheckSuite } from '../../../src/queries/getCheckSuite.js'
 
 export const exampleCompletedCheckSuite: GetCheckSuiteQuery & CompletedCheckSuite = {
   // https://docs.github.com/en/rest/reference/actions#list-jobs-for-a-workflow-run
