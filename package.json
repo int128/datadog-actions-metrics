@@ -1,7 +1,6 @@
 {
   "private": true,
   "scripts": {
-    "check": "biome check",
     "build": "ncc build --source-map --license licenses.txt src/main.ts",
     "test": "vitest",
     "graphql-codegen": "graphql-codegen --config graphql-codegen.ts"
