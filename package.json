@@ -18,10 +18,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.6",
-    "@graphql-codegen/cli": "5.0.7",
+    "@graphql-codegen/cli": "6.0.0",
     "@graphql-codegen/import-types-preset": "3.0.1",
-    "@graphql-codegen/typescript": "4.1.6",
-    "@graphql-codegen/typescript-operations": "4.6.1",
+    "@graphql-codegen/typescript": "5.0.2",
+    "@graphql-codegen/typescript-operations": "5.0.2",
     "@octokit/graphql-schema": "15.26.0",
     "@octokit/webhooks-examples": "7.6.1",
     "@octokit/webhooks-types": "7.6.1",
