@@ -54,4 +54,4 @@ jobs:
       - run: pnpm i
       - run: pnpm biome check --fix
       - run: pnpm graphql-codegen
-      - uses: int128/update-generated-files-action@f6dc44e35ce252932e9018f1c38d1e2a4ff80e14 # v2.60.0
+      - uses: int128/update-generated-files-action@cb476932f792a2cc2409c6d2af6db9d39f5e296b # v2.62.0
