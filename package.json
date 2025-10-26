@@ -12,7 +12,7 @@
     "@datadog/datadog-api-client": "1.45.0",
     "@octokit/action": "8.0.2",
     "@octokit/plugin-retry": "8.0.2",
-    "@octokit/types": "14.1.0",
+    "@octokit/types": "15.0.0",
     "graphql": "16.11.0",
     "minimatch": "10.0.3"
   },
