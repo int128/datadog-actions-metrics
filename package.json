@@ -11,8 +11,8 @@
     "@actions/http-client": "2.2.3",
     "@datadog/datadog-api-client": "1.45.0",
     "@octokit/action": "8.0.2",
-    "@octokit/plugin-retry": "8.0.2",
-    "@octokit/types": "15.0.1",
+    "@octokit/plugin-retry": "8.0.3",
+    "@octokit/types": "15.0.2",
     "graphql": "16.11.0",
     "minimatch": "10.0.3"
   },
