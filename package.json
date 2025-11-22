@@ -29,10 +29,10 @@
     "@types/node": "20.19.25",
     "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.38.4",
-    "pnpm": "10.20.0",
+    "pnpm": "10.22.0",
     "proxy": "2.2.0",
     "typescript": "5.9.3",
     "vitest": "4.0.9"
   },
-  "packageManager": "pnpm@10.20.0"
+  "packageManager": "pnpm@10.22.0"
 }
