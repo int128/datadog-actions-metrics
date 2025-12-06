@@ -49,8 +49,8 @@ importers:
         specifier: 5.0.5
         version: 5.0.5(graphql-sock@1.0.0(graphql@16.12.0))(graphql@16.12.0)
       '@octokit/graphql-schema':
-        specifier: 15.26.0
-        version: 15.26.0
+        specifier: 15.26.1
+        version: 15.26.1
       '@octokit/webhooks-examples':
         specifier: 7.6.1
         version: 7.6.1
@@ -1119,8 +1119,8 @@ packages:
     resolution: {integrity: sha512-4zCpzP1fWc7QlqunZ5bSEjxc6yLAlRTnDwKtgXfcI/FxxGoqedDG8V2+xJ60bV2kODqcGB+nATdtap/XYq2NZQ==}
     engines: {node: '>= 20'}
 
-  '@octokit/graphql-schema@15.26.0':
-    resolution: {integrity: sha512-SoVbh+sXe9nsoweFbLT3tAk3XWYbYLs5ku05wij1zhyQ2U3lewdrhjo5Tb7lfaOGWNHSkPZT4uuPZp8neF7P7A==}
+  '@octokit/graphql-schema@15.26.1':
+    resolution: {integrity: sha512-RFDC2MpRBd4AxSRvUeBIVeBU7ojN/SxDfALUd7iVYOSeEK3gZaqR2MGOysj4Zh2xj2RY5fQAUT+Oqq7hWTraMA==}
 
   '@octokit/graphql@9.0.3':
     resolution: {integrity: sha512-grAEuupr/C1rALFnXTv6ZQhFuL1D8G5y8CN04RgrO4FIPMrtm+mcZzFG7dcBm+nq+1ppNixu+Jd78aeJOYxlGA==}
@@ -2430,9 +2430,6 @@ packages:
 
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
-
-  tslib@2.7.0:
-    resolution: {integrity: sha512-gLXCKdN1/j47AiHiOkJN69hJmcbGTHI0ImLmbYLHykhgeN0jVGola9yVjFgzCUklsZQMW55o+dW7IXv3RCXDzA==}
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
@@ -3945,7 +3942,7 @@ snapshots:
       '@octokit/types': 16.0.0
       universal-user-agent: 7.0.2
 
-  '@octokit/graphql-schema@15.26.0':
+  '@octokit/graphql-schema@15.26.1':
     dependencies:
       graphql: 16.12.0
       graphql-tag: 2.12.6(graphql@16.12.0)
@@ -4683,7 +4680,7 @@ snapshots:
   graphql-tag@2.12.6(graphql@16.12.0):
     dependencies:
       graphql: 16.12.0
-      tslib: 2.7.0
+      tslib: 2.8.1
 
   graphql-ws@5.15.0(graphql@16.12.0):
     dependencies:
@@ -5224,8 +5221,6 @@ snapshots:
   tslib@2.4.1: {}
 
   tslib@2.6.2: {}
-
-  tslib@2.7.0: {}
 
   tslib@2.8.1: {}
 
