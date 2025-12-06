@@ -1,7 +1,7 @@
 {
   "extends": [
     "github>int128/renovate-base",
-    "github>int128/typescript-action-renovate-config",
+    "github>int128/typescript-action-renovate-config#v1.9.0",
     "helpers:pinGitHubActionDigests",
   ],
   "packageRules": [
