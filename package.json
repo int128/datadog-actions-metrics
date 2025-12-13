@@ -3,7 +3,8 @@
   "scripts": {
     "build": "ncc build --source-map --license licenses.txt src/main.ts",
     "test": "vitest",
-    "graphql-codegen": "graphql-codegen --config graphql-codegen.ts"
+    "graphql-codegen": "graphql-codegen --config graphql-codegen.ts",
+    "check": "biome migrate --write && biome check --fix"
   },
   "type": "module",
   "dependencies": {
