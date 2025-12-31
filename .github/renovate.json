@@ -8,12 +8,8 @@
   "packageRules": [
     {
       "description": "Do not update myself",
-      "matchFileNames": [
-        ".github/workflows/**"
-      ],
-      "matchDepNames": [
-        "int128/datadog-actions-metrics"
-      ],
+      "matchFileNames": [".github/workflows/**"],
+      "matchDepNames": ["int128/datadog-actions-metrics"],
       "enabled": false
     }
   ],
