@@ -16,5 +16,6 @@
       ],
       "enabled": false
     }
-  ]
+  ],
+  "platformAutomerge": true
 }
