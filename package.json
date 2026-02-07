@@ -9,7 +9,7 @@
   "type": "module",
   "dependencies": {
     "@actions/core": "3.0.0",
-    "@actions/http-client": "3.0.2",
+    "@actions/http-client": "4.0.0",
     "@datadog/datadog-api-client": "1.51.0",
     "@octokit/action": "8.0.4",
     "@octokit/plugin-retry": "8.0.3",
