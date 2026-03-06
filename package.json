@@ -14,7 +14,7 @@
     "@octokit/action": "8.0.4",
     "@octokit/plugin-retry": "8.1.0",
     "@octokit/types": "16.0.0",
-    "graphql": "16.12.0",
+    "graphql": "16.13.0",
     "minimatch": "10.2.4"
   },
   "devDependencies": {
