@@ -134,8 +134,6 @@ export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
     | { __typename: 'PackageFile' }
     | { __typename: 'PackageTag' }
     | { __typename: 'PackageVersion' }
-    | { __typename: 'ParentIssueAddedEvent' }
-    | { __typename: 'ParentIssueRemovedEvent' }
     | { __typename: 'PinnedDiscussion' }
     | { __typename: 'PinnedEnvironment' }
     | { __typename: 'PinnedEvent' }
@@ -168,7 +166,6 @@ export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
     | { __typename: 'PullRequestThread' }
     | { __typename: 'Push' }
     | { __typename: 'PushAllowance' }
-    | { __typename: 'Query' }
     | { __typename: 'Reaction' }
     | { __typename: 'ReadyForReviewEvent' }
     | { __typename: 'Ref' }
@@ -224,8 +221,6 @@ export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
     | { __typename: 'Status' }
     | { __typename: 'StatusCheckRollup' }
     | { __typename: 'StatusContext' }
-    | { __typename: 'SubIssueAddedEvent' }
-    | { __typename: 'SubIssueRemovedEvent' }
     | { __typename: 'SubscribedEvent' }
     | { __typename: 'Tag' }
     | { __typename: 'Team' }
@@ -249,7 +244,6 @@ export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
     | { __typename: 'UserBlockedEvent' }
     | { __typename: 'UserContentEdit' }
     | { __typename: 'UserList' }
-    | { __typename: 'UserNamespaceRepository' }
     | { __typename: 'UserStatus' }
     | { __typename: 'VerifiableDomain' }
     | { __typename: 'Workflow' }

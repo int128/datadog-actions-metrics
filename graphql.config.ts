@@ -1,7 +1,7 @@
 import type { CodegenConfig } from '@graphql-codegen/cli'
 
 const config: CodegenConfig = {
-  schema: `node_modules/@octokit/graphql-schema/schema.graphql`,
+  schema: `./node_modules/@octokit/graphql-schema/schema.json`,
   documents: ['src/queries/**/*.ts'],
   generates: {
     'src/generated/graphql-types.ts': {
