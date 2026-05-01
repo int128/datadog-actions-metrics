@@ -8,7 +8,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@actions/core": "3.0.0",
+    "@actions/core": "3.0.1",
     "@actions/http-client": "4.0.0",
     "@datadog/datadog-api-client": "1.56.0",
     "@octokit/action": "8.0.4",
