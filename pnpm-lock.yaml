@@ -40,8 +40,8 @@ importers:
         specifier: 6.3.1
         version: 6.3.1(@types/node@20.19.39)(graphql@16.13.2)(typescript@6.0.3)
       '@graphql-codegen/import-types-preset':
-        specifier: 4.0.0
-        version: 4.0.0(graphql@16.13.2)
+        specifier: 4.0.1
+        version: 4.0.1(graphql@16.13.2)
       '@graphql-codegen/typescript':
         specifier: 5.0.10
         version: 5.0.10(graphql@16.13.2)
@@ -306,8 +306,8 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
 
-  '@graphql-codegen/import-types-preset@4.0.0':
-    resolution: {integrity: sha512-0cx9gWxUSnkGwptTMDlXSD0dC6zkPzijp8BNrfwyhElStO2aEL+yxNIwI2k4veYWy68EQV9ZyC86949PB/gkJg==}
+  '@graphql-codegen/import-types-preset@4.0.1':
+    resolution: {integrity: sha512-0qN9ptrRdg4St6636RZIpEidizXFDh73LZ+Bebmss2vYW5+Bu2T/ZJ+WXduMzeRkPFFzF7adaZNRFy2ejuzmzQ==}
     engines: {node: '>= 16.0.0'}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
@@ -2416,7 +2416,7 @@ snapshots:
       graphql: 16.13.2
       tslib: 2.8.1
 
-  '@graphql-codegen/import-types-preset@4.0.0(graphql@16.13.2)':
+  '@graphql-codegen/import-types-preset@4.0.1(graphql@16.13.2)':
     dependencies:
       '@graphql-codegen/add': 6.0.1(graphql@16.13.2)
       '@graphql-codegen/plugin-helpers': 6.3.0(graphql@16.13.2)
