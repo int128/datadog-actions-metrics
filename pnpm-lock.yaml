@@ -12,8 +12,8 @@ importers:
         specifier: 3.0.1
         version: 3.0.1
       '@actions/http-client':
-        specifier: 4.0.0
-        version: 4.0.0
+        specifier: 4.0.1
+        version: 4.0.1
       '@datadog/datadog-api-client':
         specifier: 1.56.0
         version: 1.56.0
@@ -90,8 +90,8 @@ packages:
   '@actions/exec@3.0.0':
     resolution: {integrity: sha512-6xH/puSoNBXb72VPlZVm7vQ+svQpFyA96qdDBvhB8eNZOE8LtPf9L4oAsfzK/crCL8YZ+19fKYVnM63Sl+Xzlw==}
 
-  '@actions/http-client@4.0.0':
-    resolution: {integrity: sha512-QuwPsgVMsD6qaPD57GLZi9sqzAZCtiJT8kVBCDpLtxhL5MydQ4gS+DrejtZZPdIYyB1e95uCK9Luyds7ybHI3g==}
+  '@actions/http-client@4.0.1':
+    resolution: {integrity: sha512-+Nvd1ImaOZBSoPbsUtEhv+1z99H12xzncCkz0a3RuehINE81FZSe2QTj3uvAPTcJX/SCzUQHQ0D1GrPMbrPitg==}
 
   '@actions/io@3.0.2':
     resolution: {integrity: sha512-nRBchcMM+QK1pdjO7/idu86rbJI5YHUKCvKs0KxnSYbVe3F51UfGxuZX4Qy/fWlp6l7gWFwIkrOzN+oUK03kfw==}
@@ -2115,13 +2115,13 @@ snapshots:
   '@actions/core@3.0.1':
     dependencies:
       '@actions/exec': 3.0.0
-      '@actions/http-client': 4.0.0
+      '@actions/http-client': 4.0.1
 
   '@actions/exec@3.0.0':
     dependencies:
       '@actions/io': 3.0.2
 
-  '@actions/http-client@4.0.0':
+  '@actions/http-client@4.0.1':
     dependencies:
       tunnel: 0.0.6
       undici: 6.25.0
