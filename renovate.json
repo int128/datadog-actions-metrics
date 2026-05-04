@@ -7,10 +7,11 @@
   ],
   "packageRules": [
     {
-      "description": "Do not update myself",
+      "description": "Update myself immediately",
       "matchFileNames": [".github/workflows/**"],
       "matchDepNames": ["int128/datadog-actions-metrics"],
-      "enabled": false
+      "minimumReleaseAge": "0",
+      "schedule": ["at any time"]
     }
   ],
   "platformAutomerge": true
