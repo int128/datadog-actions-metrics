@@ -1,11 +1,15 @@
+/** Internal type. DO NOT USE DIRECTLY. */
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+/** Internal type. DO NOT USE DIRECTLY. */
+export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 import * as Types from './graphql-types.js';
 
-export type GetCheckSuiteQueryVariables = Types.Exact<{
-  node_id: Types.Scalars['ID']['input'];
+export type GetCheckSuiteQueryVariables = Exact<{
+  node_id: string | number;
 }>;
 
 
-export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
+export type GetCheckSuiteQuery = { node:
     | { __typename: 'AddedToMergeQueueEvent' }
     | { __typename: 'AddedToProjectEvent' }
     | { __typename: 'App' }
@@ -26,7 +30,7 @@ export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
     | { __typename: 'BypassPullRequestAllowance' }
     | { __typename: 'CWE' }
     | { __typename: 'CheckRun' }
-    | { __typename: 'CheckSuite', checkRuns?: { __typename?: 'CheckRunConnection', nodes?: Array<{ __typename?: 'CheckRun', databaseId?: number | null, annotations?: { __typename?: 'CheckAnnotationConnection', nodes?: Array<{ __typename?: 'CheckAnnotation', message: string } | null> | null } | null } | null> | null } | null }
+    | { __typename: 'CheckSuite', checkRuns: { nodes: Array<{ databaseId: number | null, annotations: { nodes: Array<{ message: string } | null> | null } | null } | null> | null } | null }
     | { __typename: 'ClosedEvent' }
     | { __typename: 'CodeOfConduct' }
     | { __typename: 'CommentDeletedEvent' }
@@ -251,11 +255,11 @@ export type GetCheckSuiteQuery = { __typename?: 'Query', node?:
     | { __typename: 'WorkflowRunFile' }
    | null };
 
-export type GetPullRequestQueryVariables = Types.Exact<{
-  owner: Types.Scalars['String']['input'];
-  name: Types.Scalars['String']['input'];
-  number: Types.Scalars['Int']['input'];
+export type GetPullRequestQueryVariables = Exact<{
+  owner: string;
+  name: string;
+  number: number;
 }>;
 
 
-export type GetPullRequestQuery = { __typename?: 'Query', repository?: { __typename?: 'Repository', pullRequest?: { __typename?: 'PullRequest', commits: { __typename?: 'PullRequestCommitConnection', nodes?: Array<{ __typename?: 'PullRequestCommit', commit: { __typename?: 'Commit', authoredDate: string, committedDate: string } } | null> | null } } | null } | null };
+export type GetPullRequestQuery = { repository: { pullRequest: { commits: { nodes: Array<{ commit: { authoredDate: string, committedDate: string } } | null> | null } } | null } | null };
