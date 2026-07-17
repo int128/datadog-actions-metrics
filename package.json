@@ -27,7 +27,7 @@
     "@octokit/webhooks-examples": "7.6.1",
     "@octokit/webhooks-types": "7.6.1",
     "@tsconfig/node24": "24.0.4",
-    "@types/node": "24.13.2",
+    "@types/node": "24.13.3",
     "@types/proxy": "2.0.0",
     "@vercel/ncc": "0.44.1",
     "pnpm": "11.9.0",
