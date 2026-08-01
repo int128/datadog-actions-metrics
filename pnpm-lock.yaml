@@ -70,8 +70,8 @@ importers:
         specifier: 0.44.1
         version: 0.44.1
       pnpm:
-        specifier: 11.15.0
-        version: 11.15.0
+        specifier: 11.17.0
+        version: 11.17.0
       proxy:
         specifier: 4.1.0
         version: 4.1.0(supports-color@5.5.0)
@@ -1737,8 +1737,8 @@ packages:
     resolution: {integrity: sha512-RvwwcruNjI1ncT5xRakeyS9Lf8lcItv34KD+aif+VH9kduAyfYBipGh12274xtenIPZ119/R9BdTBa8gAwSh0A==}
     engines: {node: '>=12'}
 
-  pnpm@11.15.0:
-    resolution: {integrity: sha512-Jm+JV6MNK+bpRo5eZrze3TWnlBdfcbBnuoUE1obM4dDA9CmzPDI8PFaa1IkeZnV0pJ/3HRuJoizGbxPGWBjFeA==}
+  pnpm@11.17.0:
+    resolution: {integrity: sha512-zKPOozKtJUu4QUX5ZtGfSHlhUhA0b8kseaBH8joNezzKPDeS8AdrofGDHSd++88KkRmzGppg7Kf7PWIx8zHvcg==}
     engines: {node: '>=22.13'}
     hasBin: true
 
@@ -3864,7 +3864,7 @@ snapshots:
 
   picomatch@4.0.5: {}
 
-  pnpm@11.15.0: {}
+  pnpm@11.17.0: {}
 
   postcss@8.5.23:
     dependencies:
