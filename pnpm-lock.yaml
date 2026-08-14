@@ -46,8 +46,8 @@ importers:
         specifier: 6.1.0
         version: 6.1.0(graphql@16.14.2)
       '@graphql-codegen/typescript-operations':
-        specifier: 6.1.2
-        version: 6.1.2(graphql@16.14.2)
+        specifier: 6.1.5
+        version: 6.1.5(graphql@16.14.2)
       '@octokit/graphql-schema':
         specifier: 15.26.1
         version: 15.26.1
@@ -341,8 +341,8 @@ packages:
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
 
-  '@graphql-codegen/typescript-operations@6.1.2':
-    resolution: {integrity: sha512-EP9xry09q4cOVaf/aC4NO3/SwvXRNzlJIe4dhfA0xyy45Taix5yDL3jeJpmJIv03sa7nK5udVs5vZqdHFU8Xmw==}
+  '@graphql-codegen/typescript-operations@6.1.5':
+    resolution: {integrity: sha512-ZiQ2CB6jiYYxFetdrutSsbNsiukh47UbVY9y3NjwWI8IUlslD+rDYN7MLDJrPFA5YXpv38ZBxh6q8PywRf1KfA==}
     engines: {node: '>=16'}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
@@ -365,6 +365,12 @@ packages:
 
   '@graphql-codegen/visitor-plugin-common@7.2.2':
     resolution: {integrity: sha512-nOkAVd8J8r2YdHm9Z4YrBiy+3IQgE8Ndn/EiRWTvWuemMEhioBWyvdlnbq5rHmIo2bNdRQ5ghs0Q3jw7YBrwLQ==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
+
+  '@graphql-codegen/visitor-plugin-common@7.2.5':
+    resolution: {integrity: sha512-hqOemBp0Ue+WSmk8EDcKP+lghuLC2zsI+jHzSUuoffTZnEN2qZH4VP2C9c1fVd2yy6v+YQiiObOarTMaqF4q9w==}
     engines: {node: '>=16'}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
@@ -741,10 +747,6 @@ packages:
     engines: {node: '>= 20'}
     peerDependencies:
       '@octokit/core': '>=7'
-
-  '@octokit/request-error@7.1.0':
-    resolution: {integrity: sha512-KMQIfq5sOPpkQYajXHwnhjCC0slzCNScLHs9JafXc4RAJI+9f+jNDlBNaIMTvazOPLgb4BnlhGJOTbnN0wIjPw==}
-    engines: {node: '>= 20'}
 
   '@octokit/request-error@7.1.1':
     resolution: {integrity: sha512-+eaY7G2VVpSf2pc5Gn1+mph837V/d/TYTJAgWL9Tb0ogGYcpN3IlAVFgjL+Vv93F/sevrxkvsYCedtpLdcFLzA==}
@@ -2401,7 +2403,7 @@ snapshots:
       '@graphql-codegen/plugin-helpers': 7.1.0(graphql@16.14.2)
       '@graphql-codegen/typed-document-node': 7.1.0(graphql@16.14.2)
       '@graphql-codegen/typescript': 6.1.0(graphql@16.14.2)
-      '@graphql-codegen/typescript-operations': 6.1.2(graphql@16.14.2)
+      '@graphql-codegen/typescript-operations': 6.1.5(graphql@16.14.2)
       '@graphql-codegen/visitor-plugin-common': 7.2.2(graphql@16.14.2)
       '@graphql-tools/documents': 1.0.1(graphql@16.14.2)
       '@graphql-tools/utils': 11.2.2(graphql@16.14.2)
@@ -2468,11 +2470,11 @@ snapshots:
       graphql: 16.14.2
       tslib: 2.8.1
 
-  '@graphql-codegen/typescript-operations@6.1.2(graphql@16.14.2)':
+  '@graphql-codegen/typescript-operations@6.1.5(graphql@16.14.2)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 7.1.0(graphql@16.14.2)
       '@graphql-codegen/schema-ast': 6.1.0(graphql@16.14.2)
-      '@graphql-codegen/visitor-plugin-common': 7.2.2(graphql@16.14.2)
+      '@graphql-codegen/visitor-plugin-common': 7.2.5(graphql@16.14.2)
       auto-bind: 5.0.1
       graphql: 16.14.2
       tslib: 2.8.1
@@ -2501,6 +2503,20 @@ snapshots:
       tslib: 2.8.1
 
   '@graphql-codegen/visitor-plugin-common@7.2.2(graphql@16.14.2)':
+    dependencies:
+      '@graphql-codegen/plugin-helpers': 7.1.0(graphql@16.14.2)
+      '@graphql-tools/optimize': 2.0.0(graphql@16.14.2)
+      '@graphql-tools/relay-operation-optimizer': 7.1.8(graphql@16.14.2)
+      '@graphql-tools/utils': 11.2.2(graphql@16.14.2)
+      auto-bind: 5.0.1
+      change-case-all: 2.1.0
+      dependency-graph: 1.0.0
+      graphql: 16.14.2
+      graphql-tag: 2.12.7(graphql@16.14.2)
+      parse-filepath: 1.0.2
+      tslib: 2.8.1
+
+  '@graphql-codegen/visitor-plugin-common@7.2.5(graphql@16.14.2)':
     dependencies:
       '@graphql-codegen/plugin-helpers': 7.1.0(graphql@16.14.2)
       '@graphql-tools/optimize': 2.0.0(graphql@16.14.2)
@@ -2937,7 +2953,7 @@ snapshots:
       '@octokit/auth-token': 6.0.0
       '@octokit/graphql': 9.0.3
       '@octokit/request': 10.0.11
-      '@octokit/request-error': 7.1.0
+      '@octokit/request-error': 7.1.1
       '@octokit/types': 16.0.0
       before-after-hook: 4.0.0
       universal-user-agent: 7.0.3
@@ -2979,10 +2995,6 @@ snapshots:
       '@octokit/types': 17.0.0
       bottleneck: 2.19.5
 
-  '@octokit/request-error@7.1.0':
-    dependencies:
-      '@octokit/types': 16.0.0
-
   '@octokit/request-error@7.1.1':
     dependencies:
       '@octokit/types': 17.0.0
@@ -2990,7 +3002,7 @@ snapshots:
   '@octokit/request@10.0.11':
     dependencies:
       '@octokit/endpoint': 11.0.3
-      '@octokit/request-error': 7.1.0
+      '@octokit/request-error': 7.1.1
       '@octokit/types': 16.0.0
       content-type: 2.0.0
       json-with-bigint: 3.5.10
