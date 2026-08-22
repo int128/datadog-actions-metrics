@@ -37,7 +37,7 @@ jobs:
             core.info(`actor=${context.actor}`)
             core.info(`payload=${JSON.stringify(context.payload, undefined, 2)}`)
 
-      - uses: int128/datadog-actions-metrics@d9ebbcf789c7b3af6749cfabc328263d9ed2fe99 # v1.182.0
+      - uses: int128/datadog-actions-metrics@a47f7aac9646e846b5c468caf35da0edacc14e75 # v1.183.0
         with:
           datadog-api-key: ${{ secrets.DATADOG_API_KEY }}
           collect-job-metrics: true
