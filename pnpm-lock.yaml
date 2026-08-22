@@ -15,8 +15,8 @@ importers:
         specifier: 4.0.1
         version: 4.0.1
       '@datadog/datadog-api-client':
-        specifier: 1.60.0
-        version: 1.60.0
+        specifier: 1.62.0
+        version: 1.62.0
       '@octokit/action':
         specifier: 8.0.4
         version: 8.0.4
@@ -238,8 +238,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@datadog/datadog-api-client@1.60.0':
-    resolution: {integrity: sha512-XmqT/TmkULWkeP2UJJVDWdXS8bdEOBYVlPI6MsSpRKViBwK3t20oPO5kTiTcO6bvipCahh/Yvqjjxeu9fR49HQ==}
+  '@datadog/datadog-api-client@1.62.0':
+    resolution: {integrity: sha512-c6ezeWU8x4JeVM3/aKN+s96W+GcrGqtPXhh+xtPixxMZpw/jZDZ2fUNHeScbV4v0sJiOYkr7M2Zld0TAD0YCDQ==}
     engines: {node: '>=12.0.0'}
 
   '@emnapi/core@2.0.0-alpha.3':
@@ -2285,7 +2285,7 @@ snapshots:
   '@biomejs/cli-win32-x64@2.5.8':
     optional: true
 
-  '@datadog/datadog-api-client@1.60.0':
+  '@datadog/datadog-api-client@1.62.0':
     dependencies:
       '@types/buffer-from': 1.1.3
       '@types/node': 24.13.3
