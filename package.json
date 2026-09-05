@@ -32,7 +32,7 @@
     "@vercel/ncc": "0.45.0",
     "pnpm": "11.24.0",
     "proxy": "4.1.0",
-    "typescript": "6.0.3",
+    "typescript": "7.0.2",
     "vitest": "4.1.11"
   },
   "packageManager": "pnpm@11.24.0"
