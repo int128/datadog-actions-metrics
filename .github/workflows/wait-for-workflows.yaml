@@ -8,4 +8,4 @@ jobs:
     runs-on: ubuntu-slim
     timeout-minutes: 15
     steps:
-      - uses: int128/wait-for-workflows-action@eb356ddbdba062646eb437d1467af4880b3fa84d # v1.95.0
+      - uses: int128/wait-for-workflows-action@9a450f97d1691e51e7bdb037e44113ad9bd56dc6 # v1.97.0
