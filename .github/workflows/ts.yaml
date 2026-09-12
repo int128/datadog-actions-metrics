@@ -54,4 +54,4 @@ jobs:
       - run: pnpm i
       - run: pnpm run check
       - run: pnpm graphql-codegen
-      - uses: int128/update-generated-files-action@55273908fe472e176698999ff4c8d647bc353b4c # v2.110.0
+      - uses: int128/update-generated-files-action@943b8967da5d16e73f082cc3ae2cb78cd9d933af # v2.112.0
