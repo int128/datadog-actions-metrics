@@ -48,7 +48,7 @@ jobs:
           collect-step-metrics: true
 
       - if: always()
-        uses: int128/checks-action@38211f4b52c8659c261aae05ed5d278f154056ad # v0.33.0
+        uses: int128/checks-action@3bd612e5faf1c175438180572fe3bdebbf9df96f # v0.34.0
         with:
           operation: create-check-run
           check-run-name: e2e-target
