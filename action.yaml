@@ -30,28 +30,28 @@ inputs:
   collect-job-metrics:
     description: Collect job metrics
     required: false
-    default: 'false'
+    default: "false"
   collect-step-metrics:
     description: Collect step metrics
     required: false
-    default: 'false'
+    default: "false"
   prefer-distribution-workflow-run-metrics:
     description: If true, send the distribution metrics instead of gauge metrics
     required: false
-    default: 'false'
+    default: "false"
   prefer-distribution-job-metrics:
     description: If true, send the distribution metrics instead of gauge metrics
     required: false
-    default: 'false'
+    default: "false"
   prefer-distribution-step-metrics:
     description: If true, send the distribution metrics instead of gauge metrics
     required: false
-    default: 'false'
+    default: "false"
   send-pull-request-labels:
     description: Send pull request labels as Datadog tags
     required: false
-    default: 'false'
+    default: "false"
 
 runs:
-  using: 'node24'
-  main: 'dist/index.js'
+  using: "node24"
+  main: "dist/index.js"

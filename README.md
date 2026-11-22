@@ -13,7 +13,7 @@ To collect the metrics when a workflow run is completed:
 on:
   workflow_run:
     workflows:
-      - '**'
+      - "**"
     types:
       - completed
 
