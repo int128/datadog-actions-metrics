@@ -18,7 +18,7 @@
     "minimatch": "10.2.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.6.7",
+    "@biomejs/biome": "2.6.8",
     "@graphql-codegen/cli": "8.0.0",
     "@graphql-codegen/import-types-preset": "4.0.1",
     "@graphql-codegen/typescript": "7.0.1",
